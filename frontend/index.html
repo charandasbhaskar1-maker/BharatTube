@@ -2,313 +2,618 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BharatTube</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0b0f14">
+
+    <title>BharatTube - Indian Video Platform</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header class="topbar">
+    <!-- ================= HEADER ================= -->
 
-    <div class="logo">
-        <span class="logo-icon">▶</span>
-        <span>Bharat<span>Tube</span></span>
-    </div>
+    <header class="topbar">
 
-    <div class="search-box">
-        <input
-            type="search"
-            id="searchInput"
-            placeholder="Search videos..."
-        >
-        <button onclick="searchVideos()">🔍</button>
-    </div>
+        <div class="brand">
+            <div class="brand-logo">B</div>
 
-    <div class="top-actions">
-        <button onclick="showMessage('Upload feature coming soon')">
-            ⬆ Upload
-        </button>
-
-        <button onclick="showMessage('Login system coming soon')">
-            Login
-        </button>
-    </div>
-
-</header>
-
-
-<nav class="categories">
-
-    <button class="active">All</button>
-    <button>Music</button>
-    <button>Entertainment</button>
-    <button>News</button>
-    <button>Education</button>
-    <button>Gaming</button>
-    <button>Sports</button>
-    <button>Shorts</button>
-
-</nav>
-
-
-<main>
-
-    <section class="hero">
-
-        <div class="hero-content">
-
-            <div class="badge">
-                🇮🇳 Made for India
+            <div class="brand-text">
+                <strong>BharatTube</strong>
+                <span>India's Video Platform</span>
             </div>
-
-            <h1>
-                Welcome to <span>BharatTube</span>
-            </h1>
-
-            <p>
-                Watch, upload and share videos with India.
-            </p>
-
-            <div class="hero-buttons">
-
-                <button
-                    class="primary-btn"
-                    onclick="showMessage('Video discovery coming soon')">
-                    ▶ Explore Videos
-                </button>
-
-                <button
-                    class="secondary-btn"
-                    onclick="showMessage('Creator system coming soon')">
-                    Create Channel
-                </button>
-
-            </div>
-
         </div>
 
-    </section>
+        <div class="search-box">
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="Search videos..."
+                autocomplete="off"
+            >
 
+            <button id="searchBtn" aria-label="Search">
+                🔍
+            </button>
+        </div>
 
-    <section class="section">
+        <div class="header-actions">
 
-        <div class="section-header">
+            <button class="icon-btn" id="uploadBtn">
+                ＋
+            </button>
 
-            <h2>Recommended Videos</h2>
+            <button class="icon-btn" id="notificationBtn">
+                🔔
+            </button>
 
-            <button onclick="showMessage('More videos coming soon')">
-                See all
+            <button class="profile-btn" id="profileBtn">
+                👤
             </button>
 
         </div>
 
-
-        <div class="video-grid" id="videoGrid">
-
-
-            <article class="video-card">
-
-                <div class="thumbnail">
-
-                    <div class="play">▶</div>
-
-                    <span class="duration">
-                        10:24
-                    </span>
-
-                </div>
-
-                <div class="video-info">
-
-                    <div class="channel-avatar">
-                        BT
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Chhattisgarhi New Song 2026
-                        </h3>
-
-                        <p>
-                            Bharat Music
-                        </p>
-
-                        <small>
-                            125K views • 2 days ago
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </article>
+    </header>
 
 
+    <!-- ================= MOBILE SEARCH ================= -->
 
-            <article class="video-card">
+    <div class="mobile-search">
 
-                <div class="thumbnail thumbnail-2">
+        <input
+            id="mobileSearchInput"
+            type="search"
+            placeholder="Search BharatTube..."
+        >
 
-                    <div class="play">▶</div>
+        <button id="mobileSearchBtn">
+            🔍
+        </button>
 
-                    <span class="duration">
-                        08:15
-                    </span>
-
-                </div>
-
-                <div class="video-info">
-
-                    <div class="channel-avatar">
-                        ED
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Learn Something New
-                        </h3>
-
-                        <p>
-                            Education India
-                        </p>
-
-                        <small>
-                            82K views • 5 days ago
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </article>
+    </div>
 
 
+    <!-- ================= CATEGORY BAR ================= -->
 
-            <article class="video-card">
+    <nav class="categories" id="categoryBar">
 
-                <div class="thumbnail thumbnail-3">
+        <button class="category active" data-category="all">
+            All
+        </button>
 
-                    <div class="play">▶</div>
+        <button class="category" data-category="music">
+            Music
+        </button>
 
-                    <span class="duration">
-                        15:40
-                    </span>
+        <button class="category" data-category="shorts">
+            Shorts
+        </button>
 
-                </div>
+        <button class="category" data-category="news">
+            News
+        </button>
 
-                <div class="video-info">
+        <button class="category" data-category="education">
+            Education
+        </button>
 
-                    <div class="channel-avatar">
-                        IN
-                    </div>
+        <button class="category" data-category="gaming">
+            Gaming
+        </button>
 
-                    <div>
+        <button class="category" data-category="entertainment">
+            Entertainment
+        </button>
 
-                        <h3>
-                            India Travel Vlog
-                        </h3>
+        <button class="category" data-category="devotional">
+            Devotional
+        </button>
 
-                        <p>
-                            Incredible India
-                        </p>
+        <button class="category" data-category="sports">
+            Sports
+        </button>
 
-                        <small>
-                            210K views • 1 week ago
-                        </small>
+    </nav>
 
-                    </div>
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-content">
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="hero-badge">
+                    🇮🇳 MADE FOR INDIA
+                </span>
+
+                <h1>
+                    Welcome to
+                    <span>BharatTube</span>
+                </h1>
+
+                <p>
+                    Watch, create and share videos with India.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <button
+                        class="primary-btn"
+                        id="startWatchingBtn">
+                        ▶ Start Watching
+                    </button>
+
+                    <button
+                        class="secondary-btn"
+                        id="createChannelBtn">
+                        Create Channel
+                    </button>
 
                 </div>
 
-            </article>
+            </div>
+
+        </section>
 
 
+        <!-- ================= SHORTS ================= -->
 
-            <article class="video-card">
+        <section class="section">
 
-                <div class="thumbnail thumbnail-4">
+            <div class="section-header">
 
-                    <div class="play">▶</div>
-
-                    <span class="duration">
-                        06:32
-                    </span>
-
+                <div>
+                    <h2>⚡ Bharat Shorts</h2>
+                    <p>Quick videos you may like</p>
                 </div>
 
-                <div class="video-info">
+                <button
+                    class="see-all"
+                    id="shortsBtn">
+                    See all
+                </button>
 
-                    <div class="channel-avatar">
-                        GM
+            </div>
+
+
+            <div class="shorts-grid">
+
+                <article class="short-card">
+                    <div class="short-thumb">
+                        ▶
                     </div>
 
-                    <div>
+                    <h3>Amazing India 🇮🇳</h3>
 
-                        <h3>
-                            Best Gaming Moments
-                        </h3>
+                    <p>2.4M views</p>
+                </article>
 
-                        <p>
-                            Bharat Gaming
-                        </p>
 
-                        <small>
-                            56K views • 3 days ago
-                        </small>
-
+                <article class="short-card">
+                    <div class="short-thumb">
+                        ▶
                     </div>
 
+                    <h3>Chhattisgarhi Culture</h3>
+
+                    <p>856K views</p>
+                </article>
+
+
+                <article class="short-card">
+                    <div class="short-thumb">
+                        ▶
+                    </div>
+
+                    <h3>Indian Food</h3>
+
+                    <p>1.2M views</p>
+                </article>
+
+
+                <article class="short-card">
+                    <div class="short-thumb">
+                        ▶
+                    </div>
+
+                    <h3>Travel India</h3>
+
+                    <p>742K views</p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= VIDEOS ================= -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Recommended Videos</h2>
+                    <p>Videos selected for you</p>
                 </div>
 
-            </article>
+                <button
+                    class="see-all"
+                    id="refreshBtn">
+                    Refresh
+                </button>
+
+            </div>
 
 
-        </div>
-
-    </section>
-
-</main>
+            <div
+                class="video-grid"
+                id="videoGrid">
 
 
-<nav class="bottom-nav">
+                <!-- VIDEO 1 -->
 
-    <button class="nav-active">
-        🏠
-        <span>Home</span>
-    </button>
+                <article
+                    class="video-card"
+                    data-category="music"
+                    data-title="Chhattisgarhi Panthi Song">
 
-    <button>
-        🔥
-        <span>Trending</span>
-    </button>
+                    <div class="thumbnail">
 
-    <button onclick="showMessage('Upload system coming soon')">
-        ＋
-        <span>Create</span>
-    </button>
+                        <div class="play-icon">
+                            ▶
+                        </div>
 
-    <button>
-        📺
-        <span>Subscriptions</span>
-    </button>
+                        <span class="duration">
+                            04:32
+                        </span>
 
-    <button onclick="showMessage('Login required')">
-        👤
-        <span>You</span>
-    </button>
+                    </div>
 
-</nav>
+                    <div class="video-info">
+
+                        <div class="channel-avatar">
+                            A
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Chhattisgarhi Panthi Song
+                            </h3>
+
+                            <p>
+                                A One Music
+                            </p>
+
+                            <span>
+                                125K views • 2 days ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
 
 
-<div id="toast" class="toast"></div>
+                <!-- VIDEO 2 -->
+
+                <article
+                    class="video-card"
+                    data-category="education"
+                    data-title="Learn Computer Basics">
+
+                    <div class="thumbnail">
+
+                        <div class="play-icon">
+                            ▶
+                        </div>
+
+                        <span class="duration">
+                            12:48
+                        </span>
+
+                    </div>
+
+                    <div class="video-info">
+
+                        <div class="channel-avatar">
+                            E
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Learn Computer Basics
+                            </h3>
+
+                            <p>
+                                Education India
+                            </p>
+
+                            <span>
+                                84K views • 5 days ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
 
 
-<script src="app.js"></script>
+                <!-- VIDEO 3 -->
+
+                <article
+                    class="video-card"
+                    data-category="news"
+                    data-title="India Today News">
+
+                    <div class="thumbnail">
+
+                        <div class="play-icon">
+                            ▶
+                        </div>
+
+                        <span class="duration">
+                            08:15
+                        </span>
+
+                    </div>
+
+                    <div class="video-info">
+
+                        <div class="channel-avatar">
+                            N
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                India Today News
+                            </h3>
+
+                            <p>
+                                Bharat News
+                            </p>
+
+                            <span>
+                                342K views • 1 day ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- VIDEO 4 -->
+
+                <article
+                    class="video-card"
+                    data-category="devotional"
+                    data-title="Bhakti Special">
+
+                    <div class="thumbnail">
+
+                        <div class="play-icon">
+                            ▶
+                        </div>
+
+                        <span class="duration">
+                            06:21
+                        </span>
+
+                    </div>
+
+                    <div class="video-info">
+
+                        <div class="channel-avatar">
+                            B
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Bhakti Special
+                            </h3>
+
+                            <p>
+                                Bhakti Bharat
+                            </p>
+
+                            <span>
+                                512K views • 3 days ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- VIDEO 5 -->
+
+                <article
+                    class="video-card"
+                    data-category="gaming"
+                    data-title="Indian Gaming Challenge">
+
+                    <div class="thumbnail">
+
+                        <div class="play-icon">
+                            ▶
+                        </div>
+
+                        <span class="duration">
+                            18:42
+                        </span>
+
+                    </div>
+
+                    <div class="video-info">
+
+                        <div class="channel-avatar">
+                            G
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Indian Gaming Challenge
+                            </h3>
+
+                            <p>
+                                Bharat Gamer
+                            </p>
+
+                            <span>
+                                96K views • 4 days ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- VIDEO 6 -->
+
+                <article
+                    class="video-card"
+                    data-category="entertainment"
+                    data-title="Indian Comedy Show">
+
+                    <div class="thumbnail">
+
+                        <div class="play-icon">
+                            ▶
+                        </div>
+
+                        <span class="duration">
+                            15:09
+                        </span>
+
+                    </div>
+
+                    <div class="video-info">
+
+                        <div class="channel-avatar">
+                            C
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Indian Comedy Show
+                            </h3>
+
+                            <p>
+                                Comedy Bharat
+                            </p>
+
+                            <span>
+                                1.1M views • 1 week ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CREATOR CTA ================= -->
+
+        <section class="creator-section">
+
+            <div>
+
+                <span class="hero-badge">
+                    FOR CREATORS
+                </span>
+
+                <h2>
+                    Create your own channel
+                </h2>
+
+                <p>
+                    Upload videos, build your audience
+                    and share your content with India.
+                </p>
+
+            </div>
+
+            <button
+                class="primary-btn"
+                id="uploadVideoBtn">
+                ⬆ Upload Video
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= BOTTOM NAV ================= -->
+
+    <nav class="bottom-nav">
+
+        <button class="bottom-item active">
+            <span>⌂</span>
+            <small>Home</small>
+        </button>
+
+        <button class="bottom-item" id="shortsNav">
+            <span>▶</span>
+            <small>Shorts</small>
+        </button>
+
+        <button class="bottom-item" id="createNav">
+            <span>＋</span>
+            <small>Create</small>
+        </button>
+
+        <button class="bottom-item" id="subscriptionsNav">
+            <span>▣</span>
+            <small>Subscriptions</small>
+        </button>
+
+        <button class="bottom-item" id="youNav">
+            <span>●</span>
+            <small>You</small>
+        </button>
+
+    </nav>
+
+
+    <!-- ================= TOAST ================= -->
+
+    <div
+        id="toast"
+        class="toast">
+        BharatTube
+    </div>
+
+
+    <script src="app.js"></script>
 
 </body>
 </html>
