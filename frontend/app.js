@@ -1,590 +1,178 @@
-// ======================================================
-// BHARATTUBE - FRONTEND CONTROLLER
-// ======================================================
+/* =========================================================
+   BHARATTUBE - CORE APPLICATION SCRIPT
+   ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
 
-    const searchInput = document.getElementById("searchInput");
-    const mobileSearchInput =
-        document.getElementById("mobileSearchInput");
+    // --- ELEMENTS ---
+    const toast = document.getElementById('toast');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const mobileSearchInput = document.getElementById('mobileSearchInput');
+    const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+    const categoryButtons = document.querySelectorAll('.category');
+    const videoCards = document.querySelectorAll('.video-card');
+    const bottomNavItems = document.querySelectorAll('.bottom-item');
 
-    const searchBtn =
-        document.getElementById("searchBtn");
-
-    const mobileSearchBtn =
-        document.getElementById("mobileSearchBtn");
-
-    const videoCards =
-        document.querySelectorAll(".video-card");
-
-    const categories =
-        document.querySelectorAll(".category");
-
-    const toast =
-        document.getElementById("toast");
-
-
-    // ==================================================
-    // TOAST
-    // ==================================================
-
+    // --- TOAST FUNCTION ---
+    let toastTimeout;
     function showToast(message) {
-
         if (!toast) return;
-
         toast.textContent = message;
-
-        toast.classList.add("show");
-
-        setTimeout(() => {
-            toast.classList.remove("show");
-        }, 2200);
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2500);
     }
 
-
-    // ==================================================
-    // SEARCH
-    // ==================================================
-
-    function performSearch(value) {
-
-        const query =
-            value.trim().toLowerCase();
-
-        let found = 0;
-
-        videoCards.forEach(card => {
-
-            const title =
-                (
-                    card.dataset.title ||
-                    card.querySelector("h3")?.textContent ||
-                    ""
-                ).toLowerCase();
-
-            const category =
-                (
-                    card.dataset.category ||
-                    ""
-                ).toLowerCase();
-
-            if (
-                query === "" ||
-                title.includes(query) ||
-                category.includes(query)
-            ) {
-
-                card.style.display = "";
-
-                found++;
-
-            } else {
-
-                card.style.display = "none";
-            }
-        });
-
-
-        if (query === "") {
-
-            showToast("Showing all videos");
-
-        } else if (found === 0) {
-
-            showToast("No videos found");
-
-        } else {
-
-            showToast(found + " video(s) found");
+    // --- SEARCH LOGIC ---
+    function performSearch(query) {
+        const cleanQuery = query.trim().toLowerCase();
+        if (!cleanQuery) {
+            showToast('कृपया कुछ लिखकर खोजें');
+            videoCards.forEach(card => card.style.display = 'block');
+            return;
         }
-    }
 
+        let matchCount = 0;
+        videoCards.forEach(card => {
+            const title = (card.getAttribute('data-title') || '').toLowerCase();
+            const category = (card.getAttribute('data-category') || '').toLowerCase();
 
-    // ==================================================
-    // DESKTOP SEARCH
-    // ==================================================
-
-    if (searchBtn) {
-
-        searchBtn.addEventListener("click", () => {
-
-            performSearch(
-                searchInput?.value || ""
-            );
-
+            if (title.includes(cleanQuery) || category.includes(cleanQuery)) {
+                card.style.display = 'block';
+                matchCount++;
+            } else {
+                card.style.display = 'none';
+            }
         });
 
+        showToast(`'${query}' के लिए ${matchCount} वीडियो मिले`);
     }
 
+    // Desktop Search
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener('click', () => performSearch(searchInput.value));
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch(searchInput.value);
+        });
+    }
 
-    if (searchInput) {
+    // Mobile Search
+    if (mobileSearchBtn && mobileSearchInput) {
+        mobileSearchBtn.addEventListener('click', () => performSearch(mobileSearchInput.value));
+        mobileSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch(mobileSearchInput.value);
+        });
+    }
 
-        searchInput.addEventListener(
-            "keydown",
-            event => {
+    // --- CATEGORY FILTER ---
+    categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoryButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-                if (event.key === "Enter") {
+            const selectedCategory = btn.getAttribute('data-category');
 
-                    performSearch(
-                        searchInput.value
-                    );
-
+            let visibleCount = 0;
+            videoCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (selectedCategory === 'all' || cardCategory === selectedCategory) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
                 }
-
-            }
-        );
-
-    }
-
-
-    // ==================================================
-    // MOBILE SEARCH
-    // ==================================================
-
-    if (mobileSearchBtn) {
-
-        mobileSearchBtn.addEventListener(
-            "click",
-            () => {
-
-                performSearch(
-                    mobileSearchInput?.value || ""
-                );
-
-            }
-        );
-
-    }
-
-
-    if (mobileSearchInput) {
-
-        mobileSearchInput.addEventListener(
-            "keydown",
-            event => {
-
-                if (event.key === "Enter") {
-
-                    performSearch(
-                        mobileSearchInput.value
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // ==================================================
-    // CATEGORY FILTER
-    // ==================================================
-
-    categories.forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                categories.forEach(item => {
-
-                    item.classList.remove(
-                        "active"
-                    );
-
-                });
-
-                button.classList.add("active");
-
-                const category =
-                    button.dataset.category;
-
-                let found = 0;
-
-                videoCards.forEach(card => {
-
-                    if (
-                        category === "all" ||
-                        card.dataset.category === category
-                    ) {
-
-                        card.style.display = "";
-
-                        found++;
-
-                    } else {
-
-                        card.style.display = "none";
-
-                    }
-
-                });
-
-                showToast(
-                    button.textContent.trim()
-                    + " • "
-                    + found
-                    + " video(s)"
-                );
-
-            }
-        );
-
-    });
-
-
-    // ==================================================
-    // VIDEO CARD
-    // ==================================================
-
-    videoCards.forEach(card => {
-
-        card.addEventListener(
-            "click",
-            () => {
-
-                const title =
-                    card.dataset.title ||
-                    "Selected video";
-
-                showToast(
-                    "Opening: " + title
-                );
-
-            }
-        );
-
-    });
-
-
-    // ==================================================
-    // HERO BUTTONS
-    // ==================================================
-
-    const startWatchingBtn =
-        document.getElementById(
-            "startWatchingBtn"
-        );
-
-    if (startWatchingBtn) {
-
-        startWatchingBtn.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .getElementById("videoGrid")
-                    ?.scrollIntoView({
-                        behavior: "smooth"
-                    });
-
-            }
-        );
-
-    }
-
-
-    const createChannelBtn =
-        document.getElementById(
-            "createChannelBtn"
-        );
-
-    if (createChannelBtn) {
-
-        createChannelBtn.addEventListener(
-            "click",
-            () => {
-
-                showToast(
-                    "Channel creation will be added next"
-                );
-
-            }
-        );
-
-    }
-
-
-    // ==================================================
-    // UPLOAD BUTTONS
-    // ==================================================
-
-    const uploadBtn =
-        document.getElementById(
-            "uploadBtn"
-        );
-
-    const uploadVideoBtn =
-        document.getElementById(
-            "uploadVideoBtn"
-        );
-
-    function uploadMessage() {
-
-        showToast(
-            "Video upload system will be added next"
-        );
-
-    }
-
-    if (uploadBtn) {
-
-        uploadBtn.addEventListener(
-            "click",
-            uploadMessage
-        );
-
-    }
-
-    if (uploadVideoBtn) {
-
-        uploadVideoBtn.addEventListener(
-            "click",
-            uploadMessage
-        );
-
-    }
-
-
-    // ==================================================
-    // PROFILE
-    // ==================================================
-
-    const profileBtn =
-        document.getElementById(
-            "profileBtn"
-        );
-
-    if (profileBtn) {
-
-        profileBtn.addEventListener(
-            "click",
-            () => {
-
-                showToast(
-                    "Login / Profile system will be added next"
-                );
-
-            }
-        );
-
-    }
-
-
-    // ==================================================
-    // NOTIFICATION
-    // ==================================================
-
-    const notificationBtn =
-        document.getElementById(
-            "notificationBtn"
-        );
-
-    if (notificationBtn) {
-
-        notificationBtn.addEventListener(
-            "click",
-            () => {
-
-                showToast(
-                    "No new notifications"
-                );
-
-            }
-        );
-
-    }
-
-
-    // ==================================================
-    // SHORTS
-    // ==================================================
-
-    const shortsBtn =
-        document.getElementById(
-            "shortsBtn"
-        );
-
-    const shortsNav =
-        document.getElementById(
-            "shortsNav"
-        );
-
-    function openShorts() {
-
-        document
-            .querySelector(".shorts-grid")
-            ?.scrollIntoView({
-                behavior: "smooth"
             });
 
-        showToast(
-            "Bharat Shorts"
-        );
+            showToast(`${btn.textContent.trim()} कैटेगरी लोड हो गई`);
+        });
+    });
 
+    // --- HEADER BUTTONS ---
+    const uploadBtn = document.getElementById('uploadBtn');
+    if (uploadBtn) {
+        uploadBtn.addEventListener('click', () => showToast('Video Upload सुविधा जल्द आ रही है'));
     }
 
-    if (shortsBtn) {
-
-        shortsBtn.addEventListener(
-            "click",
-            openShorts
-        );
-
+    const notificationBtn = document.getElementById('notificationBtn');
+    if (notificationBtn) {
+        notificationBtn.addEventListener('click', () => showToast('कोई नया नोटिफिकेशन नहीं है'));
     }
 
-    if (shortsNav) {
-
-        shortsNav.addEventListener(
-            "click",
-            openShorts
-        );
-
+    const profileBtn = document.getElementById('profileBtn');
+    if (profileBtn) {
+        profileBtn.addEventListener('click', () => showToast('प्रोफ़ाइल सेक्शन जल्द उपलब्ध होगा'));
     }
 
-
-    // ==================================================
-    // CREATE NAV
-    // ==================================================
-
-    const createNav =
-        document.getElementById(
-            "createNav"
-        );
-
-    if (createNav) {
-
-        createNav.addEventListener(
-            "click",
-            uploadMessage
-        );
-
-    }
-
-
-    // ==================================================
-    // SUBSCRIPTIONS
-    // ==================================================
-
-    const subscriptionsNav =
-        document.getElementById(
-            "subscriptionsNav"
-        );
-
-    if (subscriptionsNav) {
-
-        subscriptionsNav.addEventListener(
-            "click",
-            () => {
-
-                showToast(
-                    "Login required for subscriptions"
-                );
-
+    // --- HERO & CTA BUTTONS ---
+    const startWatchingBtn = document.getElementById('startWatchingBtn');
+    if (startWatchingBtn) {
+        startWatchingBtn.addEventListener('click', () => {
+            const videoGrid = document.getElementById('videoGrid');
+            if (videoGrid) {
+                videoGrid.scrollIntoView({ behavior: 'smooth' });
             }
-        );
-
+        });
     }
 
-
-    // ==================================================
-    // YOU / PROFILE
-    // ==================================================
-
-    const youNav =
-        document.getElementById(
-            "youNav"
-        );
-
-    if (youNav) {
-
-        youNav.addEventListener(
-            "click",
-            () => {
-
-                showToast(
-                    "Login required"
-                );
-
-            }
-        );
-
+    const createChannelBtn = document.getElementById('createChannelBtn');
+    if (createChannelBtn) {
+        createChannelBtn.addEventListener('click', () => showToast('Channel Creation पेज जल्द शुरू होगा'));
     }
 
+    const uploadVideoBtn = document.getElementById('uploadVideoBtn');
+    if (uploadVideoBtn) {
+        uploadVideoBtn.addEventListener('click', () => showToast('Video Upload सुविधा जल्द आ रही है'));
+    }
 
-    // ==================================================
-    // REFRESH
-    // ==================================================
-
-    const refreshBtn =
-        document.getElementById(
-            "refreshBtn"
-        );
-
+    const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
-
-        refreshBtn.addEventListener(
-            "click",
-            () => {
-
-                videoCards.forEach(card => {
-
-                    card.style.display = "";
-
-                });
-
-                categories.forEach(
-                    category => {
-
-                        category.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-                const allCategory =
-                    document.querySelector(
-                        '[data-category="all"]'
-                    );
-
-                if (allCategory) {
-
-                    allCategory.classList.add(
-                        "active"
-                    );
-
-                }
-
-                if (searchInput) {
-
-                    searchInput.value = "";
-
-                }
-
-                if (mobileSearchInput) {
-
-                    mobileSearchInput.value = "";
-
-                }
-
-                showToast(
-                    "Videos refreshed"
-                );
-
-            }
-        );
-
+        refreshBtn.addEventListener('click', () => {
+            videoCards.forEach(card => card.style.display = 'block');
+            categoryButtons.forEach(b => b.classList.remove('active'));
+            const allBtn = document.querySelector('.category[data-category="all"]');
+            if (allBtn) allBtn.classList.add('active');
+            showToast('वीडियो रीफ़्रेश हो गए');
+        });
     }
 
+    const shortsBtn = document.getElementById('shortsBtn');
+    if (shortsBtn) {
+        shortsBtn.addEventListener('click', () => showToast('Shorts फ़ीड जल्द आ रही है'));
+    }
 
-    // ==================================================
-    // INITIAL MESSAGE
-    // ==================================================
+    // --- BOTTOM NAVIGATION ---
+    bottomNavItems.forEach(item => {
+        item.addEventListener('click', () => {
+            bottomNavItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
 
-    console.log(
-        "BharatTube frontend loaded successfully."
-    );
+            const label = item.querySelector('small') ? item.querySelector('small').textContent : 'BharatTube';
+            if (label === 'Home') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                showToast(`${label} सेक्शन जल्द आ रहा है`);
+            }
+        });
+    });
+
+    // --- VIDEO CARD CLICK ---
+    videoCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.getAttribute('data-title') || 'Video';
+            showToast(`चला रहे हैं: ${title}`);
+        });
+    });
+
+    // --- SHORTS CARD CLICK ---
+    const shortCards = document.querySelectorAll('.short-card');
+    shortCards.forEach(short => {
+        short.addEventListener('click', () => {
+            const title = short.querySelector('h3') ? short.querySelector('h3').textContent : 'Short';
+            showToast(`Short: ${title}`);
+        });
+    });
 
 });
