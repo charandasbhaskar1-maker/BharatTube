@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070b10">
+    <title>BharatTube - Your Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg: #070b10;
+            --panel: #111821;
+            --panel2: #171f29;
+            --border: #27313d;
+            --text: #f5f7fa;
+            --muted: #9aa5b1;
+            --red: #ff3040;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* Header */
+        .profile-header {
+            height: 56px;
+            background: rgba(7, 11, 16, 0.98);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .back-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .brand-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            background: var(--red);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 16px auto;
+            padding: 0 16px;
+        }
+
+        /* User Card */
+        .user-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--red);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .user-details h2 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* Menu Groups */
+        .menu-group {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .menu-item:last-child {
+            border-bottom: 0;
+        }
+
+        .menu-item:hover {
+            background: var(--panel2);
+        }
+
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .item-icon {
+            font-size: 18px;
+        }
+
+        .item-arrow {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .logout-btn {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translate(-50%, 20px);
+            background: #ffffff;
+            color: #0b0f14;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.25s ease;
+            z-index: 3000;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="profile-header">
+        <a href="../frontend/index.html" class="back-link">← Home</a>
+        <div class="header-title">You</div>
+        <div class="brand-badge">B</div>
+    </header>
+
+    <main class="container">
+        <!-- User Details Card -->
+        <div class="user-card">
+            <div class="user-avatar">U</div>
+            <div class="user-details">
+                <h2>Bharat User</h2>
+                <p>user@bharattube.in</p>
+                <p style="margin-top: 4px; color: #4da3ff; font-weight: 600; font-size: 11px; cursor: pointer;" onclick="location.href='channel.html'">View channel →</p>
+            </div>
+        </div>
+
+        <!-- Menu Section 1: Content & Activity -->
+        <div class="menu-group">
+            <div class="menu-item" onclick="showToast('History सुविधा जल्द आ रही है')">
+                <div class="item-left">
+                    <span class="item-icon">🕒</span>
+                    <span>History</span>
+                </div>
+                <span class="item-arrow">›</span>
+            </div>
+
+            <div class="menu-item" onclick="showToast('Playlists सुविधा जल्द आ रही है')">
+                <div class="item-left">
+                    <span class="item-icon">📑</span>
+                    <span>Your Playlists</span>
+                </div>
+                <span class="item-arrow">›</span>
+            </div>
+
+            <div class="menu-item" onclick="showToast('Watch Later सुविधा जल्द आ रही है')">
+                <div class="item-left">
+                    <span class="item-icon">⏰</span>
+                    <span>Watch Later</span>
+                </div>
+                <span class="item-arrow">›</span>
+            </div>
+
+            <div class="menu-item" onclick="showToast('Liked Videos सुविधा जल्द आ रही है')">
+                <div class="item-left">
+                    <span class="item-icon">👍</span>
+                    <span>Liked Videos</span>
+                </div>
+                <span class="item-arrow">›</span>
+            </div>
+        </div>
+
+        <!-- Menu Section 2: Creator Tools & Settings -->
+        <div class="menu-group">
+            <div class="menu-item" onclick="location.href='channel.html'">
+                <div class="item-left">
+                    <span class="item-icon">📺</span>
+                    <span>Your Channel</span>
+                </div>
+                <span class="item-arrow">›</span>
+            </div>
+
+            <div class="menu-item" onclick="location.href='upload.html'">
+                <div class="item-left">
+                    <span class="item-icon">⬆</span>
+                    <span>Upload Video</span>
+                </div>
+                <span class="item-arrow">›</span>
+            </div>
+
+            <div class="menu-item" onclick="showToast('Settings सुविधा जल्द आ रही है')">
+                <div class="item-left">
+                    <span class="item-icon">⚙️</span>
+                    <span>Settings</span>
+                </div>
+                <span class="item-arrow">›</span>
+            </div>
+        </div>
+
+        <!-- Menu Section 3: Auth -->
+        <div class="menu-group">
+            <div class="menu-item logout-btn" onclick="handleLogout()">
+                <div class="item-left">
+                    <span class="item-icon">🚪</span>
+                    <span>Log Out</span>
+                </div>
+                <span class="item-arrow">›</span>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const toast = document.getElementById('toast');
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+        function handleLogout() {
+            showToast('लॉगआउट हो रहे हैं...');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
