@@ -1,1 +1,314 @@
-h
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BharatTube</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="logo">
+        <span class="logo-icon">▶</span>
+        <span>Bharat<span>Tube</span></span>
+    </div>
+
+    <div class="search-box">
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Search videos..."
+        >
+        <button onclick="searchVideos()">🔍</button>
+    </div>
+
+    <div class="top-actions">
+        <button onclick="showMessage('Upload feature coming soon')">
+            ⬆ Upload
+        </button>
+
+        <button onclick="showMessage('Login system coming soon')">
+            Login
+        </button>
+    </div>
+
+</header>
+
+
+<nav class="categories">
+
+    <button class="active">All</button>
+    <button>Music</button>
+    <button>Entertainment</button>
+    <button>News</button>
+    <button>Education</button>
+    <button>Gaming</button>
+    <button>Sports</button>
+    <button>Shorts</button>
+
+</nav>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                🇮🇳 Made for India
+            </div>
+
+            <h1>
+                Welcome to <span>BharatTube</span>
+            </h1>
+
+            <p>
+                Watch, upload and share videos with India.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+                    class="primary-btn"
+                    onclick="showMessage('Video discovery coming soon')">
+                    ▶ Explore Videos
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="showMessage('Creator system coming soon')">
+                    Create Channel
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <h2>Recommended Videos</h2>
+
+            <button onclick="showMessage('More videos coming soon')">
+                See all
+            </button>
+
+        </div>
+
+
+        <div class="video-grid" id="videoGrid">
+
+
+            <article class="video-card">
+
+                <div class="thumbnail">
+
+                    <div class="play">▶</div>
+
+                    <span class="duration">
+                        10:24
+                    </span>
+
+                </div>
+
+                <div class="video-info">
+
+                    <div class="channel-avatar">
+                        BT
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Chhattisgarhi New Song 2026
+                        </h3>
+
+                        <p>
+                            Bharat Music
+                        </p>
+
+                        <small>
+                            125K views • 2 days ago
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="video-card">
+
+                <div class="thumbnail thumbnail-2">
+
+                    <div class="play">▶</div>
+
+                    <span class="duration">
+                        08:15
+                    </span>
+
+                </div>
+
+                <div class="video-info">
+
+                    <div class="channel-avatar">
+                        ED
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Learn Something New
+                        </h3>
+
+                        <p>
+                            Education India
+                        </p>
+
+                        <small>
+                            82K views • 5 days ago
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="video-card">
+
+                <div class="thumbnail thumbnail-3">
+
+                    <div class="play">▶</div>
+
+                    <span class="duration">
+                        15:40
+                    </span>
+
+                </div>
+
+                <div class="video-info">
+
+                    <div class="channel-avatar">
+                        IN
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            India Travel Vlog
+                        </h3>
+
+                        <p>
+                            Incredible India
+                        </p>
+
+                        <small>
+                            210K views • 1 week ago
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="video-card">
+
+                <div class="thumbnail thumbnail-4">
+
+                    <div class="play">▶</div>
+
+                    <span class="duration">
+                        06:32
+                    </span>
+
+                </div>
+
+                <div class="video-info">
+
+                    <div class="channel-avatar">
+                        GM
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Best Gaming Moments
+                        </h3>
+
+                        <p>
+                            Bharat Gaming
+                        </p>
+
+                        <small>
+                            56K views • 3 days ago
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+    <button class="nav-active">
+        🏠
+        <span>Home</span>
+    </button>
+
+    <button>
+        🔥
+        <span>Trending</span>
+    </button>
+
+    <button onclick="showMessage('Upload system coming soon')">
+        ＋
+        <span>Create</span>
+    </button>
+
+    <button>
+        📺
+        <span>Subscriptions</span>
+    </button>
+
+    <button onclick="showMessage('Login required')">
+        👤
+        <span>You</span>
+    </button>
+
+</nav>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
