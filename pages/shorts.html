@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <title>BharatTube - Bharat Shorts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --red: #ff3040;
+            --panel: rgba(17, 24, 33, 0.7);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Bar */
+        .shorts-topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+
+        .back-btn {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .shorts-title {
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Scroll Container */
+        .shorts-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+        }
+
+        .shorts-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Individual Short Slide */
+        .short-slide {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            background: #0d1219;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .short-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Overlay Info */
+        .short-overlay {
+            position: absolute;
+            bottom: 24px;
+            left: 14px;
+            right: 76px;
+            z-index: 10;
+        }
+
+        .creator-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .creator-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 15px;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .creator-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .sub-btn {
+            background: var(--red);
+            color: #ffffff;
+            border: 0;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .sub-btn.subscribed {
+            background: rgba(255,255,255,0.25);
+            color: #ffffff;
+        }
+
+        .short-caption {
+            font-size: 13px;
+            line-height: 1.4;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            margin-bottom: 6px;
+        }
+
+        .short-audio {
+            font-size: 12px;
+            color: #d1d5db;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Right Action Bar */
+        .side-actions {
+            position: absolute;
+            right: 12px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .action-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: 0;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--panel);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .action-label {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            left: 50%;
+            top: 60px;
+            transform: translate(-50%, -10px);
+            background: rgba(255, 255, 255, 0.95);
+            color: #000000;
+            padding: 8px 16px;
+            border-radius: 18px;
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.25s ease;
+            z-index: 200;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="shorts-topbar">
+        <a href="../frontend/index.html" class="back-btn">←</a>
+        <div class="shorts-title">⚡ Bharat Shorts</div>
+        <div style="width: 20px;"></div>
+    </header>
+
+    <main class="shorts-container" id="shortsContainer">
+
+        <!-- SHORT 1 -->
+        <section class="short-slide">
+            <video class="short-video" loop playsinline autoplay muted>
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+            </video>
+
+            <div class="short-overlay">
+                <div class="creator-row">
+                    <div class="creator-avatar">B</div>
+                    <span class="creator-name">@bhartiya_vlog</span>
+                    <button class="sub-btn" onclick="toggleSub(this)">Subscribe</button>
+                </div>
+                <p class="short-caption">Beautiful Indian sunrise views • Proud of our culture 🇮🇳 #BharatTube</p>
+                <div class="short-audio">🎵 Original Audio - Bharat Vibes</div>
+            </div>
+
+            <div class="side-actions">
+                <button class="action-icon" onclick="toggleLike(this)">
+                    <div class="icon-circle">❤️</div>
+                    <span class="action-label">245K</span>
+                </button>
+                <button class="action-icon" onclick="showToast('Comments सुविधा जल्द आ रही है')">
+                    <div class="icon-circle">💬</div>
+                    <span class="action-label">1.2K</span>
+                </button>
+                <button class="action-icon" onclick="shareShort('Beautiful Indian sunrise')">
+                    <div class="icon-circle">↗️️</div>
+                    <span class="action-label">Share</span>
+                </button>
+                <button class="action-icon" onclick="toggleMute(this)">
+                    <div class="icon-circle">🔊</div>
+                    <span class="action-label">Sound</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SHORT 2 -->
+        <section class="short-slide">
+            <video class="short-video" loop playsinline muted>
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4">
+            </video>
+
+            <div class="short-overlay">
+                <div class="creator-row">
+                    <div class="creator-avatar">C</div>
+                    <span class="creator-name">@chhattisgarh_tales</span>
+                    <button class="sub-btn" onclick="toggleSub(this)">Subscribe</button>
+                </div>
+                <p class="short-caption">Chhattisgarhi folk dance and energy! Mor Raipur ❤️ #Culture</p>
+                <div class="short-audio">🎵 Folk Song • Traditional Beats</div>
+            </div>
+
+            <div class="side-actions">
+                <button class="action-icon" onclick="toggleLike(this)">
+                    <div class="icon-circle">❤️</div>
+                    <span class="action-label">189K</span>
+                </button>
+                <button class="action-icon" onclick="showToast('Comments सुविधा जल्द आ रही है')">
+                    <div class="icon-circle">💬</div>
+                    <span class="action-label">850</span>
+                </button>
+                <button class="action-icon" onclick="shareShort('Chhattisgarhi folk dance')">
+                    <div class="icon-circle">↗️</div>
+                    <span class="action-label">Share</span>
+                </button>
+                <button class="action-icon" onclick="toggleMute(this)">
+                    <div class="icon-circle">🔊</div>
+                    <span class="action-label">Sound</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const toast = document.getElementById('toast');
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function toggleSub(btn) {
+            if (btn.classList.contains('subscribed')) {
+                btn.classList.remove('subscribed');
+                btn.textContent = 'Subscribe';
+                showToast('Unsubscribed');
+            } else {
+                btn.classList.add('subscribed');
+                btn.textContent = 'Subscribed';
+                showToast('Subscribed! ❤️');
+            }
+        }
+
+        function toggleLike(btn) {
+            const countLabel = btn.querySelector('.action-label');
+            const isLiked = btn.getAttribute('data-liked') === 'true';
+            if (!isLiked) {
+                btn.setAttribute('data-liked', 'true');
+                btn.querySelector('.icon-circle').style.background = '#ff3040';
+                showToast('Liked! 👍');
+            } else {
+                btn.setAttribute('data-liked', 'false');
+                btn.querySelector('.icon-circle').style.background = 'rgba(17, 24, 33, 0.7)';
+                showToast('Unliked');
+            }
+        }
+
+        function toggleMute(btn) {
+            const currentSlide = btn.closest('.short-slide');
+            const video = currentSlide.querySelector('video');
+            if (video.muted) {
+                video.muted = false;
+                video.play();
+                btn.querySelector('.icon-circle').textContent = '🔉';
+                showToast('Audio Unmuted');
+            } else {
+                video.muted = true;
+                btn.querySelector('.icon-circle').textContent = '🔇';
+                showToast('Audio Muted');
+            }
+        }
+
+        function shareShort(title) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'BharatTube Shorts: ' + title,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                showToast('Shorts Link Copied!');
+            }
+        }
+
+        // Auto play on scroll
+        const container = document.getElementById('shortsContainer');
+        const videos = document.querySelectorAll('.short-video');
+        container.addEventListener('scroll', () => {
+            const index = Math.round(container.scrollTop / window.innerHeight);
+            videos.forEach((vid, i) => {
+                if (i === index) {
+                    vid.play().catch(() => {});
+                } else {
+                    vid.pause();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
