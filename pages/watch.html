@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070b10">
+    <title>BharatTube - Watch Video</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg: #070b10;
+            --panel: #111821;
+            --panel2: #171f29;
+            --border: #27313d;
+            --text: #f5f7fa;
+            --muted: #9aa5b1;
+            --red: #ff3040;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 30px;
+        }
+
+        /* Top Header */
+        .watch-header {
+            height: 54px;
+            background: rgba(7, 11, 16, 0.98);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brand-logo-small {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            background: var(--red);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        /* Video Container */
+        .video-container {
+            width: 100%;
+            background: #000000;
+            position: sticky;
+            top: 54px;
+            z-index: 900;
+        }
+
+        video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: block;
+            outline: none;
+        }
+
+        /* Details Section */
+        .video-content {
+            padding: 14px 16px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .video-title {
+            font-size: 16px;
+            line-height: 1.35;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .video-views {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        /* Channel Bar */
+        .channel-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .channel-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #242f3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .channel-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .channel-subs {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .subscribe-btn {
+            background: #ffffff;
+            color: #0b0f14;
+            border: 0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .subscribe-btn.subscribed {
+            background: var(--panel2);
+            color: var(--muted);
+        }
+
+        /* Action Buttons */
+        .action-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scrollbar-width: none;
+        }
+
+        .action-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .action-pill {
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Up Next Section */
+        .up-next {
+            margin-top: 24px;
+        }
+
+        .up-next h3 {
+            font-size: 15px;
+            margin-bottom: 14px;
+        }
+
+        .related-card {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            cursor: pointer;
+        }
+
+        .related-thumb {
+            width: 120px;
+            height: 70px;
+            border-radius: 8px;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .related-info h4 {
+            font-size: 13px;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .related-info p {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translate(-50%, 20px);
+            background: #ffffff;
+            color: #0b0f14;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.25s ease;
+            z-index: 3000;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="watch-header">
+        <a href="../frontend/index.html" class="back-link back-btn">← BharatTube</a>
+        <div class="brand-logo-small">B</div>
+    </header>
+
+    <div class="video-container">
+        <video id="mainVideo" controls autoplay playsinline poster="">
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+            आपका ब्राउज़र वीडियो सपोर्ट नहीं करता।
+        </video>
+    </div>
+
+    <main class="video-content">
+        <h1 class="video-title" id="videoTitle">Chhattisgarhi Panthi Song • Traditional Folk Music</h1>
+        <div class="video-views" id="videoMeta">125K views • 2 days ago • #BharatTube</div>
+
+        <div class="channel-bar">
+            <div class="channel-info">
+                <div class="avatar" id="chanAvatar">A</div>
+                <div>
+                    <div class="channel-name" id="chanName">A One Music</div>
+                    <div class="channel-subs">45.2K Subscribers</div>
+                </div>
+            </div>
+            <button class="subscribe-btn" id="subBtn">Subscribe</button>
+        </div>
+
+        <div class="action-bar">
+            <button class="action-pill" id="likeBtn">👍 <span id="likeCount">12K</span></button>
+            <button class="action-pill" id="dislikeBtn">👎</button>
+            <button class="action-pill" id="shareBtn">↗ Share</button>
+            <button class="action-pill" id="saveBtn">📥 Save</button>
+        </div>
+
+        <section class="up-next">
+            <h3>Up Next</h3>
+
+            <div class="related-card" onclick="switchVideo('Learn Computer Basics', 'Education India', '84K views')">
+                <div class="related-thumb">▶</div>
+                <div class="related-info">
+                    <h4>Learn Computer Basics</h4>
+                    <p>Education India • 84K views</p>
+                </div>
+            </div>
+
+            <div class="related-card" onclick="switchVideo('India Today News', 'Bharat News', '342K views')">
+                <div class="related-thumb">▶</div>
+                <div class="related-info">
+                    <h4>India Today News</h4>
+                    <p>Bharat News • 342K views</p>
+                </div>
+            </div>
+
+            <div class="related-card" onclick="switchVideo('Bhakti Special Aarti', 'Bhakti Bharat', '512K views')">
+                <div class="related-thumb">▶</div>
+                <div class="related-info">
+                    <h4>Bhakti Special Aarti</h4>
+                    <p>Bhakti Bharat • 512K views</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const toast = document.getElementById('toast');
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+        // URL Parameters reading (agar home page se title pass ho)
+        const params = new URLSearchParams(window.location.search);
+        const titleParam = params.get('title');
+        const channelParam = params.get('channel');
+        const viewsParam = params.get('views');
+
+        if (titleParam) document.getElementById('videoTitle').textContent = decodeURIComponent(titleParam);
+        if (channelParam) {
+            document.getElementById('chanName').textContent = decodeURIComponent(channelParam);
+            document.getElementById('chanAvatar').textContent = decodeURIComponent(channelParam).charAt(0).toUpperCase();
+        }
+        if (viewsParam) document.getElementById('videoMeta').textContent = decodeURIComponent(viewsParam) + ' • #BharatTube';
+
+        // Subscribe Toggle
+        const subBtn = document.getElementById('subBtn');
+        let isSubscribed = false;
+        subBtn.addEventListener('click', () => {
+            isSubscribed = !isSubscribed;
+            if (isSubscribed) {
+                subBtn.textContent = 'Subscribed';
+                subBtn.classList.add('subscribed');
+                showToast('चैनल सब्सक्राइब हो गया');
+            } else {
+                subBtn.textContent = 'Subscribe';
+                subBtn.classList.remove('subscribed');
+                showToast('अनसब्सक्राइब किया गया');
+            }
+        });
+
+        // Like Button
+        const likeBtn = document.getElementById('likeBtn');
+        let liked = false;
+        likeBtn.addEventListener('click', () => {
+            liked = !liked;
+            const likeSpan = document.getElementById('likeCount');
+            likeSpan.textContent = liked ? '12.1K' : '12K';
+            showToast(liked ? 'वीडियो लाइक किया गया 👍' : 'लाइक हटाया गया');
+        });
+
+        // Share Button
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.getElementById('videoTitle').textContent,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                showToast('लिंक कॉपी किया गया!');
+            }
+        });
+
+        // Switch Related Video
+        function switchVideo(title, channel, views) {
+            document.getElementById('videoTitle').textContent = title;
+            document.getElementById('chanName').textContent = channel;
+            document.getElementById('chanAvatar').textContent = channel.charAt(0).toUpperCase();
+            document.getElementById('videoMeta').textContent = views + ' • Recently • #BharatTube';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast('नया वीडियो लोड हुआ');
+        }
+    </script>
+</body>
+</html>
