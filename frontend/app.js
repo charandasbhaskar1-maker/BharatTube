@@ -1,5 +1,5 @@
 /* =========================================================
-   BHARATTUBE - CORE APPLICATION SCRIPT WITH ROUTING
+   BHARATTUBE - CORE APPLICATION SCRIPT WITH RELIABLE ROUTING
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,6 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
         toastTimeout = setTimeout(() => {
             toast.classList.remove('show');
         }, 2200);
+    }
+
+    // --- SAFE NAVIGATION HELPER ---
+    // Yeh check karta hai ki site root se chal rahi hai ya frontend folder se
+    function getPageUrl(pageName, queryParams = '') {
+        const isInsideFrontend = window.location.pathname.includes('/frontend/');
+        const prefix = isInsideFrontend ? '../pages/' : 'pages/';
+        const query = queryParams ? `?${queryParams}` : '';
+        return `${prefix}${pageName}${query}`;
+    }
+
+    function navigateTo(pageName, queryParams = '') {
+        window.location.href = getPageUrl(pageName, queryParams);
     }
 
     // --- SEARCH LOGIC ---
@@ -91,9 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- HEADER BUTTONS ROUTING ---
     const uploadBtn = document.getElementById('uploadBtn');
     if (uploadBtn) {
-        uploadBtn.addEventListener('click', () => {
-            window.location.href = '../pages/upload.html';
-        });
+        uploadBtn.addEventListener('click', () => navigateTo('upload.html'));
     }
 
     const notificationBtn = document.getElementById('notificationBtn');
@@ -103,9 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const profileBtn = document.getElementById('profileBtn');
     if (profileBtn) {
-        profileBtn.addEventListener('click', () => {
-            window.location.href = '../pages/profile.html';
-        });
+        profileBtn.addEventListener('click', () => navigateTo('profile.html'));
     }
 
     // --- HERO & CTA BUTTONS ROUTING ---
@@ -121,16 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const createChannelBtn = document.getElementById('createChannelBtn');
     if (createChannelBtn) {
-        createChannelBtn.addEventListener('click', () => {
-            window.location.href = '../pages/channel.html';
-        });
+        createChannelBtn.addEventListener('click', () => navigateTo('channel.html'));
     }
 
     const uploadVideoBtn = document.getElementById('uploadVideoBtn');
     if (uploadVideoBtn) {
-        uploadVideoBtn.addEventListener('click', () => {
-            window.location.href = '../pages/upload.html';
-        });
+        uploadVideoBtn.addEventListener('click', () => navigateTo('upload.html'));
     }
 
     const refreshBtn = document.getElementById('refreshBtn');
@@ -146,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const shortsBtn = document.getElementById('shortsBtn');
     if (shortsBtn) {
-        shortsBtn.addEventListener('click', () => showToast('Shorts फ़ीड जल्द आ रही है'));
+        shortsBtn.addEventListener('click', () => navigateTo('shorts.html'));
     }
 
     // --- BOTTOM NAVIGATION ROUTING ---
@@ -156,12 +161,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (label === 'Home') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (label === 'Create') {
-                window.location.href = '../pages/upload.html';
-            } else if (label === 'You') {
-                window.location.href = '../pages/profile.html';
             } else if (label === 'Shorts') {
-                showToast('Shorts फ़ीड जल्द आ रही है');
+                navigateTo('shorts.html');
+            } else if (label === 'Create') {
+                navigateTo('upload.html');
+            } else if (label === 'You') {
+                navigateTo('profile.html');
             } else if (label === 'Subscriptions') {
                 showToast('Subscriptions सूची जल्द आ रही है');
             }
@@ -179,18 +184,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: title,
                 channel: channel,
                 views: views
-            });
+            }).toString();
 
-            window.location.href = `../pages/watch.html?${queryParams.toString()}`;
+            navigateTo('watch.html', queryParams);
         });
     });
 
-    // --- SHORTS CARD CLICK ---
+    // --- SHORTS CARD CLICK -> OPEN SHORTS VIEWER ---
     const shortCards = document.querySelectorAll('.short-card');
     shortCards.forEach(short => {
         short.addEventListener('click', () => {
-            const title = short.querySelector('h3') ? short.querySelector('h3').textContent.trim() : 'Bharat Short';
-            showToast(`Shorts Viewer: ${title}`);
+            navigateTo('shorts.html');
         });
     });
 
