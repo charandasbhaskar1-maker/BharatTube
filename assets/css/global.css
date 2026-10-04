@@ -1,0 +1,182 @@
+/* =========================================================
+   BHARATTUBE CORE DESIGN SYSTEM & MASTER VARIABLES
+   ========================================================= */
+
+:root {
+    --yt-black: #0f0f0f;
+    --yt-surface: #181818;
+    --yt-card: #212121;
+    --yt-card-hover: #272727;
+    --yt-border: rgba(255, 255, 255, 0.1);
+    
+    --yt-text: #ffffff;
+    --yt-muted: #aaaaaa;
+    --yt-submuted: #717171;
+    
+    --yt-red: #ff0000;
+    --yt-blue: #3ea6ff;
+    --yt-green: #2ecc71;
+    --yt-gold: #f1c40f;
+
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --nav-height: 52px;
+    --bottom-bar-height: 54px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--yt-black);
+    color: var(--yt-text);
+    font-family: var(--font-stack);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================
+   REUSABLE BRAND LOGO & TOP NAV HEADER
+   ========================================================= */
+
+.bt-header {
+    height: var(--nav-height);
+    background: var(--yt-black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--yt-border);
+}
+
+.bt-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--yt-text);
+}
+
+.bt-logo-badge {
+    background: var(--yt-red);
+    width: 32px;
+    height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bt-logo-badge svg {
+    width: 12px;
+    height: 12px;
+    fill: #ffffff;
+    margin-left: 2px;
+}
+
+.bt-brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.bt-brand-name span {
+    color: var(--yt-red);
+}
+
+/* =========================================================
+   REUSABLE BOTTOM NAVIGATION BAR (FOR MOBILE APP)
+   ========================================================= */
+
+.bt-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--bottom-bar-height);
+    background: var(--yt-black);
+    border-top: 1px solid var(--yt-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.bt-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--yt-muted);
+    text-decoration: none;
+    font-size: 10px;
+    flex: 1;
+    height: 100%;
+}
+
+.bt-nav-item svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+.bt-nav-item.active {
+    color: var(--yt-text);
+}
+
+.bt-create-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--yt-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bt-create-circle svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--yt-text);
+}
+
+/* =========================================================
+   COMMON UI UTILITIES (PILLS, CARDS, BADGES)
+   ========================================================= */
+
+.bt-pill {
+    background: #272727;
+    color: var(--yt-text);
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+
+.bt-pill.active {
+    background: #ffffff;
+    color: #0f0f0f;
+}
+
+.bt-btn-primary {
+    background: var(--yt-blue);
+    color: #0f0f0f;
+    font-weight: 700;
+    border-radius: 20px;
+    border: none;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-size: 14px;
+}
