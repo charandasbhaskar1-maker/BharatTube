@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0f0f0f">
-    <title>BharatTube Studio - Create</title>
+    <meta name="theme-color" content="#000000">
+    <title>BharatTube Camera & Create</title>
     <style>
         * {
             margin: 0;
@@ -14,630 +14,561 @@
         }
 
         :root {
-            --yt-black: #0f0f0f;
-            --yt-panel: #181818;
-            --yt-panel2: #222222;
+            --yt-black: #000000;
+            --yt-panel: #121212;
+            --yt-panel2: #212121;
             --yt-border: rgba(255, 255, 255, 0.12);
-            --yt-text: #f1f1f1;
+            --yt-text: #ffffff;
             --yt-muted: #aaaaaa;
             --yt-blue: #3ea6ff;
             --yt-red: #ff0000;
         }
 
         body {
-            font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background-color: var(--yt-black);
-            color: var(--yt-text);
-            min-height: 100vh;
-            padding-bottom: 50px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
             user-select: none;
         }
 
-        /* Top Header */
-        .yt-header {
-            height: 48px;
-            background: #0f0f0f;
-            border-bottom: 1px solid var(--yt-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-btn {
-            background: none;
-            border: none;
-            color: var(--yt-text);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            text-decoration: none;
-        }
-
-        .header-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-
-        .header-title {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .yt-action-btn {
-            background: var(--yt-blue);
-            color: #000000;
-            border: none;
-            border-radius: 18px;
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.15s;
-        }
-
-        .yt-action-btn.disabled {
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--yt-muted);
-            cursor: not-allowed;
-        }
-
-        /* SCREEN 1: CREATE HUB */
-        .create-hub-view {
-            padding: 24px 16px;
-            max-width: 550px;
-            margin: auto;
-        }
-
-        .hub-greeting {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .hub-sub {
-            font-size: 13px;
-            color: var(--yt-muted);
-            margin-bottom: 22px;
-        }
-
-        .create-options-list {
+        /* Full Viewport App Container */
+        .app-viewport {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-        }
-
-        .create-option-card {
-            background: var(--yt-panel);
-            border: 1px solid var(--yt-border);
-            border-radius: 14px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .create-option-card:active {
-            background: var(--yt-panel2);
-            transform: scale(0.98);
-        }
-
-        .option-icon-circle {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .option-icon-circle svg {
-            width: 24px;
-            height: 24px;
-            fill: #ffffff;
-        }
-
-        .opt-content h3 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .opt-content p {
-            font-size: 12px;
-            color: var(--yt-muted);
-            line-height: 1.35;
-        }
-
-        /* SCREEN 2: VIDEO / SHORTS DETAILS */
-        .step-details {
-            display: none;
-            max-width: 650px;
-            margin: auto;
-        }
-
-        .preview-hero-container {
-            width: 100%;
+            justify-content: space-between;
             background: #000000;
-            position: relative;
-            aspect-ratio: 16 / 9;
-            overflow: hidden;
+        }
+
+        /* Camera / Media Layer */
+        .camera-background {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: #0a0a0a;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .preview-hero-container.short-ratio {
-            aspect-ratio: 9 / 16;
-            max-height: 430px;
-            margin: 12px auto;
-            border-radius: 14px;
-        }
-
-        .preview-video-elem {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: #000;
-            transition: filter 0.3s ease;
-        }
-
-        .preview-text-overlay {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.65);
-            color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 700;
-            max-width: 80%;
-            text-align: center;
-            display: none;
-            pointer-events: none;
-            z-index: 15;
-        }
-
-        .preview-edit-bar {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 20;
-        }
-
-        .tool-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .tool-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: #ffffff;
-        }
-
-        #soundToolBtn {
-            display: none;
-        }
-
-        .change-thumb-pill {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(6px);
-            border: 1px solid var(--yt-border);
-            color: #ffffff;
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-size: 11px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .video-type-pill {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            background: rgba(0, 0, 0, 0.85);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .pill-short {
-            color: #ff4e45;
-            border: 1px solid #ff4e45;
-        }
-
-        .pill-long {
-            color: #3ea6ff;
-            border: 1px solid #3ea6ff;
-        }
-
-        .details-form {
-            padding: 16px;
-        }
-
-        .field-group {
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding-bottom: 14px;
-        }
-
-        .field-label {
-            font-size: 12px;
-            color: var(--yt-muted);
-            font-weight: 500;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .field-input, .field-textarea {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: var(--yt-text);
-            font-size: 15px;
-            font-family: inherit;
-            outline: none;
-        }
-
-        .field-textarea {
-            resize: none;
-            min-height: 60px;
-            font-size: 13px;
-        }
-
-        .option-item-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            cursor: pointer;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .option-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .option-left svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--yt-muted);
-        }
-
-        /* SCREEN 3: GO LIVE */
-        .step-live {
-            display: none;
-            max-width: 650px;
-            margin: auto;
-            padding: 16px;
-        }
-
-        .live-preview-box {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #000;
-            border-radius: 12px;
             overflow: hidden;
-            position: relative;
-            margin-bottom: 16px;
-            border: 1px solid var(--yt-border);
         }
 
-        .live-preview-box video {
+        .camera-background video, .camera-background img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .live-badge-rec {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--yt-red);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
+        /* Top Bar Overlay */
+        .top-action-bar {
+            position: relative;
+            z-index: 20;
+            height: 56px;
             display: flex;
             align-items: center;
-            gap: 4px;
+            justify-content: space-between;
+            padding: 0 16px;
         }
 
-        .live-badge-rec::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: white;
+        .circle-icon-btn {
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            display: inline-block;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 18px;
         }
 
-        .live-viewers-count {
+        .circle-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
+        }
+
+        /* Top Center 'Add sound' Pill */
+        .add-sound-pill {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 7px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .add-sound-pill svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Right Side Toolbars */
+        .side-tool-column {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
+            right: 14px;
+            top: 70px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+            max-height: calc(100vh - 210px);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .side-tool-column::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tool-action-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .tool-title {
+            font-size: 13px;
+            font-weight: 500;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            white-space: nowrap;
+        }
+
+        .tool-round-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .tool-round-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
+        }
+
+        /* Bottom Control Panel */
+        .bottom-control-deck {
+            position: relative;
+            z-index: 20;
+            padding-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Capture Row (Shutter + Gallery + Duration) */
+        .capture-row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 24px;
+        }
+
+        .gallery-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .gallery-preview-mini {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            border: 2px solid #ffffff;
+            background: #222;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-preview-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-box span {
             font-size: 11px;
             font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* SCREEN 4: COMMUNITY POST */
-        .step-post {
+        /* Big Red Shutter Button */
+        .shutter-outer-ring {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+
+        .shutter-inner-red {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #ff0000;
+            transition: 0.2s;
+        }
+
+        .shutter-outer-ring.recording .shutter-inner-red {
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+        }
+
+        /* YouTube Next / Action Large Pill */
+        .big-pill-btn {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 34px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+        }
+
+        .secondary-pill-btn {
+            background: rgba(255,255,255,0.25);
+            color: #ffffff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+        }
+
+        /* YouTube 4-Mode Selector (Video | Short | Live | Post) */
+        .mode-scroll-deck {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 4px 16px;
+        }
+
+        .mode-scroll-deck::-webkit-scrollbar {
             display: none;
-            max-width: 650px;
-            margin: auto;
-            padding: 16px;
         }
 
-        .post-card {
-            background: var(--yt-panel);
-            border: 1px solid var(--yt-border);
-            border-radius: 14px;
-            padding: 16px;
+        .mode-chip {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .mode-chip.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+        }
+
+        /* ================= COMMUNITY POST SPECIFIC SCREEN ================= */
+        .post-fullscreen-modal {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: #000000;
+            z-index: 50;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .post-inner-content {
+            padding: 14px 16px;
         }
 
         .post-author-row {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
-        .post-avatar {
-            width: 36px;
-            height: 36px;
+        .post-author-avatar {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: var(--yt-red);
+            background: linear-gradient(135deg, #11998e, #38ef7d);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 17px;
+            color: #ffffff;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            flex-shrink: 0;
         }
 
-        .post-textarea {
-            width: 100%;
-            min-height: 120px;
-            background: transparent;
-            border: none;
-            color: var(--yt-text);
-            font-size: 15px;
-            font-family: inherit;
-            outline: none;
-            resize: none;
-        }
-
-        .post-photo-preview {
-            width: 100%;
-            max-height: 250px;
-            border-radius: 8px;
-            object-fit: cover;
-            display: none;
-            margin-top: 10px;
-            border: 1px solid var(--yt-border);
-        }
-
-        .post-tools-bar {
-            display: flex;
-            gap: 12px;
-            margin-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 12px;
-        }
-
-        .post-tool-pill {
-            background: var(--yt-panel2);
-            border: 1px solid var(--yt-border);
-            color: var(--yt-text);
-            padding: 6px 14px;
-            border-radius: 18px;
-            font-size: 12px;
+        .post-author-name {
+            font-size: 14px;
             font-weight: 600;
-            display: flex;
+        }
+
+        .post-visibility-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--yt-border);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
             cursor: pointer;
+            margin-top: 3px;
         }
 
-        /* YOUTUBE LIVE ELIGIBILITY MODAL ALERT */
-        .eligibility-modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            z-index: 1500;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        .post-visibility-pill svg {
+            width: 14px;
+            height: 14px;
+            fill: #ffffff;
         }
 
-        .eligibility-modal-card {
-            background: #212121;
-            border: 1px solid var(--yt-border);
-            border-radius: 16px;
-            padding: 24px 20px;
+        .post-textarea-main {
             width: 100%;
-            max-width: 400px;
-            text-align: center;
+            min-height: 150px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            resize: none;
+            line-height: 1.45;
         }
 
-        .eligibility-icon-wrap {
-            width: 60px;
-            height: 60px;
+        .post-textarea-main::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .attached-post-img-box {
+            position: relative;
+            margin: 10px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--yt-border);
+            display: none;
+            max-height: 220px;
+        }
+
+        .attached-post-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-attach-cross {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            border: none;
+            color: white;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            background: rgba(255, 0, 0, 0.15);
-            color: var(--yt-red);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 14px;
+            cursor: pointer;
         }
 
-        .eligibility-icon-wrap svg {
-            width: 32px;
-            height: 32px;
-            fill: var(--yt-red);
+        .post-bottom-suite {
+            padding-bottom: 24px;
         }
 
-        .eligibility-modal-card h3 {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .post-gallery-strip {
+            display: flex;
+            gap: 8px;
+            padding: 0 16px 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
         }
 
-        .eligibility-modal-card p {
-            font-size: 13px;
-            color: var(--yt-muted);
-            line-height: 1.45;
-            margin-bottom: 18px;
-            text-align: left;
+        .post-gallery-strip::-webkit-scrollbar {
+            display: none;
         }
 
-        .criteria-box {
-            background: #181818;
+        .strip-card {
+            width: 66px;
+            height: 66px;
+            border-radius: 8px;
+            background: #1a1a1a;
             border: 1px solid var(--yt-border);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 20px;
-            text-align: left;
-            font-size: 12px;
+            flex-shrink: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .strip-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-tools-tray {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 10px 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tray-icon-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .tray-icon-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
+        }
+
+        /* ================= ADD DETAILS MODAL (SCREENSHOT 1) ================= */
+        .add-details-sheet {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: #000000;
+            z-index: 100;
+            flex-direction: column;
+        }
+
+        .details-header-row {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid var(--yt-border);
+        }
+
+        .details-body {
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 22px;
         }
 
-        .crit-item {
+        .details-item-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: #d1d5db;
+            justify-content: space-between;
+            cursor: pointer;
         }
 
-        .crit-status {
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        .crit-fail {
-            color: #ff4d4d;
-        }
-
-        .crit-pass {
-            color: #2ecc71;
-        }
-
-        .modal-action-row {
+        .item-left-block {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 16px;
         }
 
-        .btn-modal-dismiss {
-            flex: 1;
-            background: #333333;
+        .item-left-block svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        .item-small-sub {
+            font-size: 12px;
+            color: var(--yt-muted);
+        }
+
+        .item-big-label {
+            font-size: 15px;
+            font-weight: 500;
             color: #ffffff;
-            border: none;
-            padding: 10px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
+            margin-top: 2px;
         }
 
-        .btn-modal-learn {
-            flex: 1;
-            background: var(--yt-blue);
-            color: #000000;
-            border: none;
-            padding: 10px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        /* Upload Progress Modal */
-        .upload-modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .upload-modal-card {
-            background: var(--yt-panel);
-            border: 1px solid var(--yt-border);
-            border-radius: 16px;
-            padding: 24px;
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-        }
-
-        .progress-track-bg {
-            height: 6px;
+        .yt-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
             background: #333333;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 16px 0 10px;
+            border-radius: 14px;
+            transition: 0.2s;
+            cursor: pointer;
         }
 
-        .progress-track-fill {
-            height: 100%;
-            width: 0%;
+        .yt-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #888888;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .yt-switch.checked {
             background: var(--yt-blue);
-            border-radius: 4px;
-            transition: width 0.15s ease;
+        }
+
+        .yt-switch.checked::after {
+            transform: translateX(20px);
+            background: #ffffff;
         }
 
         /* Toast */
@@ -647,11 +578,11 @@
             bottom: 30px;
             transform: translate(-50%, 20px);
             background: #ffffff;
-            color: #0f0f0f;
+            color: #000000;
             padding: 8px 18px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             opacity: 0;
             pointer-events: none;
             transition: 0.25s ease;
@@ -667,568 +598,442 @@
 </head>
 <body>
 
-    <header class="yt-header">
-        <div class="header-left">
-            <button class="header-btn" onclick="handleBackNavigation()">
-                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-            </button>
-            <div class="header-title" id="pageTitle">Create</div>
-        </div>
-        <button class="yt-action-btn disabled" id="headerActionBtn" onclick="handleHeaderAction()">Next</button>
-    </header>
+    <!-- Native Pickers -->
+    <input type="file" id="videoPicker" accept="video/*" style="display:none;" onchange="loadChosenVideo(event)">
+    <input type="file" id="postImagePicker" accept="image/*" style="display:none;" onchange="loadPostImage(event)">
 
-    <input type="file" id="videoPicker" accept="video/*" style="display:none;" onchange="onVideoChosen(event)">
-    <input type="file" id="shortsPicker" accept="video/*" style="display:none;" onchange="onShortsChosen(event)">
-    <input type="file" id="thumbPicker" accept="image/*" style="display:none;" onchange="onThumbnailChosen(event)">
-    <input type="file" id="postPhotoPicker" accept="image/*" style="display:none;" onchange="onPostPhotoChosen(event)">
+    <div class="app-viewport">
 
-    <!-- ================= 1. CREATE HUB ================= -->
-    <main class="create-hub-view" id="createHubView">
-        <h1 class="hub-greeting">Create on BharatTube</h1>
-        <p class="hub-sub">Choose how you want to share with your audience</p>
-
-        <div class="create-options-list">
-            <div class="create-option-card" onclick="document.getElementById('shortsPicker').click()">
-                <div class="option-icon-circle" style="background: linear-gradient(135deg, #ff0000, #ff5e62);">
-                    <svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5L18 9.06c1.84-.8 2.63-3 .17-4.83-1.63-1.22-3.83-.8-4.83.17l-6 7.4c-.6.74-.7 1.76-.27 2.6.43.84 1.3 1.37 2.27 1.37h1.4l-1.43.8c-1.84.8-2.63 3-.17 4.83 1.63 1.22 3.83.8 4.83-.17l6-7.4c.6-.74.7-1.76.27-2.6-.43-.84-1.3-1.37-2.27-1.37h-1.4z"/></svg>
-                </div>
-                <div class="opt-content">
-                    <h3>Create a Short</h3>
-                    <p>Record or pick vertical video with music, sound & filters (9:16)</p>
-                </div>
-            </div>
-
-            <div class="create-option-card" onclick="document.getElementById('videoPicker').click()">
-                <div class="option-icon-circle" style="background: #272727;">
-                    <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
-                </div>
-                <div class="opt-content">
-                    <h3>Upload a video</h3>
-                    <p>Standard long format video with thumbnail, tags & HD stream</p>
-                </div>
-            </div>
-
-            <div class="create-option-card" onclick="checkLiveEligibilityAndOpen()">
-                <div class="option-icon-circle" style="background: #cc0000;">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-                </div>
-                <div class="opt-content">
-                    <h3>Go Live</h3>
-                    <p>Stream live video directly to your viewers with real-time chat</p>
-                </div>
-            </div>
-
-            <div class="create-option-card" onclick="openPostSetup()">
-                <div class="option-icon-circle" style="background: #1f3a52;">
-                    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                </div>
-                <div class="opt-content">
-                    <h3>Create a post</h3>
-                    <p>Share photos, updates, questions or video links with subscribers</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- ================= 2. VIDEO / SHORTS EDIT SCREEN ================= -->
-    <div class="step-details" id="stepDetails">
-        <div class="preview-hero-container" id="previewContainer">
-            <video class="preview-video-elem" id="previewVideo" playsinline loop controls></video>
-            <div class="preview-text-overlay" id="textOverlay"></div>
-
-            <div class="preview-edit-bar">
-                <button class="tool-btn" onclick="openTextTool()" title="Text">
-                    <span style="font-weight:800; font-size:14px;">Aa</span>
-                </button>
-                <button class="tool-btn" onclick="cycleVideoFilter()" title="Filter">
-                    <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
-                </button>
-                <button class="tool-btn" id="soundToolBtn" onclick="selectMusicTrack()" title="Add Sound">
-                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                </button>
-                <button class="tool-btn" onclick="trimVideoTool()" title="Trim">
-                    <svg viewBox="0 0 24 24"><path d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64zM6 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm9.64-8l2.36-2.36C18.14 7.87 18.59 8 19 8c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4c0 .41.07.79.18 1.14L15.64 12z"/></svg>
-                </button>
-            </div>
-
-            <div class="change-thumb-pill" onclick="document.getElementById('thumbPicker').click()">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="#ffffff"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                <span id="thumbLabel">Thumbnail</span>
-            </div>
-
-            <div class="video-type-pill pill-long" id="formatPill">📹 Video (16:9)</div>
-        </div>
-
-        <div class="details-form">
-            <div class="field-group">
-                <div class="field-label">
-                    <span>Title</span>
-                    <span id="titleCount">0/100</span>
-                </div>
-                <input type="text" class="field-input" id="videoTitle" placeholder="Create a title (required)" maxlength="100" oninput="onTitleType(this)">
-            </div>
-
-            <div class="field-group">
-                <div class="field-label">
-                    <span>Description</span>
-                    <span id="descCount">0/1000</span>
-                </div>
-                <textarea class="field-textarea" id="videoDesc" placeholder="Add description" maxlength="1000" oninput="document.getElementById('descCount').textContent = this.value.length + '/1000'"></textarea>
-            </div>
-
-            <div class="option-item-row" onclick="cycleVisibility()">
-                <div class="option-left">
-                    <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-                    <div>
-                        <div class="option-title">Visibility</div>
-                        <div class="option-subtitle" id="visLabel">Public</div>
-                    </div>
-                </div>
-                <span style="color:var(--yt-muted);">></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= 3. GO LIVE SCREEN ================= -->
-    <div class="step-live" id="stepLive">
-        <div class="live-preview-box">
+        <!-- 1. LIVE / CAMERA STREAM OR PREVIEW MEDIA -->
+        <div class="camera-background" id="cameraBackground">
             <video id="liveCameraFeed" autoplay playsinline muted></video>
-            <div class="live-badge-rec">LIVE STREAM</div>
-            <div class="live-viewers-count">0 Viewers</div>
+            <div id="mediaPlaceholder" style="font-size: 14px; color: var(--yt-muted); display: none;">Camera Stream Active</div>
         </div>
 
-        <div class="details-form" style="padding:0;">
-            <div class="field-group">
-                <div class="field-label">
-                    <span>Live Stream Title</span>
-                </div>
-                <input type="text" class="field-input" id="liveTitle" placeholder="What is your live stream about?">
+        <!-- 2. TOP ACTION OVERLAY -->
+        <header class="top-action-bar">
+            <a href="../frontend/index.html" class="circle-icon-btn">✕</a>
+
+            <!-- Shorts / Video Top Center Sound Pill -->
+            <div class="add-sound-pill" id="topSoundPill" onclick="selectMusicTrack()">
+                <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                <span id="soundLabel">Add sound</span>
             </div>
 
-            <div class="option-item-row">
-                <div class="option-left">
-                    <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
-                    <div>
-                        <div class="option-title">Audio & Microphone</div>
-                        <div class="option-subtitle">Internal Mic Active 🎙️</div>
+            <!-- Top Right: Magic Effect / Live Share -->
+            <div class="circle-icon-btn" onclick="showToast('Effects & Highlights ready ✨')">
+                <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
+            </div>
+        </header>
+
+        <!-- 3. RIGHT SIDEBAR TOOLS (DYNAMIC ACCORDING TO MODE) -->
+        <div class="side-tool-column" id="sideToolColumn">
+            <!-- Populated via JavaScript dynamically for Short / Live / Video -->
+        </div>
+
+        <!-- 4. BOTTOM CONTROLS & 4-MODE SELECTOR -->
+        <div class="bottom-control-deck">
+
+            <!-- Middle Action Row (Different for Camera vs Live vs Video) -->
+            <div class="capture-row" id="captureRow">
+                <!-- Gallery Picker -->
+                <div class="gallery-box" onclick="document.getElementById('videoPicker').click()">
+                    <div class="gallery-preview-mini">
+                        <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=100" alt="Gallery">
+                    </div>
+                    <span>Add</span>
+                </div>
+
+                <!-- Record / Shutter Button (For Short & Video Camera) -->
+                <div class="shutter-outer-ring" id="shutterBtn" onclick="toggleRecording()">
+                    <div class="shutter-inner-red"></div>
+                </div>
+
+                <!-- Next Button (Appears when Video is ready / Live Mode) -->
+                <button class="big-pill-btn" id="nextActionBtn" style="display:none;" onclick="handleNextAction()">Next</button>
+
+                <div style="width: 44px;" id="emptySpaceHolder"></div>
+            </div>
+
+            <!-- YouTube Bottom 4-Mode Selector -->
+            <nav class="mode-scroll-deck">
+                <span class="mode-chip" id="modeVideo" onclick="switchMode('video')">Video</span>
+                <span class="mode-chip active" id="modeShort" onclick="switchMode('short')">Short</span>
+                <span class="mode-chip" id="modeLive" onclick="switchMode('live')">Live</span>
+                <span class="mode-chip" id="modePost" onclick="switchMode('post')">Post</span>
+            </nav>
+        </div>
+
+        <!-- ================= COMMUNITY POST MODAL (SCREENSHOT 2) ================= -->
+        <div class="post-fullscreen-modal" id="postModal">
+            <div>
+                <header class="top-action-bar" style="border-bottom: 1px solid var(--yt-border); background:#000;">
+                    <div style="display:flex; align-items:center; gap:16px;">
+                        <button class="circle-icon-btn" onclick="closePostModal()">✕</button>
+                        <span style="font-size:17px; font-weight:700;">Create post</span>
+                    </div>
+                    <button class="big-pill-btn" style="padding:6px 18px; font-size:13px;" onclick="publishPostNow()">Post</button>
+                </header>
+
+                <div class="post-inner-content">
+                    <div class="post-author-row">
+                        <div class="post-author-avatar">CB</div>
+                        <div>
+                            <div class="post-author-name">Charandas Bhaskar</div>
+                            <div class="post-visibility-pill" onclick="openDetailsSheet()">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                                <span id="postChipVisLabel">Public</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <textarea class="post-textarea-main" id="postText" placeholder="Share an image to start a caption contest"></textarea>
+
+                    <div class="attached-post-img-box" id="attachedImgBox">
+                        <img id="attachedPostImg" alt="Attached">
+                        <button class="remove-attach-cross" onclick="removePostAttachment()">✕</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- ================= 4. COMMUNITY POST SCREEN ================= -->
-    <div class="step-post" id="stepPost">
-        <div class="post-card">
-            <div class="post-author-row">
-                <div class="post-avatar">B</div>
-                <div>
-                    <div style="font-size:13px; font-weight:700;">Bharat Creator</div>
-                    <div style="font-size:11px; color:var(--yt-muted);">Public post • All Subscribers</div>
+            <div class="post-bottom-suite">
+                <div class="post-gallery-strip">
+                    <div class="strip-card" onclick="document.getElementById('postImagePicker').click()">
+                        <span>📷</span>
+                    </div>
+                    <div class="strip-card" onclick="attachPresetImg('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600')">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200" alt="Nature">
+                    </div>
+                    <div class="strip-card" onclick="attachPresetImg('https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=600')">
+                        <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=200" alt="Sunset">
+                    </div>
                 </div>
-            </div>
 
-            <textarea class="post-textarea" id="postContent" placeholder="What's on your mind? Share an update, photo, or YouTube video link..."></textarea>
-            <img id="postImagePreview" class="post-photo-preview" alt="Post Image">
-
-            <div class="post-tools-bar">
-                <button type="button" class="post-tool-pill" onclick="document.getElementById('postPhotoPicker').click()">
-                    <span>📷 Photo</span>
-                </button>
-                <button type="button" class="post-tool-pill" onclick="addVideoLinkPrompt()">
-                    <span>🔗 Video Link</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- YOUTUBE LIVE ELIGIBILITY ALERT MODAL (50 Subs & 90 Days) -->
-    <div class="eligibility-modal-overlay" id="eligibilityModal">
-        <div class="eligibility-modal-card">
-            <div class="eligibility-icon-wrap">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-            </div>
-            <h3>Eligibility Requirements</h3>
-            <p>Your channel does not meet our updated eligibility requirements for mobile live streaming. To protect our community, we require channels to meet the following milestones:</p>
-
-            <div class="criteria-box">
-                <div class="crit-item">
-                    <span class="crit-status crit-fail" id="critSubsStatus">✕</span>
-                    <span id="critSubsText">At least 50 subscribers (Current: 12)</span>
+                <div class="post-tools-tray">
+                    <button class="tray-icon-btn" onclick="promptPoll()" title="Poll">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                    </button>
+                    <button class="tray-icon-btn" onclick="document.getElementById('postImagePicker').click()" title="Image">
+                        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                    </button>
+                    <button class="tray-icon-btn" onclick="promptQuiz()" title="Quiz">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    </button>
                 </div>
-                <div class="crit-item">
-                    <span class="crit-status crit-fail" id="critAgeStatus">✕</span>
-                    <span id="critAgeText">Account active for at least 90 days (3 months)</span>
-                </div>
-                <div class="crit-item">
-                    <span class="crit-status crit-pass">✓</span>
-                    <span>No live streaming restrictions in past 90 days</span>
-                </div>
-            </div>
 
-            <div class="modal-action-row">
-                <button class="btn-modal-dismiss" onclick="closeEligibilityModal()">Dismiss</button>
-                <button class="btn-modal-learn" onclick="toggleTestCriteria()">Simulate Eligibility</button>
+                <nav class="mode-scroll-deck" style="padding-top: 14px;">
+                    <span class="mode-chip" onclick="switchMode('short'); closePostModal();">Short</span>
+                    <span class="mode-chip" onclick="switchMode('live'); closePostModal();">Live</span>
+                    <span class="mode-chip active">Post</span>
+                </nav>
             </div>
         </div>
-    </div>
 
-    <!-- Upload Progress Modal -->
-    <div class="upload-modal-overlay" id="uploadModal">
-        <div class="upload-modal-card">
-            <h3 style="font-size:16px; margin-bottom:4px;">Uploading to BharatTube...</h3>
-            <p style="font-size:12px; color:var(--yt-muted);" id="modalPercent">0%</p>
-            <div class="progress-track-bg">
-                <div class="progress-track-fill" id="progressFill"></div>
+        <!-- ================= ADD DETAILS SHEET (SCREENSHOT 1) ================= -->
+        <div class="add-details-sheet" id="detailsSheet">
+            <header class="details-header-row">
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <button class="circle-icon-btn" onclick="closeDetailsSheet()">✕</button>
+                    <span style="font-size:17px; font-weight:700;">Add details</span>
+                </div>
+                <button class="big-pill-btn" style="padding:6px 18px; font-size:13px;" onclick="closeDetailsSheet()">Done</button>
+            </header>
+
+            <div class="details-body">
+                <div class="details-item-row" onclick="cyclePostVis()">
+                    <div class="item-left-block">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        <div>
+                            <div class="item-small-sub">Visibility</div>
+                            <div class="item-big-label" id="sheetVisVal">Public</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-item-row" onclick="toggleSwitch('schedSwitch')">
+                    <div class="item-left-block">
+                        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+                        <div>
+                            <div class="item-big-label">Schedule</div>
+                        </div>
+                    </div>
+                    <div class="yt-switch" id="schedSwitch"></div>
+                </div>
+
+                <div class="details-item-row" onclick="toggleExpirySwitch()">
+                    <div class="item-left-block">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        <div>
+                            <div class="item-small-sub">Expiry</div>
+                            <div class="item-big-label" id="sheetExpiryVal">None</div>
+                        </div>
+                    </div>
+                    <div class="yt-switch" id="expirySwitch"></div>
+                </div>
             </div>
-            <p style="font-size:11px; color:#888888;">Applying checks & publishing...</p>
         </div>
+
     </div>
 
     <div id="toast" class="toast"></div>
 
     <script>
-        let currentMode = 'hub';
-        let chosenFile = null;
-        let isShort = false;
-        let visState = 0;
-        const visList = ['Public', 'Unlisted', 'Private'];
-
-        // USER CREATOR ACCOUNT STATUS (YouTube Rules)
-        let userChannel = {
-            subscriberCount: 12,       // Requirement: 50+
-            channelAgeDays: 24,        // Requirement: 90+ days (3 months)
-            hasStrikes: false
-        };
-
-        const filters = [
-            { name: 'Normal', css: 'none' },
-            { name: 'Cinematic Warm', css: 'sepia(0.3) saturate(1.4) contrast(1.1)' },
-            { name: 'Vibrant Colors', css: 'saturate(1.8) contrast(1.15)' },
-            { name: 'Classic B&W', css: 'grayscale(1) contrast(1.2)' }
-        ];
-        let filterIndex = 0;
+        let currentMode = 'short';
+        let isRecording = false;
+        let activeStream = null;
 
         const toast = document.getElementById('toast');
         function showToast(msg) {
             toast.textContent = msg;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2200);
+            setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // Back Navigation
-        function handleBackNavigation() {
-            if (currentMode !== 'hub') {
-                document.getElementById('stepDetails').style.display = 'none';
-                document.getElementById('stepLive').style.display = 'none';
-                document.getElementById('stepPost').style.display = 'none';
-                document.getElementById('createHubView').style.display = 'block';
+        // Initialize Camera
+        window.addEventListener('load', () => {
+            initCamera();
+            renderToolsForMode('short');
+        });
 
-                document.getElementById('pageTitle').textContent = 'Create';
-                const actionBtn = document.getElementById('headerActionBtn');
-                actionBtn.textContent = 'Next';
-                actionBtn.classList.add('disabled');
-
-                const vid = document.getElementById('previewVideo');
-                vid.pause();
-                vid.src = '';
-                chosenFile = null;
-                currentMode = 'hub';
-            } else {
-                window.location.href = '../frontend/index.html';
-            }
-        }
-
-        function handleHeaderAction() {
-            if (currentMode === 'video' || currentMode === 'shorts') {
-                triggerVideoUpload();
-            } else if (currentMode === 'live') {
-                startLiveStream();
-            } else if (currentMode === 'post') {
-                publishCommunityPost();
-            }
-        }
-
-        /* --- CHECK LIVE ELIGIBILITY (50 SUBS & 90 DAYS RULE) --- */
-        function checkLiveEligibilityAndOpen() {
-            const meetsSubs = userChannel.subscriberCount >= 50;
-            const meetsAge = userChannel.channelAgeDays >= 90;
-
-            if (meetsSubs && meetsAge && !userChannel.hasStrikes) {
-                // Criteria Passed -> Open Live Camera
-                openLiveSetup();
-            } else {
-                // Criteria Failed -> Show YouTube Policy Alert
-                document.getElementById('critSubsText').textContent = `At least 50 subscribers (Current: ${userChannel.subscriberCount})`;
-                document.getElementById('critSubsStatus').className = meetsSubs ? 'crit-status crit-pass' : 'crit-status crit-fail';
-                document.getElementById('critSubsStatus').textContent = meetsSubs ? '✓' : '✕';
-
-                document.getElementById('critAgeText').textContent = `Account active for at least 90 days (Current: ${userChannel.channelAgeDays} days)`;
-                document.getElementById('critAgeStatus').className = meetsAge ? 'crit-status crit-pass' : 'crit-status crit-fail';
-                document.getElementById('critAgeStatus').textContent = meetsAge ? '✓' : '✕';
-
-                document.getElementById('eligibilityModal').style.display = 'flex';
-            }
-        }
-
-        function closeEligibilityModal() {
-            document.getElementById('eligibilityModal').style.display = 'none';
-        }
-
-        // Creator Testing Mode Switcher
-        function toggleTestCriteria() {
-            userChannel.subscriberCount = 52;
-            userChannel.channelAgeDays = 95;
-            closeEligibilityModal();
-            showToast('✅ Criteria Met: 50+ Subs & 90 Days active!');
-            setTimeout(() => {
-                openLiveSetup();
-            }, 600);
-        }
-
-        function openLiveSetup() {
-            currentMode = 'live';
-            document.getElementById('createHubView').style.display = 'none';
-            document.getElementById('stepLive').style.display = 'block';
-            document.getElementById('pageTitle').textContent = 'Live stream setup';
-
-            const actionBtn = document.getElementById('headerActionBtn');
-            actionBtn.textContent = 'Go Live';
-            actionBtn.classList.remove('disabled');
-
+        function initCamera() {
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: true })
                     .then(stream => {
+                        activeStream = stream;
                         document.getElementById('liveCameraFeed').srcObject = stream;
                     })
                     .catch(() => {
-                        showToast('Camera stream active 🔴');
+                        document.getElementById('mediaPlaceholder').style.display = 'block';
                     });
             }
         }
 
-        function startLiveStream() {
-            const title = document.getElementById('liveTitle').value.trim() || 'BharatTube Live Session';
-            showToast('🔴 You are now LIVE!');
-            setTimeout(() => {
-                window.location.href = `watch.html?title=${encodeURIComponent(title + ' [LIVE]')}&channel=You+(Live)&views=🔴+Live+Now`;
-            }, 1000);
-        }
+        // Mode Switcher (Video | Short | Live | Post)
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-chip').forEach(c => c.classList.remove('active'));
+            const activeChip = document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1));
+            if (activeChip) activeChip.classList.add('active');
 
-        /* --- VIDEO / SHORTS FLOW --- */
-        function onShortsChosen(e) {
-            isShort = true;
-            setupVideoPreview(e.target.files[0], true);
-        }
+            const soundPill = document.getElementById('topSoundPill');
+            const captureRow = document.getElementById('captureRow');
+            const shutter = document.getElementById('shutterBtn');
+            const nextBtn = document.getElementById('nextActionBtn');
 
-        function onVideoChosen(e) {
-            isShort = false;
-            setupVideoPreview(e.target.files[0], false);
-        }
-
-        function setupVideoPreview(file, forceShort) {
-            if (!file) return;
-            chosenFile = file;
-            currentMode = forceShort ? 'shorts' : 'video';
-
-            document.getElementById('createHubView').style.display = 'none';
-            document.getElementById('stepDetails').style.display = 'block';
-            document.getElementById('pageTitle').textContent = forceShort ? 'Edit Short' : 'Add details';
-
-            const actionBtn = document.getElementById('headerActionBtn');
-            actionBtn.textContent = 'Upload';
-            actionBtn.classList.remove('disabled');
-
-            const titleInput = document.getElementById('videoTitle');
-            const cleanTitle = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-            titleInput.value = cleanTitle.replace(/[_-]/g, ' ');
-            document.getElementById('titleCount').textContent = titleInput.value.length + '/100';
-
-            const vid = document.getElementById('previewVideo');
-            const container = document.getElementById('previewContainer');
-            const soundBtn = document.getElementById('soundToolBtn');
-            const formatPill = document.getElementById('formatPill');
-
-            vid.src = URL.createObjectURL(file);
-            vid.play().catch(() => {});
-
-            vid.onloadedmetadata = function() {
-                const w = vid.videoWidth;
-                const h = vid.videoHeight;
-                const dur = Math.round(vid.duration);
-
-                if (forceShort || h >= w || dur <= 60) {
-                    isShort = true;
-                    container.classList.add('short-ratio');
-                    formatPill.className = 'video-type-pill pill-short';
-                    formatPill.textContent = '⚡ Bharat Short (9:16)';
-                    soundBtn.style.display = 'flex';
-                    if (!titleInput.value.includes('#Shorts')) {
-                        titleInput.value = (titleInput.value + ' #Shorts').trim();
-                    }
-                    showToast('Shorts mode: Sound & tools enabled! ⚡');
-                } else {
-                    isShort = false;
-                    container.classList.remove('short-ratio');
-                    formatPill.className = 'video-type-pill pill-long';
-                    formatPill.textContent = '📹 Video (16:9)';
-                    soundBtn.style.display = 'none';
-                    showToast('Video mode: Ready to edit 📹');
-                }
-            };
-        }
-
-        function cycleVideoFilter() {
-            filterIndex = (filterIndex + 1) % filters.length;
-            const currentFilter = filters[filterIndex];
-            document.getElementById('previewVideo').style.filter = currentFilter.css;
-            showToast(`Filter: ${currentFilter.name} ✨`);
-        }
-
-        function openTextTool() {
-            const currentText = document.getElementById('textOverlay').textContent;
-            const userText = prompt('Video ke upar text likhein (Overlay):', currentText || 'BharatTube Special');
-            const overlay = document.getElementById('textOverlay');
-            if (userText && userText.trim().length > 0) {
-                overlay.textContent = userText.trim();
-                overlay.style.display = 'block';
-                showToast('Text overlay added! ✍️');
-            } else if (userText === '') {
-                overlay.style.display = 'none';
-                overlay.textContent = '';
-                showToast('Text removed');
+            if (mode === 'short') {
+                soundPill.style.display = 'flex';
+                shutter.style.display = 'flex';
+                nextBtn.style.display = 'none';
+                renderToolsForMode('short');
+                showToast('Shorts Camera Mode ⚡');
+            } else if (mode === 'video') {
+                soundPill.style.display = 'none';
+                shutter.style.display = 'flex';
+                nextBtn.style.display = 'none';
+                renderToolsForMode('video');
+                showToast('Video Recording Mode 📹');
+            } else if (mode === 'live') {
+                soundPill.style.display = 'none';
+                shutter.style.display = 'none';
+                nextBtn.style.display = 'block';
+                nextBtn.textContent = 'Next';
+                renderToolsForMode('live');
+                showToast('Live Stream Setup 🔴');
+            } else if (mode === 'post') {
+                openPostModal();
             }
         }
 
-        function selectMusicTrack() {
-            if (!isShort) {
-                showToast('Add Sound keval Shorts ke liye uplabdh hai');
-                return;
-            }
-            const tracks = ['Original Audio', 'Chhattisgarhi Folk Beats', 'Vande Mataram Ambient', 'Trending Bharat Lofi'];
-            const track = prompt(`Background Sound chunein (1 to 4):\n1. ${tracks[0]}\n2. ${tracks[1]}\n3. ${tracks[2]}\n4. ${tracks[3]}`, '2');
-            if (track && tracks[parseInt(track) - 1]) {
-                showToast(`🎵 Short Sound Added: ${tracks[parseInt(track) - 1]}`);
-            }
-        }
+        // Render Dynamic Tool Columns (Shorts vs Live)
+        function renderToolsForMode(mode) {
+            const col = document.getElementById('sideToolColumn');
+            col.innerHTML = '';
 
-        function trimVideoTool() {
-            const vid = document.getElementById('previewVideo');
-            const dur = Math.round(vid.duration || 60);
-            const start = prompt(`Video Trim: Start time (0 to ${dur}s):`, '0');
-            if (start !== null) {
-                vid.currentTime = parseFloat(start) || 0;
-                showToast(`Trimmed from ${start}s ✂️`);
-            }
-        }
-
-        function onThumbnailChosen(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            document.getElementById('thumbLabel').textContent = 'Thumbnail ✓';
-            showToast('Thumbnail selected: ' + file.name);
-        }
-
-        function cycleVisibility() {
-            visState = (visState + 1) % visList.length;
-            document.getElementById('visLabel').textContent = visList[visState];
-            showToast('Visibility: ' + visList[visState]);
-        }
-
-        function onTitleType(input) {
-            document.getElementById('titleCount').textContent = input.value.length + '/100';
-            const actionBtn = document.getElementById('headerActionBtn');
-            if (input.value.trim().length > 0) {
-                actionBtn.classList.remove('disabled');
+            if (mode === 'short') {
+                // Shorts Tools (Flip, Timer, 15s, Effects, Speed, Green screen)
+                col.innerHTML = `
+                    <div class="tool-action-item" onclick="showToast('Camera flipped')">
+                        <div class="tool-round-btn"><svg viewBox="0 0 24 24"><path d="M9 12c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3zm11-4h-3.17L15 6H9L7.17 8H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Timer: 3s')">
+                        <div class="tool-round-btn"><svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg></div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Switched to 60s')">
+                        <div class="tool-round-btn" style="font-size:12px;">15 s</div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Effects active ✨')">
+                        <div class="tool-round-btn">✨</div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Speed: 1x')">
+                        <div class="tool-round-btn" style="font-size:12px;">1x</div>
+                    </div>
+                `;
+            } else if (mode === 'live') {
+                // Live Stream Tools (Flip, Mute, Hide live video, Orientation, Effects, Retouch)
+                col.innerHTML = `
+                    <div class="tool-action-item" onclick="showToast('Flip camera')">
+                        <span class="tool-title">Flip</span>
+                        <div class="tool-round-btn">🔄</div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Mic Muted 🔇')">
+                        <span class="tool-title">Mute</span>
+                        <div class="tool-round-btn">🎙️</div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Video hidden')">
+                        <span class="tool-title">Hide video</span>
+                        <div class="tool-round-btn">📹</div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Orientation locked')">
+                        <span class="tool-title">Orientation</span>
+                        <div class="tool-round-btn">📱</div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Green screen on')">
+                        <span class="tool-title">Green screen</span>
+                        <div class="tool-round-btn">👤</div>
+                    </div>
+                `;
             } else {
-                actionBtn.classList.add('disabled');
+                col.innerHTML = `
+                    <div class="tool-action-item" onclick="showToast('Flip')">
+                        <div class="tool-round-btn">🔄</div>
+                    </div>
+                    <div class="tool-action-item" onclick="showToast('Flash on ⚡')">
+                        <div class="tool-round-btn">⚡</div>
+                    </div>
+                `;
             }
         }
 
-        function triggerVideoUpload() {
-            const title = document.getElementById('videoTitle').value.trim();
-            if (!title) {
-                showToast('Please add a title');
-                return;
+        // Shutter Recording Handler
+        function toggleRecording() {
+            isRecording = !isRecording;
+            const ring = document.getElementById('shutterBtn');
+            const nextBtn = document.getElementById('nextActionBtn');
+
+            if (isRecording) {
+                ring.classList.add('recording');
+                showToast('Recording started... 🔴');
+            } else {
+                ring.classList.remove('recording');
+                showToast('Recording saved!');
+                ring.style.display = 'none';
+                nextBtn.style.display = 'block';
             }
-
-            document.getElementById('previewVideo').pause();
-            const modal = document.getElementById('uploadModal');
-            const fill = document.getElementById('progressFill');
-            const percentText = document.getElementById('modalPercent');
-            modal.style.display = 'flex';
-
-            let progress = 0;
-            const timer = setInterval(() => {
-                progress += Math.floor(Math.random() * 8) + 4;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(timer);
-                    fill.style.width = '100%';
-                    percentText.textContent = '100% processed';
-                    showToast('🎉 Video Uploaded Successfully!');
-
-                    setTimeout(() => {
-                        const target = isShort ? 'shorts.html' : 'watch.html';
-                        const params = new URLSearchParams({
-                            title: title,
-                            channel: 'You (Creator)',
-                            views: '1 view'
-                        }).toString();
-                        window.location.href = `${target}?${params}`;
-                    }, 1000);
-                } else {
-                    fill.style.width = progress + '%';
-                    percentText.textContent = progress + '% uploaded';
-                }
-            }, 150);
         }
 
-        /* --- COMMUNITY POST FLOW --- */
-        function openPostSetup() {
-            currentMode = 'post';
-            document.getElementById('createHubView').style.display = 'none';
-            document.getElementById('stepPost').style.display = 'block';
-            document.getElementById('pageTitle').textContent = 'Create post';
-
-            const actionBtn = document.getElementById('headerActionBtn');
-            actionBtn.textContent = 'Post';
-            actionBtn.classList.remove('disabled');
+        function handleNextAction() {
+            if (currentMode === 'live') {
+                showToast('🔴 Entering Live Stream Room...');
+                setTimeout(() => {
+                    window.location.href = `watch.html?title=Charandas+Bhaskar+Live&channel=Charandas+Bhaskar&views=🔴+Live+Now`;
+                }, 800);
+            } else {
+                window.location.href = currentMode === 'short' ? 'shorts.html' : 'watch.html';
+            }
         }
 
-        function onPostPhotoChosen(e) {
+        // Add Sound
+        function selectMusicTrack() {
+            const track = prompt('Choose Audio Track:\n1. Chhattisgarhi Folk Beats\n2. Vande Mataram\n3. Trending Lofi', '1');
+            if (track) {
+                document.getElementById('soundLabel').textContent = 'Folk Beats 🎵';
+                showToast('Sound applied! 🎵');
+            }
+        }
+
+        // Post Screen Handlers
+        function openPostModal() {
+            document.getElementById('postModal').style.display = 'flex';
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').style.display = 'none';
+            switchMode('short');
+        }
+
+        function openDetailsSheet() {
+            document.getElementById('detailsSheet').style.display = 'flex';
+        }
+
+        function closeDetailsSheet() {
+            document.getElementById('detailsSheet').style.display = 'none';
+        }
+
+        function toggleSwitch(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('checked');
+            showToast(el.classList.contains('checked') ? 'Schedule Active 📅' : 'Schedule Off');
+        }
+
+        function toggleExpirySwitch() {
+            const el = document.getElementById('expirySwitch');
+            el.classList.toggle('checked');
+            const val = document.getElementById('sheetExpiryVal');
+            val.textContent = el.classList.contains('checked') ? '24 hours' : 'None';
+            showToast('Expiry: ' + val.textContent);
+        }
+
+        function cyclePostVis() {
+            const val = document.getElementById('sheetVisVal');
+            val.textContent = val.textContent === 'Public' ? 'Members Only' : 'Public';
+            document.getElementById('postChipVisLabel').textContent = val.textContent;
+            showToast('Visibility: ' + val.textContent);
+        }
+
+        function attachPresetImg(url) {
+            document.getElementById('attachedPostImg').src = url;
+            document.getElementById('attachedImgBox').style.display = 'block';
+            showToast('Photo selected! 📷');
+        }
+
+        function removePostAttachment() {
+            document.getElementById('attachedImgBox').style.display = 'none';
+            document.getElementById('attachedPostImg').src = '';
+            showToast('Photo removed');
+        }
+
+        function loadPostImage(e) {
             const file = e.target.files[0];
             if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = document.getElementById('postImagePreview');
-                img.src = event.target.result;
-                img.style.display = 'block';
-                showToast('Photo added to post! 📷');
+            const r = new FileReader();
+            r.onload = ev => {
+                attachPresetImg(ev.target.result);
             };
-            reader.readAsDataURL(file);
+            r.readAsDataURL(file);
         }
 
-        function addVideoLinkPrompt() {
-            const url = prompt('Video link ya YouTube URL enter karein:', 'https://bharattube.in/watch?v=1');
-            if (url) {
-                const area = document.getElementById('postContent');
-                area.value = (area.value + '\n\n' + url).trim();
-                showToast('Link added to post! 🔗');
+        function promptPoll() {
+            const q = prompt('Poll Question:', 'Next video topic?');
+            if (q) {
+                const area = document.getElementById('postText');
+                area.value = (area.value + `\n\n📊 POLL: ${q}\n1. Option A\n2. Option B`).trim();
+                showToast('Poll added!');
             }
         }
 
-        function publishCommunityPost() {
-            const content = document.getElementById('postContent').value.trim();
-            if (!content) {
-                showToast('Please write something in your post');
-                return;
+        function promptQuiz() {
+            const q = prompt('Quiz Question:', 'India Capital?');
+            if (q) {
+                const area = document.getElementById('postText');
+                area.value = (area.value + `\n\n✅ QUIZ: ${q}\n[A] New Delhi (Correct)`).trim();
+                showToast('Quiz added!');
             }
+        }
+
+        function publishPostNow() {
             showToast('🎉 Community Post Published!');
             setTimeout(() => {
                 window.location.href = 'profile.html';
-            }, 1000);
+            }, 900);
+        }
+
+        function loadChosenVideo(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            showToast('Video chosen: ' + file.name);
+            document.getElementById('shutterBtn').style.display = 'none';
+            const nextBtn = document.getElementById('nextActionBtn');
+            nextBtn.style.display = 'block';
         }
     </script>
 </body>
