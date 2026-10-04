@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>BharatTube Owner & Admin Console</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --admin-bg: #0d0f12;
+            --admin-card: #161a20;
+            --admin-card-hover: #1e242d;
+            --admin-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f0f4f8;
+            --text-muted: #8b9bb0;
+            --primary-blue: #3ea6ff;
+            --success-green: #2ecc71;
+            --warning-gold: #f39c12;
+            --danger-red: #ff4757;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            background-color: var(--admin-bg);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 60px;
+        }
+
+        /* 1. Header */
+        .admin-nav-bar {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 18px;
+            background: #111419;
+            border-bottom: 1px solid var(--admin-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .brand-badge {
+            background: var(--danger-red);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .admin-status-pill {
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid var(--success-green);
+            color: var(--success-green);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 2. Platform Overview Metrics */
+        .metrics-grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .metric-stat-box {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .metric-stat-box.full-width {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #132418, #0e1a12);
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        .stat-label-tiny {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .stat-val-bold {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .stat-sub-text {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* 3. Section Titles */
+        .section-header-wrap {
+            padding: 10px 16px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-header-wrap h2 {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .live-count-badge {
+            background: rgba(243, 156, 18, 0.2);
+            color: var(--warning-gold);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        /* 4. Pending Review Requests Card */
+        .requests-stream {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .request-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: 0.15s;
+        }
+
+        .request-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .creator-avatar-mini {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e50914, #ff5252);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .creator-text-meta {
+            margin-left: 12px;
+            flex: 1;
+        }
+
+        .creator-real-name {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .creator-channel-tag {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .status-pill-waiting {
+            background: rgba(243, 156, 18, 0.15);
+            color: var(--warning-gold);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+
+        .audit-parameters-table {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .audit-row {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+        }
+
+        .audit-row span:last-child {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .payout-box {
+            background: #111419;
+            border: 1px dashed var(--admin-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .payout-box b {
+            color: var(--primary-blue);
+        }
+
+        /* Action Buttons Grid */
+        .review-decision-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .btn-decision {
+            flex: 1;
+            padding: 10px 0;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.15s;
+        }
+
+        .btn-approve {
+            background: var(--success-green);
+            color: #041f0f;
+        }
+
+        .btn-reject {
+            background: #23272e;
+            color: var(--danger-red);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+        }
+
+        /* 5. Copyright Strike Penalizer */
+        .controls-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin: 0 16px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-control-full {
+            width: 100%;
+            background: #23272e;
+            border: 1px solid var(--admin-border);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn-control-full.danger {
+            border-color: rgba(255, 71, 87, 0.3);
+            color: var(--danger-red);
+        }
+
+        /* Toast Alert */
+        .admin-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #1e242d;
+            border: 1px solid var(--success-green);
+            color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Top Bar -->
+    <header class="admin-nav-bar">
+        <div class="brand-block">
+            <span class="brand-badge">OWNER</span>
+            <span class="brand-title">BharatTube Console</span>
+        </div>
+        <div class="admin-status-pill">
+            <span style="font-size:10px;">●</span> Master Admin
+        </div>
+    </header>
+
+    <!-- 2. Platform Metrics -->
+    <div class="metrics-grid-container">
+        <!-- Platform Owner Revenue -->
+        <div class="metric-stat-box full-width">
+            <span class="stat-label-tiny" style="color:var(--success-green);">BharatTube Platform Net Cut (45%)</span>
+            <span class="stat-val-bold" id="platformEarnings">₹ 1,84,260.00</span>
+            <span class="stat-sub-text">Total Ad impressions & Superchats fee collected</span>
+        </div>
+
+        <div class="metric-stat-box">
+            <span class="stat-label-tiny">Total Creators</span>
+            <span class="stat-val-bold">1,420</span>
+            <span class="stat-sub-text">84 Verified Partners</span>
+        </div>
+
+        <div class="metric-stat-box">
+            <span class="stat-label-tiny">Daily Platform Views</span>
+            <span class="stat-val-bold">2.4M</span>
+            <span class="stat-sub-text">Across India 🇮🇳</span>
+        </div>
+    </div>
+
+    <!-- 3. Pending Monetization Applications (Main Owner Review Queue) -->
+    <div class="section-header-wrap">
+        <h2>Partner Program Applications</h2>
+        <span class="live-count-badge" id="pendingBadge">1 Pending Review</span>
+    </div>
+
+    <div class="requests-stream" id="requestsContainer">
+        <!-- Dynamic Application Card injected here -->
+    </div>
+
+    <!-- 4. Global Copyright & Strike Authority Controls -->
+    <div class="section-header-wrap" style="margin-top: 14px;">
+        <h2>Copyright & Enforcement Authority</h2>
+    </div>
+
+    <div class="controls-card">
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.45;">
+            Owner ke taur par aap kisi bhi channel par violation milne par direct Copyright Strike issue kar sakte hain ya channel suspend kar sakte hain:
+        </div>
+
+        <button class="btn-control-full danger" onclick="issueStrikeToCreator()">
+            <span>🚨 Issue 1 Strike to @charandas_creator</span>
+            <span>Trigger ></span>
+        </button>
+
+        <button class="btn-control-full" onclick="resetCreatorStrikes()">
+            <span>✓ Clear All Strikes for @charandas_creator</span>
+            <span>Reset ></span>
+        </button>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="admin-toast" id="adminToast"></div>
+
+    <script>
+        // Shared Creator State with profile.html
+        let creatorState = {
+            monetizationStage: 'under_review',
+            hasApplied: true,
+            strikesCount: 0,
+            hasCommunityViolations: false,
+            payoutUpi: 'bhaskar@okaxis',
+            infringingVideos: []
+        };
+
+        window.addEventListener('load', () => {
+            const savedState = localStorage.getItem('bt_creator_state');
+            if (savedState) {
+                try {
+                    creatorState = JSON.parse(savedState);
+                } catch(e){}
+            }
+            renderReviewQueue();
+        });
+
+        function saveCreatorState() {
+            localStorage.setItem('bt_creator_state', JSON.stringify(creatorState));
+            renderReviewQueue();
+        }
+
+        function showToast(msg, isSuccess = true) {
+            const toast = document.getElementById('adminToast');
+            toast.textContent = msg;
+            toast.style.borderColor = isSuccess ? 'var(--success-green)' : 'var(--danger-red)';
+            toast.style.display = 'flex';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        // Render Creator Applications
+        function renderReviewQueue() {
+            const container = document.getElementById('requestsContainer');
+            const badge = document.getElementById('pendingBadge');
+
+            if (creatorState.monetizationStage === 'under_review') {
+                badge.textContent = '1 Pending Review';
+                badge.style.display = 'inline-block';
+
+                container.innerHTML = `
+                    <div class="request-card">
+                        <div class="request-card-top">
+                            <div style="display:flex; align-items:center;">
+                                <div class="creator-avatar-mini">CB</div>
+                                <div class="creator-text-meta">
+                                    <div class="creator-real-name">Charandas Bhaskar</div>
+                                    <div class="creator-channel-tag">@charandas_creator • Applied Today</div>
+                                </div>
+                            </div>
+                            <span class="status-pill-waiting">Needs Approval ⏳</span>
+                        </div>
+
+                        <!-- Policy Verification Parameters -->
+                        <div class="audit-parameters-table">
+                            <div class="audit-row">
+                                <span>Subscriber Milestone (1,000 required):</span>
+                                <span style="color:var(--success-green);">45,200 (Passed ✓)</span>
+                            </div>
+                            <div class="audit-row">
+                                <span>Public Watch Hours (4,000 required):</span>
+                                <span style="color:var(--success-green);">4,820 hrs (Passed ✓)</span>
+                            </div>
+                            <div class="audit-row">
+                                <span>Active Copyright Strikes:</span>
+                                <span style="color:${creatorState.strikesCount === 0 ? 'var(--success-green)' : 'var(--danger-red)'};">
+                                    ${creatorState.strikesCount} Strikes ${creatorState.strikesCount === 0 ? '(Clean ✓)' : '(Warning ✕)'}
+                                </span>
+                            </div>
+                            <div class="audit-row">
+                                <span>Community Guidelines Standing:</span>
+                                <span style="color:var(--success-green);">100% Clean ✓</span>
+                            </div>
+                        </div>
+
+                        <!-- Submitted Payout Account -->
+                        <div class="payout-box">
+                            Requested Payout Gateway: <b>${creatorState.payoutUpi || 'bhaskar@okaxis'}</b> (Verified Indian Bank)
+                        </div>
+
+                        <!-- Decision Controls -->
+                        <div class="review-decision-row">
+                            <button class="btn-decision btn-approve" onclick="ownerApproveApplication()">
+                                ✓ Approve Monetization
+                            </button>
+                            <button class="btn-decision btn-reject" onclick="ownerRejectApplication()">
+                                ✕ Reject
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (creatorState.monetizationStage === 'approved') {
+                badge.textContent = '0 Pending';
+                badge.style.display = 'inline-block';
+                container.innerHTML = `
+                    <div class="request-card" style="border-color: rgba(46, 204, 113, 0.3);">
+                        <div class="request-card-top">
+                            <div style="display:flex; align-items:center;">
+                                <div class="creator-avatar-mini" style="background:#2ecc71;">CB</div>
+                                <div class="creator-text-meta">
+                                    <div class="creator-real-name">Charandas Bhaskar ✔</div>
+                                    <div class="creator-channel-tag" style="color:var(--success-green);">Status: Partner Approved & Earning Live</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size:12px; color:var(--text-muted);">
+                            Aapne is creator ko approve kar diya hai. Video ads active hain aur 45% revenue platform me add ho raha hai.
+                        </div>
+                        <button class="btn-decision btn-reject" style="width:100%;" onclick="ownerRevokeMonetization()">
+                            Revoke / De-Monetize Channel
+                        </button>
+                    </div>
+                `;
+            } else {
+                badge.textContent = '0 Pending';
+                container.innerHTML = `
+                    <div style="background:var(--admin-card); border:1px solid var(--admin-border); border-radius:14px; padding:24px; text-align:center; color:var(--text-muted); font-size:13px;">
+                        No pending monetization requests right now.<br>
+                        (Jaise hi koi creator apply karega, yahan live card aa jayega).
+                    </div>
+                `;
+            }
+        }
+
+        // Owner Decisions
+        function ownerApproveApplication() {
+            creatorState.monetizationStage = 'approved';
+            saveCreatorState();
+            showToast('🎉 Application Approved! Creator ka channel monetize ho gaya hai.');
+        }
+
+        function ownerRejectApplication() {
+            const reason = prompt('Rejection ka karan likhein (e.g., Reused Content, Low Audio Quality):', 'Reused Content / Policy Violation');
+            if (reason) {
+                creatorState.monetizationStage = 'rejected';
+                saveCreatorState();
+                showToast('Application Rejected. Creator ko notice bhej diya gaya hai.', false);
+            }
+        }
+
+        function ownerRevokeMonetization() {
+            if (confirm('Kya aap sach me is creator ka monetization cancel karna chahte hain?')) {
+                creatorState.monetizationStage = 'rejected';
+                saveCreatorState();
+                showToast('Monetization Revoked.', false);
+            }
+        }
+
+        // Copyright Authority Actions
+        function issueStrikeToCreator() {
+            creatorState.strikesCount = (creatorState.strikesCount || 0) + 1;
+            if (!creatorState.infringingVideos) creatorState.infringingVideos = [];
+            creatorState.infringingVideos.push({
+                id: 'v_' + Date.now(),
+                title: 'Unlicensed Music / Content Violation #' + creatorState.strikesCount,
+                claimBy: 'BharatTube Copyright Enforcement'
+            });
+
+            if (creatorState.strikesCount >= 3) {
+                creatorState.monetizationStage = 'rejected';
+            }
+            saveCreatorState();
+            showToast(`🚨 Strike #${creatorState.strikesCount} issued to creator!`, false);
+        }
+
+        function resetCreatorStrikes() {
+            creatorState.strikesCount = 0;
+            creatorState.infringingVideos = [];
+            saveCreatorState();
+            showToast('✓ Sabhi strikes clear ho gayi hain. Channel clean hai.');
+        }
+    </script>
+</body>
+</html>
