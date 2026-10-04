@@ -654,4 +654,66 @@
                 }
                 showToast('Disliked');
             } else {
-                dislik
+                dislikeBtn.classList.remove('disliked');
+            }
+        });
+
+        // Share & Save
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.getElementById('videoTitle').textContent,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                showToast('Link copied to clipboard!');
+            }
+        });
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            showToast('Video saved to Watch Later');
+        });
+
+        // Interactive Comments Logic
+        const newCommentInput = document.getElementById('newCommentInput');
+        const postCommentBtn = document.getElementById('postCommentBtn');
+        const commentsList = document.getElementById('commentsList');
+        const commentCounter = document.getElementById('commentCounter');
+        let count = 2;
+
+        postCommentBtn.addEventListener('click', () => {
+            const text = newCommentInput.value.trim();
+            if (!text) {
+                showToast('कृपया कुछ लिखकर कमेंट करें');
+                return;
+            }
+
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-item';
+            newComment.innerHTML = `
+                <div class="c-avatar" style="background:#ff3040; color:#fff;">U</div>
+                <div class="c-body">
+                    <div class="c-author">@you • Just now</div>
+                    <div class="c-text">${text}</div>
+                </div>
+            `;
+
+            commentsList.prepend(newComment);
+            newCommentInput.value = '';
+            count++;
+            commentCounter.textContent = count;
+            showToast('कमेंट पोस्ट हो गया');
+        });
+
+        // Switch Related Video
+        function switchVideo(title, channel, views) {
+            document.getElementById('videoTitle').textContent = title;
+            document.getElementById('chanName').textContent = channel;
+            document.getElementById('chanAvatar').textContent = channel.charAt(0).toUpperCase();
+            document.getElementById('videoMeta').textContent = views + ' • Recently • #BharatTube';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast('नया वीडियो लोड हुआ');
+        }
+    </script>
+</body>
+</html>
