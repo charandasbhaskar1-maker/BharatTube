@@ -1,5 +1,5 @@
 /* =========================================================
-   BHARATTUBE - CORE APPLICATION SCRIPT WITH RELIABLE ROUTING
+   BHARATTUBE - CORE APPLICATION SCRIPT
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileSearchBtn = document.getElementById('mobileSearchBtn');
     const categoryButtons = document.querySelectorAll('.category');
     const videoCards = document.querySelectorAll('.video-card');
-    const bottomNavItems = document.querySelectorAll('.bottom-item');
 
     let toastTimeout;
     function showToast(message) {
@@ -24,23 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2200);
     }
 
-    // Repository name detect karke exact path banana
-    function getCleanUrl(pageFile, query = '') {
-        const pathParts = window.location.pathname.split('/').filter(p => p.length > 0);
-        const repoName = (pathParts.length > 0 && pathParts[0] !== 'frontend' && pathParts[0] !== 'pages') ? `/${pathParts[0]}` : '';
-        const queryString = query ? `?${query}` : '';
-        return `${window.location.origin}${repoName}/pages/${pageFile}${queryString}`;
-    }
-
-    function goTo(pageFile, query = '') {
-        window.location.href = getCleanUrl(pageFile, query);
-    }
-
-    // Search Logic
+    // --- SEARCH LOGIC ---
     function performSearch(query) {
         const cleanQuery = query.trim().toLowerCase();
         if (!cleanQuery) {
-            showToast('Kripya kuch likhkar khojein');
+            showToast('कृपया कुछ लिखकर खोजें');
             videoCards.forEach(card => card.style.display = 'block');
             return;
         }
@@ -58,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        showToast(`'${query}' ke liye ${matchCount} video mile`);
+        showToast(`'${query}' के लिए ${matchCount} वीडियो मिले`);
     }
 
     if (searchBtn && searchInput) {
@@ -75,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Categories
+    // --- CATEGORY BAR ---
     categoryButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             categoryButtons.forEach(b => b.classList.remove('active'));
@@ -92,27 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            showToast(`${btn.textContent.trim()} category load ho gayi`);
+            showToast(`${btn.textContent.trim()} कैटेगरी लोड हो गई`);
         });
     });
 
-    // Header Buttons
-    const uploadBtn = document.getElementById('uploadBtn');
-    if (uploadBtn) {
-        uploadBtn.addEventListener('click', () => goTo('upload.html'));
-    }
-
+    // --- NOTIFICATION BUTTON ---
     const notificationBtn = document.getElementById('notificationBtn');
     if (notificationBtn) {
-        notificationBtn.addEventListener('click', () => showToast('Koi naya notification nahi hai'));
+        notificationBtn.addEventListener('click', () => showToast('कोई नया नोटिफिकेशन नहीं है'));
     }
 
-    const profileBtn = document.getElementById('profileBtn');
-    if (profileBtn) {
-        profileBtn.addEventListener('click', () => goTo('profile.html'));
-    }
-
-    // Hero Buttons
+    // --- START WATCHING (SCROLL) ---
     const startWatchingBtn = document.getElementById('startWatchingBtn');
     if (startWatchingBtn) {
         startWatchingBtn.addEventListener('click', () => {
@@ -121,16 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const createChannelBtn = document.getElementById('createChannelBtn');
-    if (createChannelBtn) {
-        createChannelBtn.addEventListener('click', () => goTo('channel.html'));
-    }
-
-    const uploadVideoBtn = document.getElementById('uploadVideoBtn');
-    if (uploadVideoBtn) {
-        uploadVideoBtn.addEventListener('click', () => goTo('upload.html'));
-    }
-
+    // --- REFRESH BUTTON ---
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', () => {
@@ -138,57 +106,16 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryButtons.forEach(b => b.classList.remove('active'));
             const allBtn = document.querySelector('.category[data-category="all"]');
             if (allBtn) allBtn.classList.add('active');
-            showToast('Videos refresh ho gaye');
+            showToast('वीडियो रीफ़्रेश हो गए');
         });
     }
 
-    const shortsBtn = document.getElementById('shortsBtn');
-    if (shortsBtn) {
-        shortsBtn.addEventListener('click', () => goTo('shorts.html'));
+    // --- SUBSCRIPTIONS PLACEHOLDER ---
+    const subscriptionsNav = document.getElementById('subscriptionsNav');
+    if (subscriptionsNav) {
+        subscriptionsNav.addEventListener('click', () => {
+            showToast('Subscriptions सूची जल्द आ रही है');
+        });
     }
-
-    // Bottom Navigation
-    bottomNavItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const label = item.querySelector('small') ? item.querySelector('small').textContent.trim() : '';
-
-            if (label === 'Home') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (label === 'Shorts') {
-                goTo('shorts.html');
-            } else if (label === 'Create') {
-                goTo('upload.html');
-            } else if (label === 'You') {
-                goTo('profile.html');
-            } else if (label === 'Subscriptions') {
-                showToast('Subscriptions list jald aayegi');
-            }
-        });
-    });
-
-    // Video Cards Click -> Watch Page
-    videoCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const title = card.getAttribute('data-title') || 'BharatTube Video';
-            const channel = card.querySelector('.video-info p') ? card.querySelector('.video-info p').textContent.trim() : 'Bharat Creator';
-            const views = card.querySelector('.video-info span') ? card.querySelector('.video-info span').textContent.trim() : '100K views';
-
-            const queryParams = new URLSearchParams({
-                title: title,
-                channel: channel,
-                views: views
-            }).toString();
-
-            goTo('watch.html', queryParams);
-        });
-    });
-
-    // Shorts Card Click -> Shorts Page
-    const shortCards = document.querySelectorAll('.short-card');
-    shortCards.forEach(short => {
-        short.addEventListener('click', () => {
-            goTo('shorts.html');
-        });
-    });
 
 });
