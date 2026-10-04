@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
     <title>BharatTube Camera & Create</title>
     <style>
@@ -16,7 +16,6 @@
         :root {
             --yt-black: #000000;
             --yt-panel: #121212;
-            --yt-panel2: #212121;
             --yt-border: rgba(255, 255, 255, 0.12);
             --yt-text: #ffffff;
             --yt-muted: #aaaaaa;
@@ -32,22 +31,18 @@
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             user-select: none;
+            position: fixed;
         }
 
-        /* Responsive Viewport Container */
         .app-viewport {
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
+            width: 100%;
+            height: 100%;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
             background: #000000;
             overflow: hidden;
         }
 
-        /* Camera Background */
+        /* Camera Feed */
         .camera-background {
             position: absolute;
             inset: 0;
@@ -56,7 +51,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
         }
 
         .camera-background video {
@@ -67,25 +61,25 @@
 
         /* Top Bar */
         .top-action-bar {
-            position: relative;
-            z-index: 20;
-            height: calc(52px + env(safe-area-inset-top, 0px));
-            padding-top: env(safe-area-inset-top, 0px);
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-left: 16px;
-            padding-right: 16px;
-            flex-shrink: 0;
+            padding: 0 16px;
         }
 
         .circle-icon-btn {
             width: 38px;
             height: 38px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
             display: flex;
             align-items: center;
@@ -102,7 +96,7 @@
         }
 
         .add-sound-pill {
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
@@ -122,23 +116,16 @@
             fill: currentColor;
         }
 
-        /* Right Side Vertical Tools */
+        /* Right Side Toolbars */
         .side-tool-column {
             position: absolute;
-            right: 12px;
-            top: calc(64px + env(safe-area-inset-top, 0px));
-            z-index: 20;
+            right: 14px;
+            top: 70px;
+            z-index: 100;
             display: flex;
             flex-direction: column;
             gap: 12px;
             align-items: center;
-            max-height: calc(100dvh - 230px);
-            overflow-y: auto;
-            scrollbar-width: none;
-        }
-
-        .side-tool-column::-webkit-scrollbar {
-            display: none;
         }
 
         .tool-action-item {
@@ -164,14 +151,14 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: #ffffff;
         }
@@ -182,18 +169,18 @@
             fill: #ffffff;
         }
 
-        /* Auto-Adjust Bottom Control Deck */
+        /* BOTTOM CONTROLS - LIFTED UP FOR MOBILE NAV BARS */
         .bottom-control-deck {
-            position: relative;
-            z-index: 30;
-            width: 100%;
+            position: absolute;
+            bottom: 70px; /* नीचे के सिस्टम बटन से काफी ऊपर */
+            left: 0;
+            right: 0;
+            z-index: 9999;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 65%, transparent 100%);
-            flex-shrink: 0;
+            gap: 16px;
+            pointer-events: auto;
         }
 
         .capture-row {
@@ -201,7 +188,7 @@
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
         .gallery-box {
@@ -214,8 +201,8 @@
         }
 
         .gallery-preview-mini {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 8px;
             border: 2px solid #ffffff;
             background: #222;
@@ -238,15 +225,15 @@
         }
 
         .shutter-outer-ring {
-            width: 70px;
-            height: 70px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             border: 4px solid #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.15s;
+            background: rgba(0,0,0,0.2);
         }
 
         .shutter-inner-red {
@@ -275,29 +262,26 @@
             box-shadow: 0 4px 14px rgba(0,0,0,0.5);
         }
 
-        /* 4-Mode Selector */
+        /* 4-MODE SELECTOR */
         .mode-scroll-deck {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 2px 10px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .mode-scroll-deck::-webkit-scrollbar {
-            display: none;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 6px 14px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .mode-chip {
             font-size: 13px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.65);
             cursor: pointer;
             padding: 6px 14px;
-            border-radius: 18px;
+            border-radius: 16px;
             transition: 0.2s;
             white-space: nowrap;
         }
@@ -305,16 +289,15 @@
         .mode-chip.active {
             color: #ffffff;
             background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
         }
 
-        /* Community Post Modal */
+        /* POST SCREEN MODAL */
         .post-fullscreen-modal {
             display: none;
             position: absolute;
             inset: 0;
             background: #000000;
-            z-index: 60;
+            z-index: 10000;
             flex-direction: column;
             justify-content: space-between;
         }
@@ -328,6 +311,7 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 16px;
+            margin-top: 10px;
         }
 
         .post-author-avatar {
@@ -341,7 +325,6 @@
             font-weight: 700;
             font-size: 17px;
             color: #ffffff;
-            border: 1.5px solid rgba(255,255,255,0.2);
             flex-shrink: 0;
         }
 
@@ -395,7 +378,7 @@
             overflow: hidden;
             border: 1px solid var(--yt-border);
             display: none;
-            max-height: 220px;
+            max-height: 200px;
         }
 
         .attached-post-img-box img {
@@ -421,7 +404,7 @@
         }
 
         .post-bottom-suite {
-            padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+            padding-bottom: 60px;
         }
 
         .post-gallery-strip {
@@ -480,13 +463,13 @@
             fill: #ffffff;
         }
 
-        /* Details Sheet */
+        /* ADD DETAILS SHEET */
         .add-details-sheet {
             display: none;
             position: absolute;
             inset: 0;
             background: #000000;
-            z-index: 100;
+            z-index: 10001;
             flex-direction: column;
         }
 
@@ -571,7 +554,7 @@
         .toast {
             position: fixed;
             left: 50%;
-            bottom: 84px;
+            bottom: 130px;
             transform: translate(-50%, 20px);
             background: #ffffff;
             color: #000000;
@@ -582,7 +565,7 @@
             opacity: 0;
             pointer-events: none;
             transition: 0.25s ease;
-            z-index: 3000;
+            z-index: 20000;
             white-space: nowrap;
         }
 
@@ -621,7 +604,7 @@
         <!-- RIGHT TOOLS -->
         <div class="side-tool-column" id="sideToolColumn"></div>
 
-        <!-- BOTTOM DECK -->
+        <!-- BOTTOM CONTROLS - LIFTED UP -->
         <div class="bottom-control-deck">
             <div class="capture-row" id="captureRow">
                 <div class="gallery-box" onclick="document.getElementById('videoPicker').click()">
@@ -640,6 +623,7 @@
                 <div style="width: 50px;"></div>
             </div>
 
+            <!-- MODE SELECTOR -->
             <nav class="mode-scroll-deck">
                 <span class="mode-chip" id="modeVideo" onclick="switchMode('video')">Video</span>
                 <span class="mode-chip active" id="modeShort" onclick="switchMode('short')">Short</span>
@@ -651,7 +635,7 @@
         <!-- POST SCREEN -->
         <div class="post-fullscreen-modal" id="postModal">
             <div>
-                <header class="top-action-bar" style="border-bottom: 1px solid var(--yt-border); background:#000;">
+                <header class="top-action-bar" style="border-bottom: 1px solid var(--yt-border); background:#000; position:relative; top:0;">
                     <div style="display:flex; align-items:center; gap:16px;">
                         <button class="circle-icon-btn" onclick="closePostModal()">✕</button>
                         <span style="font-size:17px; font-weight:700;">Create post</span>
@@ -705,7 +689,7 @@
                     </button>
                 </div>
 
-                <nav class="mode-scroll-deck" style="padding-top: 14px;">
+                <nav class="mode-scroll-deck" style="margin-top: 14px; width: fit-content; margin-left: auto; margin-right: auto;">
                     <span class="mode-chip" onclick="switchMode('short'); closePostModal();">Short</span>
                     <span class="mode-chip" onclick="switchMode('live'); closePostModal();">Live</span>
                     <span class="mode-chip active">Post</span>
@@ -851,7 +835,7 @@
                     </div>
                     <div class="tool-action-item" onclick="showToast('Mic Muted 🔇')">
                         <span class="tool-title">Mute</span>
-                        <div class="tool-round-btn">🎙️️</div>
+                        <div class="tool-round-btn">🎙</div>
                     </div>
                     <div class="tool-action-item" onclick="showToast('Video hidden')">
                         <span class="tool-title">Hide video</span>
