@@ -2,762 +2,530 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#070b10">
-    <title>BharatTube - Watch Video</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f0f">
+    <title>Watch - BharatTube</title>
+
+    <!-- Global Assets -->
+    <link rel="stylesheet" href="../assets/css/global.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            --bg: #070b10;
-            --panel: #111821;
-            --panel2: #1c2533;
-            --border: #283444;
-            --text: #f5f7fa;
-            --muted: #9aa5b1;
-            --red: #ff3040;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding-bottom: 50px;
+            padding-bottom: calc(var(--bottom-bar-height) + 20px);
         }
 
-        /* Top Header */
-        .watch-header {
-            height: 52px;
-            background: rgba(7, 11, 16, 0.98);
-            border-bottom: 1px solid var(--border);
+        /* Top Bar */
+        .watch-top-nav {
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
+            padding: 0 14px;
+            background: var(--yt-black);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .back-btn {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .brand-logo-small {
-            width: 28px;
-            height: 28px;
-            border-radius: 7px;
-            background: var(--red);
-            color: white;
+        .watch-nav-btn {
+            background: none;
+            border: none;
+            color: var(--yt-text);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 15px;
         }
 
-        /* Video Container */
-        .video-container {
+        .watch-nav-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        /* Video Player Stage */
+        .video-stage-container {
             width: 100%;
+            aspect-ratio: 16 / 9;
             background: #000000;
             position: sticky;
-            top: 52px;
+            top: 48px;
             z-index: 900;
         }
 
-        video {
+        .video-stage-container video {
             width: 100%;
-            aspect-ratio: 16 / 9;
-            display: block;
+            height: 100%;
+            object-fit: contain;
             outline: none;
         }
 
-        /* Video Details Content */
-        .video-content {
-            padding: 14px 16px;
-            max-width: 900px;
-            margin: auto;
+        /* Video Meta Details */
+        .video-meta-block {
+            padding: 12px 14px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .video-title {
-            font-size: 17px;
+        .video-title-main {
+            font-size: 16px;
+            font-weight: 700;
             line-height: 1.35;
+        }
+
+        .video-views-date {
+            font-size: 12px;
+            color: var(--yt-muted);
+        }
+
+        /* Channel Strip */
+        .channel-strip-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--yt-border);
+        }
+
+        .channel-left-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .channel-avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e50914, #ff5252);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .channel-text-details div:first-child {
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .channel-text-details div:last-child {
+            font-size: 11px;
+            color: var(--yt-muted);
+        }
+
+        .btn-subscribe {
+            background: #ffffff;
+            color: #0f0f0f;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .btn-subscribe.subscribed {
+            background: #272727;
+            color: #ffffff;
+        }
+
+        /* Action Shelf (Horizontal Carousel) */
+        .action-shelf-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 10px 14px 12px;
+        }
+
+        .action-shelf-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .action-pill-btn {
+            background: #272727;
+            border: none;
+            color: #ffffff;
+            height: 36px;
+            border-radius: 18px;
+            padding: 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .action-pill-btn svg {
+            width: 17px;
+            height: 17px;
+            fill: #ffffff;
+        }
+
+        .action-pill-dual {
+            display: flex;
+            align-items: center;
+            background: #272727;
+            height: 36px;
+            border-radius: 18px;
+            flex-shrink: 0;
+        }
+
+        .action-pill-dual button {
+            background: none;
+            border: none;
+            color: #ffffff;
+            height: 100%;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .action-pill-dual span.divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Comments Preview Teaser */
+        .comments-teaser-card {
+            background: #1e1e1e;
+            margin: 0 14px 16px;
+            border-radius: 12px;
+            padding: 10px 12px;
+            cursor: pointer;
+        }
+
+        .comments-teaser-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
             font-weight: 700;
             margin-bottom: 6px;
         }
 
-        .video-views {
+        .comments-teaser-text {
             font-size: 12px;
-            color: var(--muted);
-            margin-bottom: 14px;
+            color: var(--yt-muted);
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        /* YouTube Style Channel Bar */
-        .channel-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            margin-bottom: 14px;
-        }
-
-        .channel-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #222e3f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: white;
-            font-size: 16px;
-        }
-
-        .channel-name {
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .channel-subs {
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        .sub-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .subscribe-btn {
-            background: #ffffff;
-            color: #0b0f14;
-            border: 0;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .subscribe-btn.subscribed {
-            background: var(--panel2);
-            color: #d1d5db;
-            border: 1px solid var(--border);
-        }
-
-        .bell-btn {
-            display: none;
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
-        }
-
-        .bell-btn.active {
-            display: flex;
-        }
-
-        .bell-btn.all-notify {
-            color: #ffcc00;
-            border-color: #ffcc00;
-        }
-
-        /* YouTube Style Action Bar */
-        .action-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            scrollbar-width: none;
-        }
-
-        .action-bar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .yt-like-dislike-pill {
-            display: flex;
-            align-items: center;
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            height: 36px;
-            flex-shrink: 0;
-        }
-
-        .yt-like-btn, .yt-dislike-btn {
-            background: transparent;
-            border: none;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        /* Suggested Videos Feed */
+        .related-feed-wrap {
             padding: 0 14px;
-            height: 100%;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        /* SVG clicks ko block na kare */
-        svg, path, span {
-            pointer-events: none;
-        }
-
-        .yt-like-btn svg, .yt-dislike-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
-        .yt-like-btn.liked {
-            color: #3ea6ff;
-        }
-
-        .yt-dislike-btn.disliked {
-            color: var(--red);
-        }
-
-        .pill-divider {
-            width: 1px;
-            height: 18px;
-            background: var(--border);
-        }
-
-        .action-pill {
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0 14px;
-            height: 36px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-            user-select: none;
-        }
-
-        .action-pill svg {
-            width: 15px;
-            height: 15px;
-            fill: currentColor;
-        }
-
-        /* Comments Box */
-        .comments-section {
-            margin-top: 18px;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px;
-        }
-
-        .comments-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .comment-input-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .comment-user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--red);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
-
-        .comment-field {
-            flex: 1;
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px 12px;
-            color: var(--text);
-            font-size: 13px;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .comment-field:focus {
-            border-color: var(--red);
-        }
-
-        .comment-send-btn {
-            background: var(--red);
-            color: #ffffff;
-            border: 0;
-            padding: 0 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .comments-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
-        .comment-item {
-            display: flex;
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        .comment-item .c-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #273444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .comment-item .c-body {
-            flex: 1;
-        }
-
-        .comment-item .c-author {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--muted);
-            margin-bottom: 2px;
-        }
-
-        .comment-item .c-text {
-            color: #e6ebf1;
-            line-height: 1.35;
-        }
-
-        /* Up Next Section */
-        .up-next {
-            margin-top: 24px;
-        }
-
-        .up-next h3 {
-            font-size: 15px;
-            margin-bottom: 14px;
-        }
-
-        .related-card {
+        .related-video-row {
             display: flex;
             gap: 12px;
-            margin-bottom: 14px;
-            cursor: pointer;
+            text-decoration: none;
+            color: #ffffff;
         }
 
-        .related-thumb {
-            width: 120px;
-            height: 70px;
+        .related-thumb-box {
+            width: 130px;
+            aspect-ratio: 16 / 9;
+            background: #252525;
             border-radius: 8px;
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
+            position: relative;
+            overflow: hidden;
             flex-shrink: 0;
         }
 
-        .related-info h4 {
-            font-size: 13px;
-            line-height: 1.3;
-            margin-bottom: 4px;
+        .related-thumb-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .related-info p {
-            font-size: 11px;
-            color: var(--muted);
+        .related-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.85);
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-weight: 600;
         }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            left: 50%;
-            bottom: 30px;
-            transform: translate(-50%, 20px);
-            background: #ffffff;
-            color: #0b0f14;
-            padding: 10px 18px;
-            border-radius: 20px;
+        .related-meta-box {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .related-title {
             font-size: 13px;
             font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.25s ease;
-            z-index: 3000;
-            white-space: nowrap;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .toast.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
+        .related-subtext {
+            font-size: 11px;
+            color: var(--yt-muted);
+        }
+
+        /* Super Thanks Sheet */
+        .super-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .super-sheet-box {
+            width: 100%;
+            max-width: 500px;
+            background: #181818;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: 20px 16px max(24px, env(safe-area-inset-bottom, 24px));
+            border: 1px solid var(--yt-border);
         }
     </style>
 </head>
 <body>
 
-    <header class="watch-header">
-        <a href="../frontend/index.html" class="back-btn">← BharatTube</a>
-        <div class="brand-logo-small">B</div>
+    <!-- Top Mini Nav -->
+    <header class="watch-top-nav">
+        <button class="watch-nav-btn" onclick="window.history.back()">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </button>
+        <span style="font-size:14px; font-weight:700;">BharatTube Player</span>
+        <button class="watch-nav-btn" onclick="shareVideo()">
+            <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+        </button>
     </header>
 
-    <div class="video-container">
-        <video id="mainVideo" controls autoplay playsinline>
+    <!-- Main HTML5 Video Player -->
+    <div class="video-stage-container">
+        <video id="mainVideoPlayer" controls autoplay playsinline poster="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800">
+            <!-- Sample Free Creative Commons Video Stream -->
             <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-            आपका ब्राउज़र वीडियो सपोर्ट नहीं करता।
+            Your browser does not support the video tag.
         </video>
     </div>
 
-    <main class="video-content">
-        <h1 class="video-title" id="videoTitle">India Today News</h1>
-        <div class="video-views" id="videoMeta">342K views • 1 day ago • #BharatTube</div>
+    <!-- Video Meta Details -->
+    <div class="video-meta-block">
+        <h1 class="video-title-main" id="watchVideoTitle">Chhattisgarhi Panthi Song • Special Cultural Video</h1>
+        <div class="video-views-date" id="watchVideoViews">210K views • 2 weeks ago • #BharatTube #Chhattisgarh</div>
+    </div>
 
-        <!-- Channel Row with Bell -->
-        <div class="channel-bar">
-            <div class="channel-info">
-                <div class="avatar" id="chanAvatar">N</div>
-                <div>
-                    <div class="channel-name" id="chanName">Bharat News</div>
-                    <div class="channel-subs" id="chanSubs">45.2K Subscribers</div>
-                </div>
+    <!-- Channel Strip -->
+    <div class="channel-strip-row">
+        <a href="channel.html" class="channel-left-info">
+            <div class="channel-avatar-circle" id="channelAvatar">CB</div>
+            <div class="channel-text-details">
+                <div id="channelNameText">Charandas Bhaskar</div>
+                <div id="channelSubText">45.2K subscribers</div>
             </div>
-            <div class="sub-group">
-                <button class="subscribe-btn" id="subBtn" onclick="handleSubscribeClick()">Subscribe</button>
-                <button class="bell-btn" id="bellBtn" onclick="handleBellClick()" title="Notifications">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
+        </a>
+        <button class="btn-subscribe" id="subBtn" onclick="toggleSubscribe()">Subscribe</button>
+    </div>
 
-        <!-- YouTube Style Action Bar -->
-        <div class="action-bar">
-            <!-- Like + Dislike Combined Pill -->
-            <div class="yt-like-dislike-pill">
-                <button class="yt-like-btn" id="likeBtn" onclick="handleLikeClick()">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
-                    </svg>
-                    <span id="likeCount">12K</span>
-                </button>
-                <div class="pill-divider"></div>
-                <button class="yt-dislike-btn" id="dislikeBtn" onclick="handleDislikeClick()">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Share Button -->
-            <button class="action-pill" id="shareBtn" onclick="handleShareClick()">
-                <svg viewBox="0 0 24 24">
-                    <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/>
-                </svg>
-                <span>Share</span>
+    <!-- Action Shelf (Like, Dislike, Share, Thanks, Download) -->
+    <div class="action-shelf-scroll">
+        <!-- Like & Dislike Dual Button -->
+        <div class="action-pill-dual">
+            <button id="likeBtn" onclick="toggleLike()">
+                <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                <span id="likeCount">14K</span>
             </button>
-
-            <!-- Save Button -->
-            <button class="action-pill" id="saveBtn" onclick="handleSaveClick()">
-                <svg viewBox="0 0 24 24">
-                    <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
-                </svg>
-                <span>Save</span>
+            <span class="divider"></span>
+            <button id="dislikeBtn" onclick="toggleDislike()">
+                <svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.58-6.59c.37-.36.59-.86.59-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
             </button>
         </div>
 
-        <!-- YouTube Style Comments Section -->
-        <section class="comments-section">
-            <div class="comments-header">
-                <span>Comments</span>
-                <span style="color:var(--muted); font-size:12px;" id="commentCounter">2</span>
+        <!-- Share -->
+        <button class="action-pill-btn" onclick="shareVideo()">
+            <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+            <span>Share</span>
+        </button>
+
+        <!-- ₹ Super Thanks (Direct Creator Monetization) -->
+        <button class="action-pill-btn" style="background: linear-gradient(135deg, #1b3824, #122116); border: 1px solid rgba(46, 204, 113, 0.4); color: var(--yt-green);" onclick="openSuperThanks()">
+            <svg viewBox="0 0 24 24" style="fill:var(--yt-green);"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>₹ Thanks</span>
+        </button>
+
+        <!-- Download -->
+        <button class="action-pill-btn" onclick="alert('Video downloading started in background!')">
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download</span>
+        </button>
+    </div>
+
+    <!-- Comments Teaser -->
+    <div class="comments-teaser-card" onclick="alert('Comments: Devendra Sahu: Bohut badhiya video bhaiya! Jai Satnam 🙏')">
+        <div class="comments-teaser-header">
+            <span>Comments 428</span>
+            <span style="color:var(--yt-muted);">></span>
+        </div>
+        <div class="comments-teaser-text">
+            <b>Devendra Sahu:</b> Bohut badhiya video bhaiya! Video ki quality aur song dono bohut shandar hai.
+        </div>
+    </div>
+
+    <!-- Suggested / Related Videos Shelf -->
+    <div class="related-feed-wrap">
+        <a href="watch.html?title=Learn+Computer+Basics+Full+Course&channel=Education+India&views=85K+views" class="related-video-row">
+            <div class="related-thumb-box">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400" alt="Tech">
+                <span class="related-badge">12:48</span>
             </div>
-
-            <div class="comment-input-row">
-                <div class="comment-user-avatar">U</div>
-                <input type="text" class="comment-field" id="newCommentInput" placeholder="Add a comment...">
-                <button class="comment-send-btn" id="postCommentBtn" onclick="handleCommentPost()">Post</button>
+            <div class="related-meta-box">
+                <div class="related-title">Learn Computer Basics Full Course 2026</div>
+                <div class="related-subtext">Education India</div>
+                <div class="related-subtext">85K views • 3 days ago</div>
             </div>
+        </a>
 
-            <div class="comments-list" id="commentsList">
-                <div class="comment-item">
-                    <div class="c-avatar">R</div>
-                    <div class="c-body">
-                        <div class="c-author">@rajesh_kumar • 2 hours ago</div>
-                        <div class="c-text">Bahut badhiya video! Bharat me apna platform dekhkar achha laga 🇮🇳</div>
-                    </div>
-                </div>
-
-                <div class="comment-item">
-                    <div class="c-avatar">A</div>
-                    <div class="c-body">
-                        <div class="c-author">@amit_vlogs • 5 hours ago</div>
-                        <div class="c-text">Video quality aur sound clear hai. Keep uploading!</div>
-                    </div>
-                </div>
+        <a href="watch.html?title=India+Today+News+Headlines+Special&channel=Bharat+News&views=120K+views" class="related-video-row">
+            <div class="related-thumb-box">
+                <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=400" alt="News">
+                <span class="related-badge">08:15</span>
             </div>
-        </section>
-
-        <!-- Up Next -->
-        <section class="up-next">
-            <h3>Up Next</h3>
-
-            <div class="related-card" onclick="switchVideo('Chhattisgarhi Panthi Song', 'A One Music', '125K views')">
-                <div class="related-thumb">▶</div>
-                <div class="related-info">
-                    <h4>Chhattisgarhi Panthi Song</h4>
-                    <p>A One Music • 125K views</p>
-                </div>
+            <div class="related-meta-box">
+                <div class="related-title">India Today News Headlines Special Report</div>
+                <div class="related-subtext">Bharat News</div>
+                <div class="related-subtext">120K views • 5 hours ago</div>
             </div>
+        </a>
 
-            <div class="related-card" onclick="switchVideo('Learn Computer Basics', 'Education India', '84K views')">
-                <div class="related-thumb">▶</div>
-                <div class="related-info">
-                    <h4>Learn Computer Basics</h4>
-                    <p>Education India • 84K views</p>
-                </div>
+        <a href="watch.html?title=Dhun+AI+Music+Producer+Behind+Scenes&channel=Charandas+Bhaskar&views=50K+views" class="related-video-row">
+            <div class="related-thumb-box">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400" alt="Music">
+                <span class="related-badge">04:20</span>
             </div>
-
-            <div class="related-card" onclick="switchVideo('Bhakti Special Aarti', 'Bhakti Bharat', '512K views')">
-                <div class="related-thumb">▶</div>
-                <div class="related-info">
-                    <h4>Bhakti Special Aarti</h4>
-                    <p>Bhakti Bharat • 512K views</p>
-                </div>
+            <div class="related-meta-box">
+                <div class="related-title">Dhun AI Music Producer Behind The Scenes</div>
+                <div class="related-subtext">Charandas Bhaskar</div>
+                <div class="related-subtext">50K views • 1 week ago</div>
             </div>
-        </section>
-    </main>
+        </a>
+    </div>
 
-    <div id="toast" class="toast"></div>
+    <!-- Super Thanks Sheet Modal -->
+    <div class="super-modal-overlay" id="superThanksModal">
+        <div class="super-sheet-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h3 style="font-size:16px;">Support Creator with Super Thanks</h3>
+                <button onclick="closeSuperThanks()" style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+            <p style="font-size:12px; color:var(--yt-muted); margin-bottom:14px;">
+                Aapka payment seedha creator ke verified UPI gateway par route hota hai:
+            </p>
+            <div style="display:flex; gap:8px; margin-bottom:14px;">
+                <button class="bt-pill active" style="flex:1; text-align:center;">₹ 40</button>
+                <button class="bt-pill" style="flex:1; text-align:center;">₹ 100</button>
+                <button class="bt-pill" style="flex:1; text-align:center;">₹ 500</button>
+            </div>
+            <button class="bt-btn-primary" style="width:100%;" onclick="alert('Redirecting to PhonePe / GPay / Paytm...'); closeSuperThanks();">
+                Pay via UPI ⚡
+            </button>
+        </div>
+    </div>
+
+    <!-- Shared UI Kit (Auto-injects Bottom Navigation) -->
+    <script src="../assets/js/app-state.js"></script>
+    <script src="../assets/js/ui-kit.js"></script>
 
     <script>
-        // Global variables & state
+        // Parse Query Parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoTitle = urlParams.get('title');
+        const channelName = urlParams.get('channel');
+        const viewsCount = urlParams.get('views');
+
+        if (videoTitle) document.getElementById('watchVideoTitle').textContent = decodeURIComponent(videoTitle);
+        if (channelName) {
+            document.getElementById('channelNameText').textContent = decodeURIComponent(channelName);
+            document.getElementById('channelAvatar').textContent = decodeURIComponent(channelName).charAt(0).toUpperCase();
+        }
+        if (viewsCount) document.getElementById('watchVideoViews').textContent = `${decodeURIComponent(viewsCount)} • Streamed on BharatTube`;
+
+        // Subscribe Toggle
         let isSubscribed = false;
-        let isLiked = false;
-        let isDisliked = false;
-        let isBellOn = false;
-        let commentCount = 2;
-
-        const toast = document.getElementById('toast');
-        let toastTimer;
-
-        function showToast(msg) {
-            if (!toast) return;
-            toast.textContent = msg;
-            toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
-
-        // URL Parameters reading on load
-        window.addEventListener('load', () => {
-            const params = new URLSearchParams(window.location.search);
-            const titleParam = params.get('title');
-            const channelParam = params.get('channel');
-            const viewsParam = params.get('views');
-
-            if (titleParam) document.getElementById('videoTitle').textContent = decodeURIComponent(titleParam);
-            if (channelParam) {
-                const chan = decodeURIComponent(channelParam);
-                document.getElementById('chanName').textContent = chan;
-                document.getElementById('chanAvatar').textContent = chan.charAt(0).toUpperCase();
-            }
-            if (viewsParam) document.getElementById('videoMeta').textContent = decodeURIComponent(viewsParam) + ' • #BharatTube';
-        });
-
-        // 1. Subscribe Button Click Handler
-        function handleSubscribeClick() {
-            const subBtn = document.getElementById('subBtn');
-            const bellBtn = document.getElementById('bellBtn');
+        function toggleSubscribe() {
+            const btn = document.getElementById('subBtn');
             isSubscribed = !isSubscribed;
-
-            if (isSubscribed) {
-                subBtn.textContent = 'Subscribed';
-                subBtn.classList.add('subscribed');
-                bellBtn.classList.add('active');
-                showToast('चैनल सब्सक्राइब किया गया! 🔔');
-            } else {
-                subBtn.textContent = 'Subscribe';
-                subBtn.classList.remove('subscribed');
-                bellBtn.classList.remove('active');
-                bellBtn.classList.remove('all-notify');
-                isBellOn = false;
-                showToast('अनसब्सक्राइब किया गया');
-            }
+            btn.textContent = isSubscribed ? 'Subscribed ✓' : 'Subscribe';
+            btn.className = isSubscribed ? 'btn-subscribe subscribed' : 'btn-subscribe';
         }
 
-        // 2. Bell Button Click Handler
-        function handleBellClick() {
-            const bellBtn = document.getElementById('bellBtn');
-            isBellOn = !isBellOn;
-            if (isBellOn) {
-                bellBtn.classList.add('all-notify');
-                showToast('All notifications on (घंटी चालू) 🔔');
-            } else {
-                bellBtn.classList.remove('all-notify');
-                showToast('Personalized notifications');
-            }
-        }
-
-        // 3. Like Button Click Handler
-        function handleLikeClick() {
-            const likeBtn = document.getElementById('likeBtn');
-            const dislikeBtn = document.getElementById('dislikeBtn');
-            const likeCount = document.getElementById('likeCount');
-
+        // Like / Dislike Toggle
+        let isLiked = false;
+        function toggleLike() {
+            const btn = document.getElementById('likeBtn');
             isLiked = !isLiked;
-
-            if (isLiked) {
-                likeBtn.classList.add('liked');
-                likeCount.textContent = '12.1K';
-                if (isDisliked) {
-                    isDisliked = false;
-                    dislikeBtn.classList.remove('disliked');
-                }
-                showToast('वीडियो लाइक किया गया 👍');
-            } else {
-                likeBtn.classList.remove('liked');
-                likeCount.textContent = '12K';
-                showToast('लाइक हटाया गया');
-            }
+            btn.style.color = isLiked ? 'var(--yt-blue)' : '#ffffff';
+            btn.querySelector('svg').style.fill = isLiked ? 'var(--yt-blue)' : '#ffffff';
         }
 
-        // 4. Dislike Button Click Handler
-        function handleDislikeClick() {
-            const likeBtn = document.getElementById('likeBtn');
-            const dislikeBtn = document.getElementById('dislikeBtn');
-            const likeCount = document.getElementById('likeCount');
-
-            isDisliked = !isDisliked;
-
-            if (isDisliked) {
-                dislikeBtn.classList.add('disliked');
-                if (isLiked) {
-                    isLiked = false;
-                    likeBtn.classList.remove('liked');
-                    likeCount.textContent = '12K';
-                }
-                showToast('Disliked 👎');
-            } else {
-                dislikeBtn.classList.remove('disliked');
-            }
+        function toggleDislike() {
+            const btn = document.getElementById('dislikeBtn');
+            btn.style.color = 'var(--yt-red)';
+            btn.querySelector('svg').style.fill = 'var(--yt-red)';
         }
 
-        // 5. Share Button Click Handler
-        function handleShareClick() {
+        // Share
+        function shareVideo() {
             if (navigator.share) {
                 navigator.share({
-                    title: document.getElementById('videoTitle').textContent,
+                    title: document.getElementById('watchVideoTitle').textContent,
                     url: window.location.href
                 }).catch(() => {});
             } else {
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                    showToast('लिंक कॉपी हो गया! ↗');
-                }).catch(() => {
-                    showToast('लिंक शेयर के लिए तैयार है');
-                });
+                navigator.clipboard.writeText(window.location.href);
+                alert('Video link copied to clipboard!');
             }
         }
 
-        // 6. Save Button Click Handler
-        function handleSaveClick() {
-            showToast('Saved to Watch Later 📥');
+        // Super Thanks Sheet
+        function openSuperThanks() {
+            document.getElementById('superThanksModal').style.display = 'flex';
         }
-
-        // 7. Post Comment Handler
-        function handleCommentPost() {
-            const input = document.getElementById('newCommentInput');
-            const list = document.getElementById('commentsList');
-            const counter = document.getElementById('commentCounter');
-            const text = input.value.trim();
-
-            if (!text) {
-                showToast('कृपया कुछ लिखकर पोस्ट करें');
-                return;
-            }
-
-            const commentElem = document.createElement('div');
-            commentElem.className = 'comment-item';
-            commentElem.innerHTML = `
-                <div class="c-avatar" style="background:#ff3040; color:#fff;">U</div>
-                <div class="c-body">
-                    <div class="c-author">@you • Just now</div>
-                    <div class="c-text">${text}</div>
-                </div>
-            `;
-
-            list.insertBefore(commentElem, list.firstChild);
-            input.value = '';
-            commentCount++;
-            counter.textContent = commentCount;
-            showToast('कमेंट पोस्ट हो गया! 💬');
-        }
-
-        // 8. Related Video Switch
-        function switchVideo(title, channel, views) {
-            document.getElementById('videoTitle').textContent = title;
-            document.getElementById('chanName').textContent = channel;
-            document.getElementById('chanAvatar').textContent = channel.charAt(0).toUpperCase();
-            document.getElementById('videoMeta').textContent = views + ' • Recently • #BharatTube';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            showToast('नया वीडियो लोड हुआ');
+        function closeSuperThanks() {
+            document.getElementById('superThanksModal').style.display = 'none';
         }
     </script>
 </body>
