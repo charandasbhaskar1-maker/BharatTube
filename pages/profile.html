@@ -7,7 +7,7 @@
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f0f">
-    <title>Profile - BharatTube</title>
+    <title>Profile & Creator Studio - BharatTube</title>
     <style>
         * {
             margin: 0;
@@ -26,6 +26,7 @@
             --yt-blue: #3ea6ff;
             --yt-green: #2ecc71;
             --yt-gold: #f1c40f;
+            --yt-red: #ff4e45;
         }
 
         html, body {
@@ -90,7 +91,54 @@
             fill: #ffffff;
         }
 
-        /* Profile Header */
+        /* Channel Suspended Warning Banner */
+        .channel-lockout-banner {
+            display: none;
+            background: rgba(255, 78, 69, 0.15);
+            border: 1px solid var(--yt-red);
+            border-radius: 14px;
+            margin: 16px 16px 0;
+            padding: 14px;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .lockout-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--yt-red);
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .lockout-header svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--yt-red);
+            flex-shrink: 0;
+        }
+
+        .lockout-desc {
+            font-size: 12px;
+            color: var(--yt-text);
+            line-height: 1.45;
+        }
+
+        .resolve-violations-btn {
+            background: var(--yt-red);
+            color: #ffffff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            width: fit-content;
+            margin-top: 4px;
+        }
+
+        /* Profile Hero */
         .profile-hero {
             padding: 16px 16px 14px;
             display: flex;
@@ -119,10 +167,23 @@
             border: 2px solid rgba(255, 255, 255, 0.15);
         }
 
-        .creator-text-details h1 {
+        .creator-title-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .creator-title-row h1 {
             font-size: 19px;
             font-weight: 700;
             line-height: 1.25;
+        }
+
+        .verified-badge-svg {
+            display: none;
+            width: 17px;
+            height: 17px;
+            fill: var(--yt-blue);
         }
 
         .creator-handle {
@@ -170,6 +231,64 @@
             width: 16px;
             height: 16px;
             fill: #ffffff;
+        }
+
+        /* Revenue Active Card */
+        .revenue-active-dashboard {
+            display: none;
+            background: linear-gradient(135deg, #1b3824, #122116);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 16px;
+            margin: 0 16px 12px;
+            padding: 16px;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .rev-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rev-tag-badge {
+            background: rgba(46, 204, 113, 0.2);
+            color: var(--yt-green);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .rev-big-number {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 2px 0;
+        }
+
+        .rev-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 12px;
+            border-radius: 10px;
+        }
+
+        .rev-stat-item div:first-child {
+            font-size: 11px;
+            color: var(--yt-muted);
+        }
+
+        .rev-stat-item div:last-child {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--yt-text);
+            margin-top: 2px;
         }
 
         /* Section Styling */
@@ -336,7 +455,7 @@
             white-space: nowrap;
         }
 
-        /* Single-line Non-Breaking Badge */
+        /* Clean Non-Breaking Pill Badge */
         .menu-tag-pill {
             font-size: 11px;
             font-weight: 700;
@@ -359,6 +478,12 @@
             border: 1px solid rgba(62, 166, 255, 0.35);
         }
 
+        .tag-red {
+            background: rgba(255, 78, 69, 0.15);
+            color: var(--yt-red);
+            border: 1px solid rgba(255, 78, 69, 0.35);
+        }
+
         .menu-arrow-icon {
             width: 18px;
             height: 18px;
@@ -366,7 +491,7 @@
             flex-shrink: 0;
         }
 
-        /* Bottom Sheet Modal Container */
+        /* Modal Overlay & Bottom Sheet */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -491,6 +616,65 @@
             margin-top: 14px;
             cursor: pointer;
         }
+
+        /* Strike Infringing Videos List */
+        .strike-video-item {
+            background: #101010;
+            border: 1px solid rgba(255, 78, 69, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .strike-video-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .strike-thumb-fake {
+            width: 50px;
+            aspect-ratio: 16 / 9;
+            background: #222;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--yt-muted);
+            flex-shrink: 0;
+        }
+
+        .strike-video-name {
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .strike-claim-owner {
+            font-size: 11px;
+            color: var(--yt-red);
+            margin-top: 2px;
+        }
+
+        .btn-delete-infringing {
+            background: var(--yt-red);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -511,12 +695,30 @@
         </div>
     </header>
 
+    <!-- AUTOMATIC STRIKE-3 CHANNEL LOCKOUT BANNER -->
+    <div class="channel-lockout-banner" id="lockoutBanner">
+        <div class="lockout-header">
+            <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            <span>Channel Suspended (3/3 Copyright Strikes)</span>
+        </div>
+        <p class="lockout-desc">
+            Aapke channel par 3 copyright claims aane ke karan monetization aur uploads band kar diye gaye hain. Channel dobara active karne ke liye copyright content wali videos ko delete karein.
+        </p>
+        <button class="resolve-violations-btn" onclick="openPolicyModal('copyright')">Resolve Violations (Delete Videos)</button>
+    </div>
+
     <!-- Creator Hero -->
     <section class="profile-hero">
         <div class="profile-meta-row">
-            <div class="creator-avatar-wrap">CB</div>
+            <div class="creator-avatar-wrap" id="userAvatarWrap">CB</div>
             <div class="creator-text-details">
-                <h1>Charandas Bhaskar</h1>
+                <div class="creator-title-row">
+                    <h1 id="creatorNameHeading">Charandas Bhaskar</h1>
+                    <!-- Partner Verified Badge -->
+                    <svg class="verified-badge-svg" id="partnerVerifiedBadge" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
                 <div class="creator-handle">@charandas_creator • 45.2K subs</div>
                 <a href="channel.html" class="view-channel-link">View channel ></a>
             </div>
@@ -528,7 +730,7 @@
                 <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                 <span>Switch account</span>
             </button>
-            <a href="upload.html" class="pill-btn">
+            <a href="upload.html" class="pill-btn" id="uploadBtnPill">
                 <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
                 <span>Upload</span>
             </a>
@@ -536,6 +738,25 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                 <span>Account</span>
             </button>
+        </div>
+    </section>
+
+    <!-- LIVE EARNINGS DASHBOARD (WHEN MONETIZATION APPROVED) -->
+    <section class="revenue-active-dashboard" id="liveRevenueCard">
+        <div class="rev-top-row">
+            <span style="font-size:12px; color:var(--yt-muted);">ESTIMATED REVENUE (THIS MONTH)</span>
+            <span class="rev-tag-badge">● Partner Active</span>
+        </div>
+        <div class="rev-big-number">₹ 42,850.00</div>
+        <div class="rev-stats-grid">
+            <div class="rev-stat-item">
+                <div>Playback RPM</div>
+                <div>₹ 74.20</div>
+            </div>
+            <div class="rev-stat-item">
+                <div>Ad Impressions</div>
+                <div>582.4K</div>
+            </div>
         </div>
     </section>
 
@@ -611,7 +832,7 @@
     <section class="settings-menu-group">
         <div class="group-label-header">Partner Program & Policies</div>
 
-        <!-- Monetization -->
+        <!-- Monetization Item -->
         <div class="menu-row-item" onclick="openPolicyModal('monetization')">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-green);">
@@ -619,13 +840,13 @@
                 </div>
                 <div class="menu-text-wrap">
                     <span class="menu-title-text">Monetization & Earn</span>
-                    <span class="menu-tag-pill tag-green">Active Tracker</span>
+                    <span class="menu-tag-pill tag-green" id="monetizeStatusPill">Earn Active</span>
                 </div>
             </div>
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </div>
 
-        <!-- Copyright -->
+        <!-- Copyright Item -->
         <div class="menu-row-item" onclick="openPolicyModal('copyright')">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-gold);">
@@ -633,13 +854,13 @@
                 </div>
                 <div class="menu-text-wrap">
                     <span class="menu-title-text">Copyright & Content ID</span>
-                    <span class="menu-tag-pill tag-blue">0 Strikes</span>
+                    <span class="menu-tag-pill tag-blue" id="copyrightBadgePill">0 Strikes</span>
                 </div>
             </div>
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </div>
 
-        <!-- Community Guidelines -->
+        <!-- Community Guidelines Item -->
         <div class="menu-row-item" onclick="openPolicyModal('guidelines')">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-blue);">
@@ -647,7 +868,7 @@
                 </div>
                 <div class="menu-text-wrap">
                     <span class="menu-title-text">Community Guidelines</span>
-                    <span class="menu-tag-pill tag-green">Good Standing</span>
+                    <span class="menu-tag-pill tag-green" id="guidelinesBadgePill">Good Standing</span>
                 </div>
             </div>
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
@@ -668,7 +889,7 @@
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </a>
 
-        <a href="upload.html" class="menu-row-item">
+        <a href="upload.html" class="menu-row-item" id="studioMenuLink">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap">
                     <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
@@ -714,6 +935,112 @@
     </div>
 
     <script>
+        // State Machine for Monetization & Copyright Strikes
+        let creatorState = {
+            isMonetized: true,
+            hasApplied: true,
+            strikesCount: 0,
+            infringingVideos: [
+                { id: 'v101', title: 'T-Series Song Remix Live Stream', claimBy: 'T-Series Audio Label' },
+                { id: 'v102', title: 'ICC World Cup Full Match Replay', claimBy: 'Star Sports India' },
+                { id: 'v103', title: 'Hollywood Movie Hindi Dubbed Scene', claimBy: 'Sony Pictures Ent.' }
+            ]
+        };
+
+        window.addEventListener('load', () => {
+            // Restore state if saved
+            const savedState = localStorage.getItem('bt_creator_state');
+            if (savedState) {
+                try { creatorState = JSON.parse(savedState); } catch(e){}
+            }
+            refreshCreatorEngine();
+        });
+
+        function saveCreatorState() {
+            localStorage.setItem('bt_creator_state', JSON.stringify(creatorState));
+            refreshCreatorEngine();
+        }
+
+        // Engine to update Channel lock, badges, and monetization state
+        function refreshCreatorEngine() {
+            const lockout = document.getElementById('lockoutBanner');
+            const verifiedBadge = document.getElementById('partnerVerifiedBadge');
+            const revCard = document.getElementById('liveRevenueCard');
+            const monetizePill = document.getElementById('monetizeStatusPill');
+            const copyrightPill = document.getElementById('copyrightBadgePill');
+            const uploadBtn = document.getElementById('uploadBtnPill');
+            const studioLink = document.getElementById('studioMenuLink');
+
+            // 1. Copyright Penalty Logic (Automatic Lockdown on 3 Strikes)
+            if (creatorState.strikesCount >= 3) {
+                lockout.style.display = 'flex';
+                copyrightPill.textContent = '3 Strikes (Suspended)';
+                copyrightPill.className = 'menu-tag-pill tag-red';
+                
+                // Dimonitize and block creation
+                creatorState.isMonetized = false;
+                verifiedBadge.style.display = 'none';
+                revCard.style.display = 'none';
+                monetizePill.textContent = 'De-Monetized';
+                monetizePill.className = 'menu-tag-pill tag-red';
+
+                // Disable upload links
+                uploadBtn.style.opacity = '0.4';
+                uploadBtn.style.pointerEvents = 'none';
+                studioLink.style.opacity = '0.4';
+                studioLink.style.pointerEvents = 'none';
+            } else {
+                lockout.style.display = 'none';
+                copyrightPill.textContent = `${creatorState.strikesCount} Strikes`;
+                copyrightPill.className = creatorState.strikesCount === 0 ? 'menu-tag-pill tag-blue' : 'menu-tag-pill tag-red';
+
+                // Restore upload permissions
+                uploadBtn.style.opacity = '1';
+                uploadBtn.style.pointerEvents = 'auto';
+                studioLink.style.opacity = '1';
+                studioLink.style.pointerEvents = 'auto';
+
+                // 2. Monetization Active Status
+                if (creatorState.isMonetized) {
+                    verifiedBadge.style.display = 'block';
+                    revCard.style.display = 'flex';
+                    monetizePill.textContent = 'Earn Active';
+                    monetizePill.className = 'menu-tag-pill tag-green';
+                } else {
+                    verifiedBadge.style.display = 'none';
+                    revCard.style.display = 'none';
+                    monetizePill.textContent = 'Eligible (Apply)';
+                    monetizePill.className = 'menu-tag-pill tag-green';
+                }
+            }
+        }
+
+        // Delete offending video to resolve strike and reopen channel
+        function deleteOffendingVideo(videoId) {
+            creatorState.infringingVideos = creatorState.infringingVideos.filter(v => v.id !== videoId);
+            creatorState.strikesCount = creatorState.infringingVideos.length;
+
+            if (creatorState.strikesCount === 0) {
+                // All offending videos deleted -> Channel Reopened & Remonetized!
+                creatorState.isMonetized = true;
+                alert('🎉 Congratulations! Sabhi copyright content delete ho gaya hai. Aapka BharatTube Channel wapas REOPEN aur REMONETIZE kar diya gaya hai!');
+            }
+            saveCreatorState();
+            openPolicyModal('copyright'); // Refresh modal view
+        }
+
+        // Simulate 3 Strikes test (For demonstration)
+        function trigger3StrikesTest() {
+            creatorState.strikesCount = 3;
+            creatorState.infringingVideos = [
+                { id: 'v101', title: 'T-Series Song Remix Live Stream', claimBy: 'T-Series Audio Label' },
+                { id: 'v102', title: 'ICC World Cup Full Match Replay', claimBy: 'Star Sports India' },
+                { id: 'v103', title: 'Hollywood Movie Hindi Dubbed Scene', claimBy: 'Sony Pictures Ent.' }
+            ];
+            saveCreatorState();
+            openPolicyModal('copyright');
+        }
+
         function openPolicyModal(type) {
             const modal = document.getElementById('policyModal');
             const heading = document.getElementById('modalSheetHeading');
@@ -721,71 +1048,87 @@
 
             if (type === 'monetization') {
                 heading.textContent = 'BharatTube Partner Program (Earn)';
-                body.innerHTML = `
-                    <p style="font-size:13px; color:var(--yt-muted); margin-bottom:14px; line-height:1.45;">
-                        Monetize your videos with ad revenue, channel memberships, and super thanks once you meet the milestones.
-                    </p>
+                if (creatorState.strikesCount >= 3) {
+                    body.innerHTML = `
+                        <div class="policy-item" style="border-left: 3px solid var(--yt-red);">
+                            <div class="policy-item-title" style="color:var(--yt-red);">
+                                ✕ Channel De-Monetized
+                            </div>
+                            <p style="padding-left:0;">Aapke channel par 3 copyright strikes hone ke karan ad revenue aur partner privileges suspend kar diye gaye hain. Re-monetization ke liye pehle violating videos delete karein.</p>
+                        </div>
+                    `;
+                } else if (creatorState.isMonetized) {
+                    body.innerHTML = `
+                        <div style="background:rgba(46,204,113,0.15); border:1px solid var(--yt-green); border-radius:12px; padding:12px; margin-bottom:14px;">
+                            <div style="font-size:14px; font-weight:700; color:var(--yt-green);">✓ Partner Program Active</div>
+                            <div style="font-size:12px; color:var(--yt-muted); margin-top:2px;">Aapke har video aur live stream par ads active hain. Monthly payouts har mahine ki 21st ko bank me bhej diye jate hain.</div>
+                        </div>
 
-                    <div class="metric-card">
-                        <div class="metric-top-row">
-                            <span>Subscribers</span>
-                            <span style="color:var(--yt-green);">45,200 / 1,000 (Completed ✓)</span>
+                        <div class="metric-card">
+                            <div class="metric-top-row">
+                                <span>Subscribers Requirement</span>
+                                <span style="color:var(--yt-green);">45,200 / 1,000 (Passed ✓)</span>
+                            </div>
+                            <div class="metric-progress-bar">
+                                <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
+                            </div>
                         </div>
-                        <div class="metric-progress-bar">
-                            <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
-                        </div>
-                    </div>
 
-                    <div class="metric-card">
-                        <div class="metric-top-row">
-                            <span>Public Watch Hours</span>
-                            <span>3,210 / 4,000 hrs (80%)</span>
+                        <div class="metric-card">
+                            <div class="metric-top-row">
+                                <span>Public Watch Hours</span>
+                                <span style="color:var(--yt-green);">4,820 / 4,000 hrs (Passed ✓)</span>
+                            </div>
+                            <div class="metric-progress-bar">
+                                <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
+                            </div>
                         </div>
-                        <div class="metric-progress-bar">
-                            <div class="metric-fill" style="width:80%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-top-row">
-                            <span>Shorts Views (Past 90 Days)</span>
-                            <span>4.5M / 10M views</span>
-                        </div>
-                        <div class="metric-progress-bar">
-                            <div class="metric-fill" style="width:45%; background:var(--yt-gold);"></div>
-                        </div>
-                    </div>
-
-                    <div style="background:#101010; border:1px solid var(--yt-border); border-radius:10px; padding:12px; font-size:12px; color:var(--yt-muted); line-height:1.6;">
-                        <span style="color:#ffffff;">• 2-Step Verification:</span> Turned on<br>
-                        <span style="color:#ffffff;">• Active Community Strikes:</span> 0 Active Strikes (Eligible)
-                    </div>
-                `;
+                    `;
+                }
             } else if (type === 'copyright') {
                 heading.textContent = 'Copyright & Content Protection';
+                let videosHtml = '';
+                if (creatorState.infringingVideos.length > 0) {
+                    videosHtml = `
+                        <div style="margin-top:14px;">
+                            <div style="font-size:13px; font-weight:700; color:var(--yt-red); margin-bottom:8px;">
+                                Action Required: Delete Claimed Videos to Reopen Channel (${creatorState.infringingVideos.length} Claims)
+                            </div>
+                            ${creatorState.infringingVideos.map(v => `
+                                <div class="strike-video-item">
+                                    <div class="strike-video-left">
+                                        <div class="strike-thumb-fake">VIDEO</div>
+                                        <div>
+                                            <div class="strike-video-name">${v.title}</div>
+                                            <div class="strike-claim-owner">Claimed by: ${v.claimBy}</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-delete-infringing" onclick="deleteOffendingVideo('${v.id}')">Delete Video</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
                 body.innerHTML = `
-                    <div class="policy-item" style="border-left: 3px solid var(--yt-green);">
-                        <div class="policy-item-title" style="color:var(--yt-green);">
-                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-                            Channel Status: 0 Copyright Strikes
+                    <div class="policy-item" style="border-left: 3px solid ${creatorState.strikesCount >= 3 ? 'var(--yt-red)' : 'var(--yt-green)'};">
+                        <div class="policy-item-title" style="color:${creatorState.strikesCount >= 3 ? 'var(--yt-red)' : 'var(--yt-green)'};">
+                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            Channel Status: ${creatorState.strikesCount} Copyright Strikes
                         </div>
-                        <p>You have no active strikes. All your uploads follow Content ID guidelines.</p>
+                        <p style="padding-left:0;">
+                            ${creatorState.strikesCount >= 3 
+                                ? '🚨 3 Strikes hone ki wajah se channel suspend aur dimonitize ho gaya hai. Channel reopen karne ke liye neeche di gayi copyright videos ko turant DELETE karein.' 
+                                : 'Channel good standing me hai. Sabhi video original hain aur Content ID fair use me chal rahe hain.'}
+                        </p>
                     </div>
 
-                    <div class="policy-item">
-                        <div class="policy-item-title">
-                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                            Fair Use & Original Content
-                        </div>
-                        <p>Only upload videos that you own or are authorized to use. Background music requires proper usage rights.</p>
-                    </div>
+                    ${videosHtml}
 
-                    <div class="policy-item">
-                        <div class="policy-item-title">
-                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-                            3-Strike Policy
-                        </div>
-                        <p>Receiving 3 copyright strikes in 90 days results in permanent channel suspension.</p>
+                    <div style="display:flex; justify-content:center; margin-top:10px;">
+                        <button style="background:none; border:1px dashed #444; color:#888; font-size:11px; padding:6px 12px; border-radius:12px; cursor:pointer;" onclick="trigger3StrikesTest()">
+                            [Test Simulator: Trigger 3 Strikes Lock]
+                        </button>
                     </div>
                 `;
             } else if (type === 'guidelines') {
@@ -796,23 +1139,17 @@
                             <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
                             Community Health: 100% Clean
                         </div>
-                        <p>Your channel is in good standing with zero warnings or active community strikes.</p>
+                        <p style="padding-left:0;">Your channel follows all creator safety standards. Zero community warnings.</p>
                     </div>
 
                     <div class="policy-item">
-                        <div class="policy-item-title">
-                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                            1. Spam & Deceptive Practices
-                        </div>
-                        <p>Misleading titles, fake thumbnails, and artificial engagement loops are strictly prohibited.</p>
+                        <div class="policy-item-title">1. Spam & Deceptive Metadata</div>
+                        <p style="padding-left:0;">Misleading titles, fake thumbnails, and fake engagement loops are strictly prohibited.</p>
                     </div>
 
                     <div class="policy-item">
-                        <div class="policy-item-title">
-                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-                            2. Safety & Respect
-                        </div>
-                        <p>Harassment, hate speech, and graphic violent content are immediately removed.</p>
+                        <div class="policy-item-title">2. Safety & Respect</div>
+                        <p style="padding-left:0;">Harassment, hate speech, and graphic violent content lead to immediate channel termination.</p>
                     </div>
                 `;
             } else if (type === 'account') {
@@ -829,7 +1166,7 @@
                 body.innerHTML = `
                     <div class="policy-item">
                         <div class="policy-item-title">BharatTube Creator Support</div>
-                        <p style="padding-left:0;">Need help with video upload speeds or studio features? Contact support@bharattube.in</p>
+                        <p style="padding-left:0;">Assistance with partner payments, Content ID disputes, or upload issues: contact support@bharattube.in</p>
                     </div>
                 `;
             }
