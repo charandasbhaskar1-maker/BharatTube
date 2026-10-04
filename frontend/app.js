@@ -4,7 +4,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- ELEMENTS ---
     const toast = document.getElementById('toast');
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoCards = document.querySelectorAll('.video-card');
     const bottomNavItems = document.querySelectorAll('.bottom-item');
 
-    // --- TOAST FUNCTION ---
     let toastTimeout;
     function showToast(message) {
         if (!toast) return;
@@ -26,24 +24,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2200);
     }
 
-    // --- SAFE NAVIGATION HELPER ---
-    // Yeh check karta hai ki site root se chal rahi hai ya frontend folder se
-    function getPageUrl(pageName, queryParams = '') {
-        const isInsideFrontend = window.location.pathname.includes('/frontend/');
-        const prefix = isInsideFrontend ? '../pages/' : 'pages/';
-        const query = queryParams ? `?${queryParams}` : '';
-        return `${prefix}${pageName}${query}`;
+    // Repository name detect karke exact path banana
+    function getCleanUrl(pageFile, query = '') {
+        const pathParts = window.location.pathname.split('/').filter(p => p.length > 0);
+        const repoName = (pathParts.length > 0 && pathParts[0] !== 'frontend' && pathParts[0] !== 'pages') ? `/${pathParts[0]}` : '';
+        const queryString = query ? `?${query}` : '';
+        return `${window.location.origin}${repoName}/pages/${pageFile}${queryString}`;
     }
 
-    function navigateTo(pageName, queryParams = '') {
-        window.location.href = getPageUrl(pageName, queryParams);
+    function goTo(pageFile, query = '') {
+        window.location.href = getCleanUrl(pageFile, query);
     }
 
-    // --- SEARCH LOGIC ---
+    // Search Logic
     function performSearch(query) {
         const cleanQuery = query.trim().toLowerCase();
         if (!cleanQuery) {
-            showToast('कृपया कुछ लिखकर खोजें');
+            showToast('Kripya kuch likhkar khojein');
             videoCards.forEach(card => card.style.display = 'block');
             return;
         }
@@ -61,10 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        showToast(`'${query}' के लिए ${matchCount} वीडियो मिले`);
+        showToast(`'${query}' ke liye ${matchCount} video mile`);
     }
 
-    // Desktop Search
     if (searchBtn && searchInput) {
         searchBtn.addEventListener('click', () => performSearch(searchInput.value));
         searchInput.addEventListener('keypress', (e) => {
@@ -72,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Mobile Search
     if (mobileSearchBtn && mobileSearchInput) {
         mobileSearchBtn.addEventListener('click', () => performSearch(mobileSearchInput.value));
         mobileSearchInput.addEventListener('keypress', (e) => {
@@ -80,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- CATEGORY FILTER ---
+    // Categories
     categoryButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             categoryButtons.forEach(b => b.classList.remove('active'));
@@ -97,45 +92,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            showToast(`${btn.textContent.trim()} कैटेगरी लोड हो गई`);
+            showToast(`${btn.textContent.trim()} category load ho gayi`);
         });
     });
 
-    // --- HEADER BUTTONS ROUTING ---
+    // Header Buttons
     const uploadBtn = document.getElementById('uploadBtn');
     if (uploadBtn) {
-        uploadBtn.addEventListener('click', () => navigateTo('upload.html'));
+        uploadBtn.addEventListener('click', () => goTo('upload.html'));
     }
 
     const notificationBtn = document.getElementById('notificationBtn');
     if (notificationBtn) {
-        notificationBtn.addEventListener('click', () => showToast('कोई नया नोटिफिकेशन नहीं है'));
+        notificationBtn.addEventListener('click', () => showToast('Koi naya notification nahi hai'));
     }
 
     const profileBtn = document.getElementById('profileBtn');
     if (profileBtn) {
-        profileBtn.addEventListener('click', () => navigateTo('profile.html'));
+        profileBtn.addEventListener('click', () => goTo('profile.html'));
     }
 
-    // --- HERO & CTA BUTTONS ROUTING ---
+    // Hero Buttons
     const startWatchingBtn = document.getElementById('startWatchingBtn');
     if (startWatchingBtn) {
         startWatchingBtn.addEventListener('click', () => {
             const videoGrid = document.getElementById('videoGrid');
-            if (videoGrid) {
-                videoGrid.scrollIntoView({ behavior: 'smooth' });
-            }
+            if (videoGrid) videoGrid.scrollIntoView({ behavior: 'smooth' });
         });
     }
 
     const createChannelBtn = document.getElementById('createChannelBtn');
     if (createChannelBtn) {
-        createChannelBtn.addEventListener('click', () => navigateTo('channel.html'));
+        createChannelBtn.addEventListener('click', () => goTo('channel.html'));
     }
 
     const uploadVideoBtn = document.getElementById('uploadVideoBtn');
     if (uploadVideoBtn) {
-        uploadVideoBtn.addEventListener('click', () => navigateTo('upload.html'));
+        uploadVideoBtn.addEventListener('click', () => goTo('upload.html'));
     }
 
     const refreshBtn = document.getElementById('refreshBtn');
@@ -145,16 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryButtons.forEach(b => b.classList.remove('active'));
             const allBtn = document.querySelector('.category[data-category="all"]');
             if (allBtn) allBtn.classList.add('active');
-            showToast('वीडियो रीफ़्रेश हो गए');
+            showToast('Videos refresh ho gaye');
         });
     }
 
     const shortsBtn = document.getElementById('shortsBtn');
     if (shortsBtn) {
-        shortsBtn.addEventListener('click', () => navigateTo('shorts.html'));
+        shortsBtn.addEventListener('click', () => goTo('shorts.html'));
     }
 
-    // --- BOTTOM NAVIGATION ROUTING ---
+    // Bottom Navigation
     bottomNavItems.forEach(item => {
         item.addEventListener('click', () => {
             const label = item.querySelector('small') ? item.querySelector('small').textContent.trim() : '';
@@ -162,18 +155,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (label === 'Home') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else if (label === 'Shorts') {
-                navigateTo('shorts.html');
+                goTo('shorts.html');
             } else if (label === 'Create') {
-                navigateTo('upload.html');
+                goTo('upload.html');
             } else if (label === 'You') {
-                navigateTo('profile.html');
+                goTo('profile.html');
             } else if (label === 'Subscriptions') {
-                showToast('Subscriptions सूची जल्द आ रही है');
+                showToast('Subscriptions list jald aayegi');
             }
         });
     });
 
-    // --- VIDEO CARD CLICK -> OPEN WATCH PAGE ---
+    // Video Cards Click -> Watch Page
     videoCards.forEach(card => {
         card.addEventListener('click', () => {
             const title = card.getAttribute('data-title') || 'BharatTube Video';
@@ -186,15 +179,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 views: views
             }).toString();
 
-            navigateTo('watch.html', queryParams);
+            goTo('watch.html', queryParams);
         });
     });
 
-    // --- SHORTS CARD CLICK -> OPEN SHORTS VIEWER ---
+    // Shorts Card Click -> Shorts Page
     const shortCards = document.querySelectorAll('.short-card');
     shortCards.forEach(short => {
         short.addEventListener('click', () => {
-            navigateTo('shorts.html');
+            goTo('shorts.html');
         });
     });
 
