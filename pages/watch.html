@@ -28,7 +28,7 @@
             background-color: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            padding-bottom: 40px;
+            padding-bottom: 50px;
         }
 
         /* Top Header */
@@ -145,7 +145,7 @@
         .sub-group {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .subscribe-btn {
@@ -157,16 +157,15 @@
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
-            transition: 0.2s;
+            user-select: none;
         }
 
         .subscribe-btn.subscribed {
             background: var(--panel2);
-            color: var(--muted);
+            color: #d1d5db;
             border: 1px solid var(--border);
         }
 
-        /* Bell Notification Icon Button */
         .bell-btn {
             display: none;
             background: var(--panel2);
@@ -178,11 +177,16 @@
             cursor: pointer;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            user-select: none;
         }
 
         .bell-btn.active {
             display: flex;
+        }
+
+        .bell-btn.all-notify {
+            color: #ffcc00;
+            border-color: #ffcc00;
         }
 
         /* YouTube Style Action Bar */
@@ -199,7 +203,6 @@
             display: none;
         }
 
-        /* YouTube Combined Like-Dislike Pill */
         .yt-like-dislike-pill {
             display: flex;
             align-items: center;
@@ -217,11 +220,17 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 0 12px;
+            padding: 0 14px;
             height: 100%;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
+            user-select: none;
+        }
+
+        /* SVG clicks ko block na kare */
+        svg, path, span {
+            pointer-events: none;
         }
 
         .yt-like-btn svg, .yt-dislike-btn svg {
@@ -231,7 +240,7 @@
         }
 
         .yt-like-btn.liked {
-            color: #4da3ff;
+            color: #3ea6ff;
         }
 
         .yt-dislike-btn.disliked {
@@ -244,7 +253,6 @@
             background: var(--border);
         }
 
-        /* Individual Action Buttons */
         .action-pill {
             background: var(--panel2);
             border: 1px solid var(--border);
@@ -260,6 +268,7 @@
             align-items: center;
             gap: 6px;
             flex-shrink: 0;
+            user-select: none;
         }
 
         .action-pill svg {
@@ -310,7 +319,7 @@
             background: var(--panel2);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 8px 12px;
+            padding: 10px 12px;
             color: var(--text);
             font-size: 13px;
             outline: none;
@@ -325,11 +334,12 @@
             background: var(--red);
             color: #ffffff;
             border: 0;
-            padding: 0 14px;
+            padding: 0 16px;
             border-radius: 8px;
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
+            user-select: none;
         }
 
         .comments-list {
@@ -463,13 +473,13 @@
                 <div class="avatar" id="chanAvatar">N</div>
                 <div>
                     <div class="channel-name" id="chanName">Bharat News</div>
-                    <div class="channel-subs">45.2K Subscribers</div>
+                    <div class="channel-subs" id="chanSubs">45.2K Subscribers</div>
                 </div>
             </div>
             <div class="sub-group">
-                <button class="subscribe-btn" id="subBtn">Subscribe</button>
-                <button class="bell-btn" id="bellBtn" title="Notifications">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <button class="subscribe-btn" id="subBtn" onclick="handleSubscribeClick()">Subscribe</button>
+                <button class="bell-btn" id="bellBtn" onclick="handleBellClick()" title="Notifications">
+                    <svg viewBox="0 0 24 24" width="18" height="18">
                         <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
                     </svg>
                 </button>
@@ -480,14 +490,14 @@
         <div class="action-bar">
             <!-- Like + Dislike Combined Pill -->
             <div class="yt-like-dislike-pill">
-                <button class="yt-like-btn" id="likeBtn">
+                <button class="yt-like-btn" id="likeBtn" onclick="handleLikeClick()">
                     <svg viewBox="0 0 24 24">
                         <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
                     </svg>
                     <span id="likeCount">12K</span>
                 </button>
                 <div class="pill-divider"></div>
-                <button class="yt-dislike-btn" id="dislikeBtn">
+                <button class="yt-dislike-btn" id="dislikeBtn" onclick="handleDislikeClick()">
                     <svg viewBox="0 0 24 24">
                         <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
                     </svg>
@@ -495,7 +505,7 @@
             </div>
 
             <!-- Share Button -->
-            <button class="action-pill" id="shareBtn">
+            <button class="action-pill" id="shareBtn" onclick="handleShareClick()">
                 <svg viewBox="0 0 24 24">
                     <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/>
                 </svg>
@@ -503,7 +513,7 @@
             </button>
 
             <!-- Save Button -->
-            <button class="action-pill" id="saveBtn">
+            <button class="action-pill" id="saveBtn" onclick="handleSaveClick()">
                 <svg viewBox="0 0 24 24">
                     <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
                 </svg>
@@ -521,7 +531,7 @@
             <div class="comment-input-row">
                 <div class="comment-user-avatar">U</div>
                 <input type="text" class="comment-field" id="newCommentInput" placeholder="Add a comment...">
-                <button class="comment-send-btn" id="postCommentBtn">Post</button>
+                <button class="comment-send-btn" id="postCommentBtn" onclick="handleCommentPost()">Post</button>
             </div>
 
             <div class="comments-list" id="commentsList">
@@ -576,121 +586,156 @@
     <div id="toast" class="toast"></div>
 
     <script>
+        // Global variables & state
+        let isSubscribed = false;
+        let isLiked = false;
+        let isDisliked = false;
+        let isBellOn = false;
+        let commentCount = 2;
+
         const toast = document.getElementById('toast');
+        let toastTimer;
+
         function showToast(msg) {
+            if (!toast) return;
             toast.textContent = msg;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2200);
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
         }
 
-        // URL Parameters reading
-        const params = new URLSearchParams(window.location.search);
-        const titleParam = params.get('title');
-        const channelParam = params.get('channel');
-        const viewsParam = params.get('views');
+        // URL Parameters reading on load
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            const titleParam = params.get('title');
+            const channelParam = params.get('channel');
+            const viewsParam = params.get('views');
 
-        if (titleParam) document.getElementById('videoTitle').textContent = decodeURIComponent(titleParam);
-        if (channelParam) {
-            const chan = decodeURIComponent(channelParam);
-            document.getElementById('chanName').textContent = chan;
-            document.getElementById('chanAvatar').textContent = chan.charAt(0).toUpperCase();
-        }
-        if (viewsParam) document.getElementById('videoMeta').textContent = decodeURIComponent(viewsParam) + ' • #BharatTube';
+            if (titleParam) document.getElementById('videoTitle').textContent = decodeURIComponent(titleParam);
+            if (channelParam) {
+                const chan = decodeURIComponent(channelParam);
+                document.getElementById('chanName').textContent = chan;
+                document.getElementById('chanAvatar').textContent = chan.charAt(0).toUpperCase();
+            }
+            if (viewsParam) document.getElementById('videoMeta').textContent = decodeURIComponent(viewsParam) + ' • #BharatTube';
+        });
 
-        // Subscribe & Bell Icon Logic
-        const subBtn = document.getElementById('subBtn');
-        const bellBtn = document.getElementById('bellBtn');
-        let isSubscribed = false;
-
-        subBtn.addEventListener('click', () => {
+        // 1. Subscribe Button Click Handler
+        function handleSubscribeClick() {
+            const subBtn = document.getElementById('subBtn');
+            const bellBtn = document.getElementById('bellBtn');
             isSubscribed = !isSubscribed;
+
             if (isSubscribed) {
                 subBtn.textContent = 'Subscribed';
                 subBtn.classList.add('subscribed');
                 bellBtn.classList.add('active');
-                showToast('चैनल सब्सक्राइब किया गया');
+                showToast('चैनल सब्सक्राइब किया गया! 🔔');
             } else {
                 subBtn.textContent = 'Subscribe';
                 subBtn.classList.remove('subscribed');
                 bellBtn.classList.remove('active');
+                bellBtn.classList.remove('all-notify');
+                isBellOn = false;
                 showToast('अनसब्सक्राइब किया गया');
             }
-        });
+        }
 
-        bellBtn.addEventListener('click', () => {
-            showToast('All notifications turned on 🔔');
-        });
+        // 2. Bell Button Click Handler
+        function handleBellClick() {
+            const bellBtn = document.getElementById('bellBtn');
+            isBellOn = !isBellOn;
+            if (isBellOn) {
+                bellBtn.classList.add('all-notify');
+                showToast('All notifications on (घंटी चालू) 🔔');
+            } else {
+                bellBtn.classList.remove('all-notify');
+                showToast('Personalized notifications');
+            }
+        }
 
-        // Like / Dislike Logic
-        const likeBtn = document.getElementById('likeBtn');
-        const dislikeBtn = document.getElementById('dislikeBtn');
-        let isLiked = false;
-        let isDisliked = false;
+        // 3. Like Button Click Handler
+        function handleLikeClick() {
+            const likeBtn = document.getElementById('likeBtn');
+            const dislikeBtn = document.getElementById('dislikeBtn');
+            const likeCount = document.getElementById('likeCount');
 
-        likeBtn.addEventListener('click', () => {
             isLiked = !isLiked;
+
             if (isLiked) {
                 likeBtn.classList.add('liked');
-                document.getElementById('likeCount').textContent = '12.1K';
+                likeCount.textContent = '12.1K';
                 if (isDisliked) {
                     isDisliked = false;
                     dislikeBtn.classList.remove('disliked');
                 }
-                showToast('Liked');
+                showToast('वीडियो लाइक किया गया 👍');
             } else {
                 likeBtn.classList.remove('liked');
-                document.getElementById('likeCount').textContent = '12K';
+                likeCount.textContent = '12K';
+                showToast('लाइक हटाया गया');
             }
-        });
+        }
 
-        dislikeBtn.addEventListener('click', () => {
+        // 4. Dislike Button Click Handler
+        function handleDislikeClick() {
+            const likeBtn = document.getElementById('likeBtn');
+            const dislikeBtn = document.getElementById('dislikeBtn');
+            const likeCount = document.getElementById('likeCount');
+
             isDisliked = !isDisliked;
+
             if (isDisliked) {
                 dislikeBtn.classList.add('disliked');
                 if (isLiked) {
                     isLiked = false;
                     likeBtn.classList.remove('liked');
-                    document.getElementById('likeCount').textContent = '12K';
+                    likeCount.textContent = '12K';
                 }
-                showToast('Disliked');
+                showToast('Disliked 👎');
             } else {
                 dislikeBtn.classList.remove('disliked');
             }
-        });
+        }
 
-        // Share & Save
-        document.getElementById('shareBtn').addEventListener('click', () => {
+        // 5. Share Button Click Handler
+        function handleShareClick() {
             if (navigator.share) {
                 navigator.share({
                     title: document.getElementById('videoTitle').textContent,
                     url: window.location.href
                 }).catch(() => {});
             } else {
-                showToast('Link copied to clipboard!');
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    showToast('लिंक कॉपी हो गया! ↗');
+                }).catch(() => {
+                    showToast('लिंक शेयर के लिए तैयार है');
+                });
             }
-        });
+        }
 
-        document.getElementById('saveBtn').addEventListener('click', () => {
-            showToast('Video saved to Watch Later');
-        });
+        // 6. Save Button Click Handler
+        function handleSaveClick() {
+            showToast('Saved to Watch Later 📥');
+        }
 
-        // Interactive Comments Logic
-        const newCommentInput = document.getElementById('newCommentInput');
-        const postCommentBtn = document.getElementById('postCommentBtn');
-        const commentsList = document.getElementById('commentsList');
-        const commentCounter = document.getElementById('commentCounter');
-        let count = 2;
+        // 7. Post Comment Handler
+        function handleCommentPost() {
+            const input = document.getElementById('newCommentInput');
+            const list = document.getElementById('commentsList');
+            const counter = document.getElementById('commentCounter');
+            const text = input.value.trim();
 
-        postCommentBtn.addEventListener('click', () => {
-            const text = newCommentInput.value.trim();
             if (!text) {
-                showToast('कृपया कुछ लिखकर कमेंट करें');
+                showToast('कृपया कुछ लिखकर पोस्ट करें');
                 return;
             }
 
-            const newComment = document.createElement('div');
-            newComment.className = 'comment-item';
-            newComment.innerHTML = `
+            const commentElem = document.createElement('div');
+            commentElem.className = 'comment-item';
+            commentElem.innerHTML = `
                 <div class="c-avatar" style="background:#ff3040; color:#fff;">U</div>
                 <div class="c-body">
                     <div class="c-author">@you • Just now</div>
@@ -698,14 +743,14 @@
                 </div>
             `;
 
-            commentsList.prepend(newComment);
-            newCommentInput.value = '';
-            count++;
-            commentCounter.textContent = count;
-            showToast('कमेंट पोस्ट हो गया');
-        });
+            list.insertBefore(commentElem, list.firstChild);
+            input.value = '';
+            commentCount++;
+            counter.textContent = commentCount;
+            showToast('कमेंट पोस्ट हो गया! 💬');
+        }
 
-        // Switch Related Video
+        // 8. Related Video Switch
         function switchVideo(title, channel, views) {
             document.getElementById('videoTitle').textContent = title;
             document.getElementById('chanName').textContent = channel;
