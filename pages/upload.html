@@ -17,7 +17,7 @@
             --yt-black: #000000;
             --yt-panel: #161616;
             --yt-panel2: #222222;
-            --yt-border: rgba(255, 255, 255, 0.12);
+            --yt-border: rgba(255, 255, 255, 0.14);
             --yt-text: #ffffff;
             --yt-muted: #aaaaaa;
             --yt-blue: #3ea6ff;
@@ -33,7 +33,6 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             user-select: none;
             position: fixed;
-            /* Hardware Acceleration & Low Thermal Throttling */
             transform: translate3d(0, 0, 0);
             -webkit-font-smoothing: antialiased;
         }
@@ -48,10 +47,9 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            contain: layout size;
         }
 
-        /* Camera Layer (Will-change to avoid repaint loops) */
+        /* Camera / Screencast Layer */
         .camera-background {
             position: absolute;
             inset: 0;
@@ -60,7 +58,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            will-change: transform;
+            overflow: hidden;
         }
 
         .camera-background video {
@@ -69,7 +67,7 @@
             object-fit: cover;
         }
 
-        /* Top Action Overlay */
+        /* Top Action Bar */
         .top-action-bar {
             position: absolute;
             top: 0;
@@ -185,7 +183,7 @@
             fill: #ffffff;
         }
 
-        /* Bottom Deck Control */
+        /* Bottom Deck */
         .bottom-control-deck {
             position: absolute;
             bottom: 0;
@@ -219,6 +217,14 @@
             border: 1px solid var(--yt-border);
             font-size: 13px;
             font-weight: 600;
+            cursor: pointer;
+        }
+
+        .pencil-edit-icon {
+            width: 16px;
+            height: 16px;
+            fill: var(--yt-blue);
+            margin-left: 4px;
         }
 
         .capture-row {
@@ -353,7 +359,119 @@
             background: rgba(255, 255, 255, 0.28);
         }
 
-        /* High-Speed Turbo Upload Overlay */
+        /* YouTube Live Edit Bottom Sheet (Pencil Modal) */
+        .live-edit-sheet-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .live-edit-sheet {
+            width: 100%;
+            max-width: 500px;
+            background: #1e1e1e;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: 20px 18px max(24px, env(safe-area-inset-bottom, 24px));
+            border-top: 1px solid var(--yt-border);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .sheet-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .sheet-title-row h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .sheet-field-group {
+            margin-bottom: 14px;
+        }
+
+        .sheet-field-label {
+            font-size: 12px;
+            color: var(--yt-muted);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .sheet-text-input {
+            width: 100%;
+            background: #121212;
+            border: 1px solid var(--yt-border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .sheet-textarea {
+            width: 100%;
+            min-height: 60px;
+            background: #121212;
+            border: 1px solid var(--yt-border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-size: 13px;
+            outline: none;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .thumb-upload-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .live-thumb-preview {
+            width: 80px;
+            aspect-ratio: 16 / 9;
+            background: #121212;
+            border: 1px dashed var(--yt-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .live-thumb-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .sheet-done-btn {
+            width: 100%;
+            background: var(--yt-blue);
+            color: #000;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Turbo Upload Overlay */
         .upload-hud-modal {
             display: none;
             position: fixed;
@@ -388,7 +506,6 @@
             padding: 4px 10px;
             border-radius: 12px;
             margin-bottom: 12px;
-            letter-spacing: 0.4px;
         }
 
         .hud-progress-track {
@@ -405,14 +522,6 @@
             background: linear-gradient(90deg, #3ea6ff, #2ecc71);
             border-radius: 6px;
             transition: width 0.08s linear;
-        }
-
-        .hud-stats-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--yt-muted);
-            margin-top: 6px;
         }
 
         /* Post Screen Modal */
@@ -448,27 +557,6 @@
             font-weight: 700;
             font-size: 16px;
             color: #ffffff;
-        }
-
-        .post-visibility-pill {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid var(--yt-border);
-            color: #ffffff;
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            margin-top: 2px;
-        }
-
-        .post-visibility-pill svg {
-            width: 14px;
-            height: 14px;
-            fill: #ffffff;
         }
 
         .post-textarea-main {
@@ -580,79 +668,6 @@
             fill: #ffffff;
         }
 
-        /* Native Bottom-Sheet Builders */
-        .yt-native-modal-backdrop {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 200;
-            align-items: flex-end;
-            justify-content: center;
-        }
-
-        .yt-native-modal-sheet {
-            width: 100%;
-            max-width: 500px;
-            background: #212121;
-            border-top-left-radius: 18px;
-            border-top-right-radius: 18px;
-            padding: 20px 18px max(24px, env(safe-area-inset-bottom, 24px));
-            border-top: 1px solid var(--yt-border);
-        }
-
-        .sheet-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .sheet-input {
-            width: 100%;
-            background: #121212;
-            border: 1px solid var(--yt-border);
-            border-radius: 10px;
-            padding: 12px 14px;
-            color: #ffffff;
-            font-size: 14px;
-            outline: none;
-            margin-bottom: 10px;
-        }
-
-        .sheet-btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .sheet-action-btn {
-            flex: 1;
-            background: var(--yt-blue);
-            color: #000;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 0;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .sheet-cancel-btn {
-            flex: 1;
-            background: #333333;
-            color: #fff;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 0;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
         .toast {
             position: fixed;
             left: 50%;
@@ -679,8 +694,10 @@
 </head>
 <body>
 
+    <!-- Native File Pickers -->
     <input type="file" id="videoPicker" accept="video/*" style="display:none;" onchange="startTurboChunkUpload(event)">
     <input type="file" id="postImagePicker" accept="image/*" style="display:none;" onchange="loadPostImage(event)">
+    <input type="file" id="liveThumbPicker" accept="image/*" style="display:none;" onchange="loadLiveThumbnail(event)">
 
     <div class="app-viewport">
 
@@ -698,7 +715,7 @@
                 <span id="soundLabel">Add sound</span>
             </div>
 
-            <div class="circle-icon-btn" onclick="showToast('Turbo Pipeline Active ⚡')">
+            <div class="circle-icon-btn" onclick="showToast('Effects & Highlights ready ✨')">
                 <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
             </div>
         </header>
@@ -709,11 +726,15 @@
         <!-- BOTTOM DECK -->
         <div class="bottom-control-deck">
 
-            <!-- Live Details -->
+            <!-- Live Creator Details Pill (With Pencil Icon) -->
             <div class="live-preview-info" id="livePreviewInfo">
-                <div class="live-creator-badge">
+                <div class="live-creator-badge" onclick="openLiveEditSheet()">
                     <span style="color:#2ecc71;">●</span>
-                    <span>Charandas Bhaskar • Public</span>
+                    <span id="liveBadgeTitle">Charandas Bhaskar • Public</span>
+                    <!-- YouTube Pencil Icon -->
+                    <svg class="pencil-edit-icon" viewBox="0 0 24 24">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
                 </div>
             </div>
 
@@ -748,10 +769,56 @@
             </nav>
         </div>
 
-        <!-- HIGH-SPEED TURBO CHUNK UPLOAD OVERLAY -->
+        <!-- LIVE STREAM SETTINGS SHEET (PENCIL ICON MODAL) -->
+        <div class="live-edit-sheet-backdrop" id="liveEditModal">
+            <div class="live-edit-sheet">
+                <div class="sheet-title-row">
+                    <h3>Live Stream Details ✏️</h3>
+                    <span onclick="closeLiveEditSheet()" style="cursor:pointer; font-size:18px;">✕</span>
+                </div>
+
+                <!-- Title Input -->
+                <div class="sheet-field-group">
+                    <label class="sheet-field-label">Stream Title</label>
+                    <input type="text" class="sheet-text-input" id="liveStreamTitleInput" value="Charandas Bhaskar Live Stream" placeholder="What's your stream about?">
+                </div>
+
+                <!-- Description Input -->
+                <div class="sheet-field-group">
+                    <label class="sheet-field-label">Description</label>
+                    <textarea class="sheet-textarea" id="liveStreamDescInput" placeholder="Tell viewers about this live session..."></textarea>
+                </div>
+
+                <!-- Visibility -->
+                <div class="sheet-field-group">
+                    <label class="sheet-field-label">Visibility</label>
+                    <select class="sheet-text-input" id="liveStreamVisSelect">
+                        <option value="Public">Public (Everyone can watch)</option>
+                        <option value="Unlisted">Unlisted (Anyone with link)</option>
+                        <option value="Private">Private (Only you)</option>
+                    </select>
+                </div>
+
+                <!-- Thumbnail Upload -->
+                <div class="sheet-field-group">
+                    <label class="sheet-field-label">Live Thumbnail / Cover</label>
+                    <div class="thumb-upload-row">
+                        <div class="live-thumb-preview" id="liveThumbPreviewBox">
+                            <span style="font-size:11px; color:var(--yt-muted);">Cover</span>
+                            <img id="liveThumbImg" alt="Live Cover">
+                        </div>
+                        <button type="button" class="big-pill-btn" style="width:auto; padding:8px 16px; font-size:12px;" onclick="document.getElementById('liveThumbPicker').click()">Upload Thumbnail</button>
+                    </div>
+                </div>
+
+                <button class="sheet-done-btn" onclick="saveLiveDetails()">Save Details</button>
+            </div>
+        </div>
+
+        <!-- TURBO UPLOAD MODAL -->
         <div class="upload-hud-modal" id="uploadHudModal">
             <div class="upload-hud-card">
-                <div class="turbo-badge">⚡ BHARAT-TURBO 5G STREAM</div>
+                <div class="turbo-badge">⚡ BHARAT-TURBO STREAM</div>
                 <h3 style="font-size: 17px; margin-bottom: 4px;" id="hudFileName">video.mp4</h3>
                 <div style="font-size: 12px; color: var(--yt-muted);" id="hudStatus">Processing chunks...</div>
 
@@ -759,14 +826,14 @@
                     <div class="hud-progress-fill" id="hudFill"></div>
                 </div>
 
-                <div class="hud-stats-row">
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--yt-muted); margin-top:6px;">
                     <span id="hudSpeed">Speed: 48 MB/s</span>
                     <span id="hudPercent">0%</span>
                 </div>
             </div>
         </div>
 
-        <!-- COMMUNITY POST MODAL -->
+        <!-- POST SCREEN -->
         <div class="post-fullscreen-modal" id="postModal">
             <div>
                 <header class="top-action-bar" style="position:relative; background:#000; border-bottom:1px solid var(--yt-border);">
@@ -781,11 +848,8 @@
                     <div class="post-author-row">
                         <div class="post-author-avatar">CB</div>
                         <div>
-                            <div class="post-author-name">Charandas Bhaskar</div>
-                            <div class="post-visibility-pill" onclick="showToast('Post Visibility: Public')">
-                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                                <span>Public</span>
-                            </div>
+                            <div style="font-size:14px; font-weight:600;">Charandas Bhaskar</div>
+                            <div style="font-size:11px; color:var(--yt-muted);">Public post • All Subscribers</div>
                         </div>
                     </div>
 
@@ -806,20 +870,14 @@
                     <div class="strip-card" onclick="attachPresetImg('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600')">
                         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200" alt="Nature">
                     </div>
-                    <div class="strip-card" onclick="attachPresetImg('https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=600')">
-                        <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=200" alt="Sunset">
-                    </div>
                 </div>
 
                 <div class="post-tools-tray">
-                    <button class="tray-icon-btn" onclick="openPollBuilder()" title="Poll">
+                    <button class="tray-icon-btn" onclick="showToast('Poll tool active')" title="Poll">
                         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
                     </button>
                     <button class="tray-icon-btn" onclick="document.getElementById('postImagePicker').click()" title="Image">
                         <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                    </button>
-                    <button class="tray-icon-btn" onclick="openQuizBuilder()" title="Quiz">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                     </button>
                 </div>
 
@@ -831,23 +889,6 @@
             </div>
         </div>
 
-        <!-- NATIVE POLL / QUIZ BOTTOM SHEET -->
-        <div class="yt-native-modal-backdrop" id="nativeBuilderModal">
-            <div class="yt-native-modal-sheet">
-                <div class="sheet-title">
-                    <span id="builderModalTitle">Create a poll</span>
-                    <span onclick="closeBuilderModal()" style="cursor:pointer; font-size:18px;">✕</span>
-                </div>
-                <input type="text" class="sheet-input" id="builderQuestion" placeholder="Ask question...">
-                <input type="text" class="sheet-input" id="builderOpt1" placeholder="Option 1">
-                <input type="text" class="sheet-input" id="builderOpt2" placeholder="Option 2">
-                <div class="sheet-btn-row">
-                    <button class="sheet-cancel-btn" onclick="closeBuilderModal()">Cancel</button>
-                    <button class="sheet-action-btn" onclick="applyBuilderData()">Done</button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div id="toast" class="toast"></div>
@@ -855,6 +896,7 @@
     <script>
         let currentMode = 'short';
         let isRecording = false;
+        let isScreenSharing = false;
         let activeStream = null;
 
         const toast = document.getElementById('toast');
@@ -864,19 +906,9 @@
             setTimeout(() => toast.classList.remove('show'), 1800);
         }
 
-        // Camera Lifecycle Management (Zero Overheating)
         window.addEventListener('load', () => {
             initCamera();
             renderToolsForMode('short');
-        });
-
-        // Pause camera tracks if user changes browser tab to prevent battery drain
-        document.addEventListener('visibilitychange', () => {
-            if (activeStream) {
-                activeStream.getTracks().forEach(track => {
-                    track.enabled = !document.hidden;
-                });
-            }
         });
 
         function initCamera() {
@@ -910,7 +942,7 @@
                 liveInfo.style.display = 'none';
                 liveStack.style.display = 'none';
                 renderToolsForMode('short');
-                showToast('Shorts Engine Ready ⚡');
+                showToast('Shorts Camera Mode ⚡');
             } else if (mode === 'video') {
                 soundPill.style.display = 'none';
                 captureRow.style.display = 'flex';
@@ -924,7 +956,7 @@
                 liveInfo.style.display = 'flex';
                 liveStack.style.display = 'flex';
                 renderToolsForMode('live');
-                showToast('Live Setup Ready 🔴');
+                showToast('Live Mode: ✏️ Edit or 📲 Screencast available');
             } else if (mode === 'post') {
                 openPostModal();
             }
@@ -953,7 +985,16 @@
                     </div>
                 `;
             } else if (mode === 'live') {
+                // Live mode with Edit (✏️) and Screencast (📲)
                 col.innerHTML = `
+                    <div class="tool-action-item" onclick="openLiveEditSheet()">
+                        <span class="tool-title">Edit details</span>
+                        <div class="tool-round-btn">✏️</div>
+                    </div>
+                    <div class="tool-action-item" onclick="toggleScreenCast()">
+                        <span class="tool-title">Screencast</span>
+                        <div class="tool-round-btn">📲</div>
+                    </div>
                     <div class="tool-action-item" onclick="showToast('Camera flipped')">
                         <span class="tool-title">Flip</span>
                         <div class="tool-round-btn">🔄</div>
@@ -966,10 +1007,6 @@
                         <span class="tool-title">Hide video</span>
                         <div class="tool-round-btn">📹</div>
                     </div>
-                    <div class="tool-action-item" onclick="showToast('Orientation Locked')">
-                        <span class="tool-title">Orientation</span>
-                        <div class="tool-round-btn">📱</div>
-                    </div>
                 `;
             } else {
                 col.innerHTML = `
@@ -980,7 +1017,74 @@
             }
         }
 
-        // ULTRA-FAST CHUNKED PARALLEL UPLOAD PIPELINE
+        /* SCREENCAST / SCREEN SHARE TOGGLE */
+        function toggleScreenCast() {
+            if (!isScreenSharing) {
+                if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+                    navigator.mediaDevices.getDisplayMedia({ video: true })
+                        .then(screenStream => {
+                            isScreenSharing = true;
+                            document.getElementById('liveCameraFeed').srcObject = screenStream;
+                            showToast('📲 Screencast Mode Active (Screen Sharing)');
+
+                            screenStream.getVideoTracks()[0].onended = () => {
+                                isScreenSharing = false;
+                                initCamera();
+                                showToast('Switched back to camera');
+                            };
+                        })
+                        .catch(() => {
+                            showToast('📲 Screencast ready (Simulated)');
+                        });
+                } else {
+                    showToast('📲 Mobile Screencast enabled');
+                }
+            } else {
+                isScreenSharing = false;
+                initCamera();
+                showToast('Switched back to camera');
+            }
+        }
+
+        /* LIVE DETAILS EDIT MODAL (PENCIL) */
+        function openLiveEditSheet() {
+            document.getElementById('liveEditModal').style.display = 'flex';
+        }
+
+        function closeLiveEditSheet() {
+            document.getElementById('liveEditModal').style.display = 'none';
+        }
+
+        function saveLiveDetails() {
+            const title = document.getElementById('liveStreamTitleInput').value.trim() || 'Charandas Bhaskar Live';
+            const vis = document.getElementById('liveStreamVisSelect').value;
+            document.getElementById('liveBadgeTitle').textContent = `${title} • ${vis}`;
+            closeLiveEditSheet();
+            showToast('Live stream settings updated! ✏️');
+        }
+
+        function loadLiveThumbnail(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const img = document.getElementById('liveThumbImg');
+                img.src = ev.target.result;
+                img.style.display = 'block';
+                showToast('Live Thumbnail set! 📷');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleLiveNext() {
+            const title = document.getElementById('liveStreamTitleInput').value.trim() || 'Charandas Bhaskar Live';
+            showToast('🔴 Entering Live Stream Room...');
+            setTimeout(() => {
+                window.location.href = `watch.html?title=${encodeURIComponent(title)}&channel=Charandas+Bhaskar&views=🔴+Live`;
+            }, 500);
+        }
+
+        // Turbo upload
         function startTurboChunkUpload(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -995,30 +1099,15 @@
             nameText.textContent = file.name;
             modal.style.display = 'flex';
 
-            // Binary Chunk Pipeline Simulation (10x faster than traditional whole uploads)
-            const totalBytes = file.size;
-            const chunkSize = 2 * 1024 * 1024; // 2MB Chunks
-            const totalChunks = Math.ceil(totalBytes / chunkSize);
-            let uploadedChunks = 0;
-
-            const uploadInterval = setInterval(() => {
-                uploadedChunks += 1;
-                const progress = Math.min(100, Math.round((uploadedChunks / totalChunks) * 100));
-                
+            let progress = 0;
+            const timer = setInterval(() => {
+                progress += 10;
                 fill.style.width = progress + '%';
                 percentText.textContent = progress + '%';
                 speedText.textContent = `Speed: ${(Math.random() * 20 + 35).toFixed(1)} MB/s`;
 
-                if (progress < 50) {
-                    statusText.textContent = `Streaming Chunk ${uploadedChunks}/${totalChunks}...`;
-                } else if (progress < 95) {
-                    statusText.textContent = 'Hardware Audio & 4K H.264 Encoder...';
-                } else {
-                    statusText.textContent = 'Integrity Check Passed ✓';
-                }
-
                 if (progress >= 100) {
-                    clearInterval(uploadInterval);
+                    clearInterval(timer);
                     showToast('🎉 Super-Fast Upload Complete!');
                     setTimeout(() => {
                         modal.style.display = 'none';
@@ -1044,13 +1133,6 @@
             }
         }
 
-        function handleLiveNext() {
-            showToast('🔴 Entering Stream Room...');
-            setTimeout(() => {
-                window.location.href = `watch.html?title=Charandas+Bhaskar+Live&channel=Charandas+Bhaskar&views=🔴+Live`;
-            }, 500);
-        }
-
         function selectMusicTrack() {
             const track = prompt('Select Track:\n1. Chhattisgarhi Folk\n2. Vande Mataram\n3. Lofi Beat', '1');
             if (track) {
@@ -1066,30 +1148,6 @@
         function closePostModal() {
             document.getElementById('postModal').style.display = 'none';
             switchMode('short');
-        }
-
-        function openPollBuilder() {
-            document.getElementById('builderModalTitle').textContent = 'Create a Poll';
-            document.getElementById('nativeBuilderModal').style.display = 'flex';
-        }
-
-        function openQuizBuilder() {
-            document.getElementById('builderModalTitle').textContent = 'Create a Quiz';
-            document.getElementById('nativeBuilderModal').style.display = 'flex';
-        }
-
-        function closeBuilderModal() {
-            document.getElementById('nativeBuilderModal').style.display = 'none';
-        }
-
-        function applyBuilderData() {
-            const q = document.getElementById('builderQuestion').value.trim();
-            if (q) {
-                const area = document.getElementById('postText');
-                area.value = (area.value + '\n\n📊 ' + q).trim();
-            }
-            closeBuilderModal();
-            showToast('Added to post!');
         }
 
         function attachPresetImg(url) {
