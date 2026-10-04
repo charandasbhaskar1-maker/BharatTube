@@ -18,7 +18,7 @@
 
         :root {
             --yt-black: #0f0f0f;
-            --yt-card: #181818;
+            --yt-card: #161616;
             --yt-card-hover: #222222;
             --yt-border: rgba(255, 255, 255, 0.08);
             --yt-text: #ffffff;
@@ -366,7 +366,7 @@
             flex-shrink: 0;
         }
 
-        /* Modal Overlay & Bottom Sheet */
+        /* Bottom Sheet Modal Container */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -381,7 +381,7 @@
         .bottom-sheet-card {
             width: 100%;
             max-width: 520px;
-            background: #1e1e1e;
+            background: #181818;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             border: 1px solid var(--yt-border);
@@ -395,8 +395,6 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding-bottom: 12px;
         }
 
         .sheet-header-row h3 {
@@ -408,13 +406,21 @@
             background: none;
             border: none;
             color: #ffffff;
-            font-size: 20px;
             cursor: pointer;
             padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sheet-close-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
         }
 
         .metric-card {
-            background: #141414;
+            background: #101010;
             border: 1px solid var(--yt-border);
             border-radius: 12px;
             padding: 14px;
@@ -430,36 +436,47 @@
         }
 
         .metric-progress-bar {
-            height: 8px;
-            background: #2a2a2a;
-            border-radius: 4px;
+            height: 6px;
+            background: #252525;
+            border-radius: 3px;
             overflow: hidden;
         }
 
         .metric-fill {
             height: 100%;
             background: var(--yt-blue);
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .policy-item {
-            background: #141414;
+            background: #101010;
             border: 1px solid var(--yt-border);
             border-radius: 12px;
-            padding: 12px 14px;
+            padding: 14px;
             margin-bottom: 10px;
         }
 
-        .policy-item h4 {
+        .policy-item-title {
             font-size: 14px;
             font-weight: 700;
             margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .policy-svg-mini {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            flex-shrink: 0;
         }
 
         .policy-item p {
             font-size: 12px;
             color: var(--yt-muted);
             line-height: 1.45;
+            padding-left: 28px;
         }
 
         .sheet-done-action-btn {
@@ -467,11 +484,11 @@
             background: var(--yt-blue);
             color: #000;
             border: none;
-            border-radius: 24px;
-            padding: 12px 0;
+            border-radius: 20px;
+            padding: 11px 0;
             font-size: 14px;
             font-weight: 700;
-            margin-top: 16px;
+            margin-top: 14px;
             cursor: pointer;
         }
     </style>
@@ -489,7 +506,7 @@
                 <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
             </button>
             <button class="top-icon-btn" onclick="openPolicyModal('guidelines')">
-                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l-1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
             </button>
         </div>
     </header>
@@ -505,7 +522,7 @@
             </div>
         </div>
 
-        <!-- 3 Quick Action Buttons -->
+        <!-- Quick Action Buttons -->
         <div class="profile-actions-pills">
             <button class="pill-btn" onclick="openPolicyModal('account')">
                 <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
@@ -687,7 +704,9 @@
         <div class="bottom-sheet-card">
             <div class="sheet-header-row">
                 <h3 id="modalSheetHeading">Details</h3>
-                <button class="sheet-close-btn" onclick="closePolicyModal()">✕</button>
+                <button class="sheet-close-btn" onclick="closePolicyModal()">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
             </div>
             <div id="modalSheetBody"></div>
             <button class="sheet-done-action-btn" onclick="closePolicyModal()">Got It</button>
@@ -703,7 +722,7 @@
             if (type === 'monetization') {
                 heading.textContent = 'BharatTube Partner Program (Earn)';
                 body.innerHTML = `
-                    <p style="font-size:13px; color:var(--yt-muted); margin-bottom:14px;">
+                    <p style="font-size:13px; color:var(--yt-muted); margin-bottom:14px; line-height:1.45;">
                         Monetize your videos with ad revenue, channel memberships, and super thanks once you meet the milestones.
                     </p>
 
@@ -737,47 +756,69 @@
                         </div>
                     </div>
 
-                    <div style="background:#141414; border:1px solid var(--yt-border); border-radius:10px; padding:12px; font-size:12px; color:var(--yt-muted);">
-                        🔒 <b>2-Step Verification:</b> Turned on<br>
-                        🚫 <b>Active Community Strikes:</b> 0 Active Strikes (Eligible)
+                    <div style="background:#101010; border:1px solid var(--yt-border); border-radius:10px; padding:12px; font-size:12px; color:var(--yt-muted); line-height:1.6;">
+                        <span style="color:#ffffff;">• 2-Step Verification:</span> Turned on<br>
+                        <span style="color:#ffffff;">• Active Community Strikes:</span> 0 Active Strikes (Eligible)
                     </div>
                 `;
             } else if (type === 'copyright') {
                 heading.textContent = 'Copyright & Content Protection';
                 body.innerHTML = `
-                    <div class="policy-item" style="border-left: 4px solid var(--yt-green);">
-                        <h4>✓ Channel Status: 0 Copyright Strikes</h4>
+                    <div class="policy-item" style="border-left: 3px solid var(--yt-green);">
+                        <div class="policy-item-title" style="color:var(--yt-green);">
+                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                            Channel Status: 0 Copyright Strikes
+                        </div>
                         <p>You have no active strikes. All your uploads follow Content ID guidelines.</p>
                     </div>
+
                     <div class="policy-item">
-                        <h4>⚖️ Fair Use & Original Content</h4>
+                        <div class="policy-item-title">
+                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                            Fair Use & Original Content
+                        </div>
                         <p>Only upload videos that you own or are authorized to use. Background music requires proper usage rights.</p>
                     </div>
+
                     <div class="policy-item">
-                        <h4>🚨 3-Strike Policy</h4>
+                        <div class="policy-item-title">
+                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+                            3-Strike Policy
+                        </div>
                         <p>Receiving 3 copyright strikes in 90 days results in permanent channel suspension.</p>
                     </div>
                 `;
             } else if (type === 'guidelines') {
                 heading.textContent = 'Community Guidelines & Safety';
                 body.innerHTML = `
-                    <div class="policy-item" style="border-left: 4px solid var(--yt-green);">
-                        <h4>🛡 Community Health: 100% Clean</h4>
+                    <div class="policy-item" style="border-left: 3px solid var(--yt-green);">
+                        <div class="policy-item-title" style="color:var(--yt-green);">
+                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                            Community Health: 100% Clean
+                        </div>
                         <p>Your channel is in good standing with zero warnings or active community strikes.</p>
                     </div>
+
                     <div class="policy-item">
-                        <h4>1. Spam & Deceptive Practices</h4>
+                        <div class="policy-item-title">
+                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                            1. Spam & Deceptive Practices
+                        </div>
                         <p>Misleading titles, fake thumbnails, and artificial engagement loops are strictly prohibited.</p>
                     </div>
+
                     <div class="policy-item">
-                        <h4>2. Safety & Respect</h4>
+                        <div class="policy-item-title">
+                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                            2. Safety & Respect
+                        </div>
                         <p>Harassment, hate speech, and graphic violent content are immediately removed.</p>
                     </div>
                 `;
             } else if (type === 'account') {
                 heading.textContent = 'Account Management';
                 body.innerHTML = `
-                    <div style="background:#141414; border:1px solid var(--yt-border); border-radius:10px; padding:12px; margin-bottom:12px;">
+                    <div style="background:#101010; border:1px solid var(--yt-border); border-radius:10px; padding:12px; margin-bottom:12px;">
                         <b>Charandas Bhaskar (Primary Channel)</b><br>
                         <span style="font-size:12px; color:var(--yt-muted);">@charandas_creator • 45.2K Subscribers</span>
                     </div>
@@ -787,8 +828,8 @@
                 heading.textContent = 'Help & Feedback';
                 body.innerHTML = `
                     <div class="policy-item">
-                        <h4>BharatTube Creator Support</h4>
-                        <p>Need help with video upload speeds or studio features? Contact support@bharattube.in</p>
+                        <div class="policy-item-title">BharatTube Creator Support</div>
+                        <p style="padding-left:0;">Need help with video upload speeds or studio features? Contact support@bharattube.in</p>
                     </div>
                 `;
             }
