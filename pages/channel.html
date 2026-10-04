@@ -19,7 +19,6 @@
         :root {
             --yt-black: #0f0f0f;
             --yt-card: #181818;
-            --yt-card-hover: #222222;
             --yt-border: rgba(255, 255, 255, 0.08);
             --yt-text: #ffffff;
             --yt-muted: #aaaaaa;
@@ -37,7 +36,7 @@
             padding-bottom: 70px;
         }
 
-        /* 1. Top Header Bar */
+        /* Top Header Bar */
         .channel-top-bar {
             height: 52px;
             display: flex;
@@ -89,13 +88,13 @@
             gap: 18px;
         }
 
-        /* 2. Channel Banner */
+        /* Banner */
         .channel-banner-container {
             width: 100%;
             aspect-ratio: 16 / 5;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
             position: relative;
             overflow: hidden;
+            background: #1a1a1a;
         }
 
         .channel-banner-img {
@@ -104,7 +103,7 @@
             object-fit: cover;
         }
 
-        /* 3. Channel Identity Header */
+        /* Channel Identity */
         .channel-info-section {
             padding: 16px 16px 10px;
             display: flex;
@@ -122,7 +121,7 @@
             width: 72px;
             height: 72px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff0000, #ff4e45);
+            background: linear-gradient(135deg, #e50914, #ff5252);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -187,7 +186,7 @@
             flex-shrink: 0;
         }
 
-        /* 4. Action Buttons (Subscribe / Manage) */
+        /* Action Buttons */
         .channel-actions-row {
             display: flex;
             gap: 10px;
@@ -235,7 +234,7 @@
             fill: #ffffff;
         }
 
-        /* 5. Horizontal Tabs */
+        /* Tabs */
         .channel-tabs-bar {
             display: flex;
             border-bottom: 1px solid var(--yt-border);
@@ -278,7 +277,7 @@
             border-radius: 2px;
         }
 
-        /* 6. Tab Content Panels */
+        /* Tab Content */
         .tab-panel-content {
             display: none;
             padding: 12px 0;
@@ -288,142 +287,7 @@
             display: block;
         }
 
-        /* Home Tab - Spotlight Video */
-        .spotlight-video-box {
-            padding: 0 16px 16px;
-            border-bottom: 1px solid var(--yt-border);
-            margin-bottom: 14px;
-        }
-
-        .spotlight-thumb {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #202020;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .spotlight-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .spotlight-time-tag {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: rgba(0,0,0,0.85);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        .spotlight-meta-block {
-            margin-top: 10px;
-        }
-
-        .spotlight-title {
-            font-size: 15px;
-            font-weight: 700;
-            line-height: 1.35;
-        }
-
-        .spotlight-sub {
-            font-size: 12px;
-            color: var(--yt-muted);
-            margin-top: 4px;
-        }
-
-        /* Shorts Shelf (Vertical Cards) */
-        .shorts-shelf-section {
-            padding: 6px 16px 16px;
-            border-bottom: 1px solid var(--yt-border);
-            margin-bottom: 14px;
-        }
-
-        .shelf-title-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .shelf-title-row svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--yt-red);
-        }
-
-        .shorts-horizontal-deck {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .shorts-horizontal-deck::-webkit-scrollbar {
-            display: none;
-        }
-
-        .short-card-item {
-            width: 140px;
-            aspect-ratio: 9 / 16;
-            background: #181818;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-            text-decoration: none;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 10px 8px;
-        }
-
-        .short-card-item img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .short-overlay-gradient {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
-        }
-
-        .short-card-title {
-            position: relative;
-            z-index: 2;
-            font-size: 12px;
-            font-weight: 700;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .short-card-views {
-            position: relative;
-            z-index: 2;
-            font-size: 11px;
-            color: var(--yt-muted);
-            margin-top: 3px;
-        }
-
-        /* Regular Video List Cards */
+        /* Video List Cards */
         .video-list-container {
             display: flex;
             flex-direction: column;
@@ -505,66 +369,60 @@
             fill: currentColor;
         }
 
-        /* Community Posts Section */
-        .community-feed-item {
-            padding: 16px;
-            border-bottom: 1px solid var(--yt-border);
+        /* Shorts Grid */
+        .shorts-grid-deck {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 0 16px;
+        }
+
+        .short-card-item {
+            aspect-ratio: 9 / 16;
+            background: #181818;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            justify-content: flex-end;
+            padding: 10px 8px;
         }
 
-        .comm-author-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .short-card-item img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .comm-author-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #ff4e45;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .short-overlay-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+        }
+
+        .short-card-title {
+            position: relative;
+            z-index: 2;
+            font-size: 12px;
             font-weight: 700;
-            font-size: 13px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .comm-author-name {
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .comm-time {
+        .short-card-views {
+            position: relative;
+            z-index: 2;
             font-size: 11px;
             color: var(--yt-muted);
-        }
-
-        .comm-text-content {
-            font-size: 14px;
-            line-height: 1.45;
-        }
-
-        .comm-poll-box {
-            background: var(--yt-card);
-            border: 1px solid var(--yt-border);
-            border-radius: 12px;
-            padding: 10px 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .comm-poll-opt {
-            background: #252525;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            cursor: pointer;
+            margin-top: 3px;
         }
 
         /* Bio Bottom Sheet */
@@ -614,7 +472,7 @@
 </head>
 <body>
 
-    <!-- 1. Top Bar -->
+    <!-- 1. Top Header -->
     <header class="channel-top-bar">
         <div class="header-left">
             <a href="../frontend/index.html" class="header-icon-btn">
@@ -623,7 +481,7 @@
             <span class="header-channel-title">Charandas Bhaskar</span>
         </div>
         <div class="header-right">
-            <button class="header-icon-btn" onclick="alert('Search within channel')">
+            <button class="header-icon-btn" onclick="alert('Search channel')">
                 <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             </button>
             <button class="header-icon-btn" onclick="openShareSheet()">
@@ -634,7 +492,7 @@
 
     <!-- 2. Channel Banner -->
     <div class="channel-banner-container">
-        <img class="channel-banner-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000" alt="Channel Banner">
+        <img class="channel-banner-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop" alt="Channel Banner">
     </div>
 
     <!-- 3. Identity Header -->
@@ -648,21 +506,19 @@
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
                 </div>
-                <div class="channel-handle-stats">@charandas_creator • 45.2K subscribers • 128 videos</div>
+                <div class="channel-handle-stats">@charandas • 120 Videos • 25.4K Subscribers</div>
             </div>
         </div>
 
-        <!-- Channel Bio Trigger -->
         <div class="channel-bio-row" onclick="openBioModal()">
-            <span>Official BharatTube creator channel. Tech tutorials, Chhattisgarhi folk music, and live streams...</span>
+            <span>Welcome to the official channel! Chhattisgarhi Panthi songs, regional folk culture, and daily tech vlogs...</span>
             <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </div>
 
-        <!-- Action Buttons -->
         <div class="channel-actions-row">
             <button class="btn-subscribe-pill" id="subBtn" onclick="toggleSubscribe()">Subscribe</button>
             <a href="upload.html" class="btn-secondary-pill">
-                <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                 <span>Upload</span>
             </a>
             <a href="profile.html" class="btn-secondary-pill">
@@ -674,71 +530,54 @@
 
     <!-- 4. Navigation Tabs -->
     <nav class="channel-tabs-bar">
-        <div class="channel-tab-item active" onclick="switchChannelTab('home', this)">HOME</div>
-        <div class="channel-tab-item" onclick="switchChannelTab('videos', this)">VIDEOS</div>
-        <div class="channel-tab-item" onclick="switchChannelTab('shorts', this)">SHORTS</div>
-        <div class="channel-tab-item" onclick="switchChannelTab('community', this)">COMMUNITY</div>
-        <div class="channel-tab-item" onclick="switchChannelTab('playlists', this)">PLAYLISTS</div>
+        <div class="channel-tab-item active" onclick="switchChannelTab('videos', this)">Videos</div>
+        <div class="channel-tab-item" onclick="switchChannelTab('shorts', this)">Shorts</div>
+        <div class="channel-tab-item" onclick="switchChannelTab('playlists', this)">Playlists</div>
+        <div class="channel-tab-item" onclick="switchChannelTab('about', this)">About</div>
     </nav>
 
     <!-- 5. TAB PANELS -->
 
-    <!-- TAB 1: HOME -->
-    <div class="tab-panel-content active" id="tab-home">
-        <!-- Spotlight Video -->
-        <div class="spotlight-video-box">
-            <a href="watch.html?title=BharatTube+Platform+Launch+Official+Video&channel=Charandas+Bhaskar&views=84K+views" style="text-decoration:none; color:#fff;">
-                <div class="spotlight-thumb">
-                    <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" alt="Spotlight">
-                    <span class="spotlight-time-tag">14:20</span>
-                </div>
-                <div class="spotlight-meta-block">
-                    <div class="spotlight-title">BharatTube Platform Launch & Full Creator Studio Guide</div>
-                    <div class="spotlight-sub">84K views • 2 weeks ago</div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Shorts Shelf -->
-        <div class="shorts-shelf-section">
-            <div class="shelf-title-row">
-                <svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5L18 8.06a4.2 4.2 0 00-5.83-3.88l-5 2.11A4.2 4.2 0 004.8 11.2l1.2.5-1.43 1.76a4.2 4.2 0 005.83 3.88l5-2.11a4.2 4.2 0 002.37-4.91z"/></svg>
-                <span>Shorts</span>
-            </div>
-            <div class="shorts-horizontal-deck">
-                <a href="shorts.html" class="short-card-item">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400" alt="Short 1">
-                    <div class="short-overlay-gradient"></div>
-                    <div class="short-card-title">Live coding BharatTube in 60s ⚡</div>
-                    <div class="short-card-views">1.2M views</div>
-                </a>
-                <a href="shorts.html" class="short-card-item">
-                    <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400" alt="Short 2">
-                    <div class="short-overlay-gradient"></div>
-                    <div class="short-card-title">Taj Mahal 4K Cinematic Shot</div>
-                    <div class="short-card-views">840K views</div>
-                </a>
-                <a href="shorts.html" class="short-card-item">
-                    <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=400" alt="Short 3">
-                    <div class="short-overlay-gradient"></div>
-                    <div class="short-card-title">Chhattisgarhi Folk Beats Beatdrop 🔥</div>
-                    <div class="short-card-views">420K views</div>
-                </a>
-            </div>
-        </div>
-
-        <!-- Latest Videos Grid -->
-        <div class="video-list-container" style="margin-top:10px;">
-            <div style="font-size:16px; font-weight:700; margin-bottom:6px;">Popular uploads</div>
-            <a href="watch.html?title=FastAPI+Python+Crash+Course&channel=Charandas+Bhaskar&views=52K+views" class="video-feed-card">
+    <!-- TAB 1: VIDEOS -->
+    <div class="tab-panel-content active" id="tab-videos">
+        <div class="video-list-container">
+            <a href="watch.html?title=Chhattisgarhi+Panthi+Song+Special+Folk+Video&channel=Charandas+Bhaskar&views=125K+views" class="video-feed-card">
                 <div class="video-feed-thumb">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600" alt="Video">
-                    <span class="video-duration-pill">28:15</span>
+                    <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=700" alt="Video 1">
+                    <span class="video-duration-pill">05:42</span>
                 </div>
                 <div class="video-feed-info-row">
                     <div class="video-feed-text">
-                        <div class="video-feed-title">FastAPI & Python Web Development Full Course 2026</div>
-                        <div class="video-feed-sub">52K views • 1 month ago</div>
+                        <div class="video-feed-title">Chhattisgarhi Panthi Song • Special Folk Video</div>
+                        <div class="video-feed-sub">125K views • 2 days ago</div>
+                    </div>
+                    <button class="card-more-btn"><svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
+                </div>
+            </a>
+
+            <a href="watch.html?title=Indian+Food+Special+Thali+Cooking&channel=Charandas+Bhaskar&views=54K+views" class="video-feed-card">
+                <div class="video-feed-thumb">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700" alt="Video 2">
+                    <span class="video-duration-pill">12:18</span>
+                </div>
+                <div class="video-feed-info-row">
+                    <div class="video-feed-text">
+                        <div class="video-feed-title">Indian Food Special Thali Cooking Vlog</div>
+                        <div class="video-feed-sub">54K views • 1 week ago</div>
+                    </div>
+                    <button class="card-more-btn"><svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
+                </div>
+            </a>
+
+            <a href="watch.html?title=Travel+Vlog+Exploring+Nature&channel=Charandas+Bhaskar&views=89K+views" class="video-feed-card">
+                <div class="video-feed-thumb">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700" alt="Video 3">
+                    <span class="video-duration-pill">08:45</span>
+                </div>
+                <div class="video-feed-info-row">
+                    <div class="video-feed-text">
+                        <div class="video-feed-title">Travel Vlog Exploring Nature & Waterfalls</div>
+                        <div class="video-feed-sub">89K views • 2 weeks ago</div>
                     </div>
                     <button class="card-more-btn"><svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg></button>
                 </div>
@@ -746,101 +585,52 @@
         </div>
     </div>
 
-    <!-- TAB 2: VIDEOS -->
-    <div class="tab-panel-content" id="tab-videos">
-        <div class="video-list-container">
-            <a href="watch.html?title=FastAPI+Python+Crash+Course&channel=Charandas+Bhaskar&views=52K+views" class="video-feed-card">
-                <div class="video-feed-thumb">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600" alt="Video">
-                    <span class="video-duration-pill">28:15</span>
-                </div>
-                <div class="video-feed-info-row">
-                    <div class="video-feed-text">
-                        <div class="video-feed-title">FastAPI & Python Web Development Full Course 2026</div>
-                        <div class="video-feed-sub">52K views • 1 month ago</div>
-                    </div>
-                </div>
-            </a>
-            <a href="watch.html?title=Chhattisgarhi+Folk+Dance+Documentary&channel=Charandas+Bhaskar&views=34K+views" class="video-feed-card">
-                <div class="video-feed-thumb">
-                    <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=600" alt="Video">
-                    <span class="video-duration-pill">18:42</span>
-                </div>
-                <div class="video-feed-info-row">
-                    <div class="video-feed-text">
-                        <div class="video-feed-title">Chhattisgarhi Folk Dance & Heritage Documentary</div>
-                        <div class="video-feed-sub">34K views • 2 months ago</div>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- TAB 3: SHORTS -->
+    <!-- TAB 2: SHORTS -->
     <div class="tab-panel-content" id="tab-shorts">
-        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; padding:0 16px;">
-            <a href="shorts.html" class="short-card-item" style="width:100%;">
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400" alt="Short 1">
+        <div class="shorts-grid-deck">
+            <a href="shorts.html" class="short-card-item">
+                <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=500" alt="Short 1">
                 <div class="short-overlay-gradient"></div>
-                <div class="short-card-title">Live coding BharatTube in 60s ⚡</div>
-                <div class="short-card-views">1.2M views</div>
+                <div class="short-card-title">Panthi Beats Beatdrop 🔥</div>
+                <div class="short-card-views">520K views</div>
             </a>
-            <a href="shorts.html" class="short-card-item" style="width:100%;">
-                <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400" alt="Short 2">
+            <a href="shorts.html" class="short-card-item">
+                <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=500" alt="Short 2">
                 <div class="short-overlay-gradient"></div>
-                <div class="short-card-title">Taj Mahal 4K Cinematic Shot</div>
-                <div class="short-card-views">840K views</div>
-            </a>
-            <a href="shorts.html" class="short-card-item" style="width:100%;">
-                <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=400" alt="Short 3">
-                <div class="short-overlay-gradient"></div>
-                <div class="short-card-title">Chhattisgarhi Folk Beats Beatdrop 🔥</div>
-                <div class="short-card-views">420K views</div>
+                <div class="short-card-title">Village Morning Vlog ☀️</div>
+                <div class="short-card-views">310K views</div>
             </a>
         </div>
     </div>
 
-    <!-- TAB 4: COMMUNITY -->
-    <div class="tab-panel-content" id="tab-community">
-        <div class="community-feed-item">
-            <div class="comm-author-row">
-                <div class="comm-author-avatar">CB</div>
-                <div>
-                    <div class="comm-author-name">Charandas Bhaskar</div>
-                    <div class="comm-time">2 days ago</div>
-                </div>
-            </div>
-            <div class="comm-text-content">
-                Agle Sunday hum live aane wale hain! Aap sabhi ko agla tutorial kis topic par chahiye? Vote karein 👇
-            </div>
-            <div class="comm-poll-box">
-                <div class="comm-poll-opt">
-                    <span>1. AI Video Generator App</span>
-                    <span style="color:var(--yt-blue); font-weight:700;">64%</span>
-                </div>
-                <div class="comm-poll-opt">
-                    <span>2. Full Stack Backend in Python</span>
-                    <span style="color:var(--yt-muted);">36%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 5: PLAYLISTS -->
+    <!-- TAB 3: PLAYLISTS -->
     <div class="tab-panel-content" id="tab-playlists">
         <div class="video-list-container">
             <div class="video-feed-card">
                 <div class="video-feed-thumb" style="background:#222;">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600" alt="Playlist">
-                    <span class="video-duration-pill">14 videos</span>
+                    <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=700" alt="Playlist">
+                    <span class="video-duration-pill">24 videos</span>
                 </div>
-                <div class="video-feed-title" style="margin-top:6px;">Web Development Bootcamp Series</div>
-                <div class="video-feed-sub">View full playlist</div>
+                <div class="video-feed-title" style="margin-top:6px;">Chhattisgarhi Folk & Cultural Songs</div>
+                <div class="video-feed-sub">Updated recently • View full playlist</div>
             </div>
         </div>
     </div>
 
-    <!-- 6. About Channel Sheet -->
+    <!-- TAB 4: ABOUT -->
+    <div class="tab-panel-content" id="tab-about">
+        <div style="padding: 0 16px; font-size:14px; line-height:1.6; color:#ddd;">
+            <p>Namaskar dosto! Is channel par aapko traditional Chhattisgarhi folk music, Panthi geet, daily lifestyle vlogs aur tech tutorials dekhne ko milenge.</p>
+            <div style="border-top:1px solid var(--yt-border); margin-top:16px; padding-top:14px; display:flex; flex-direction:column; gap:10px; font-size:13px; color:var(--yt-muted);">
+                <div>🌐 <b>Website:</b> <a href="#" style="color:var(--yt-blue); text-decoration:none;">charandas.bharattube.in</a></div>
+                <div>📅 <b>Joined:</b> October 2024</div>
+                <div>👁 <b>Total Views:</b> 1,840,250 views</div>
+                <div>📍 <b>Location:</b> India</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bio Modal Sheet -->
     <div class="modal-overlay" id="bioModal">
         <div class="bottom-sheet-card">
             <div class="sheet-title-row">
@@ -848,12 +638,12 @@
                 <button class="sheet-close-btn" onclick="closeBioModal()">✕</button>
             </div>
             <div style="font-size:14px; line-height:1.6; color:#ddd; margin-bottom:16px;">
-                Namaskar dosto! Is channel par aapko BharatTube ke updates, Full Stack Web Development, high quality regional culture aur tech innovations ke videos milenge.
+                Namaskar dosto! Is channel par aapko traditional Chhattisgarhi folk music, Panthi geet, daily lifestyle vlogs aur tech tutorials dekhne ko milenge.
             </div>
-            <div style="border-top:1px solid var(--yt-border); padding-top:14px; display:flex; flex-direction:column; gap:8px; font-size:13px; color:var(--yt-muted);">
-                <div>🌐 <b>Links:</b> <a href="#" style="color:var(--yt-blue); text-decoration:none;">bharattube.in/charandas</a></div>
+            <div style="border-top:1px solid var(--yt-border); padding-top:14px; display:flex; flex-direction:column; gap:10px; font-size:13px; color:var(--yt-muted);">
+                <div>🌐 <b>Links:</b> <a href="#" style="color:var(--yt-blue); text-decoration:none;">charandas.bharattube.in</a></div>
                 <div>📅 <b>Joined:</b> October 2024</div>
-                <div>👁 <b>Total Views:</b> 2,840,120 views</div>
+                <div>👁 <b>Total Views:</b> 1,840,250 views</div>
                 <div>📍 <b>Location:</b> India</div>
             </div>
         </div>
@@ -879,10 +669,8 @@
             document.querySelectorAll('.tab-panel-content').forEach(p => p.classList.remove('active'));
 
             element.classList.add('active');
-            const targetPanel = document.getElementById('tab-' + tabName);
-            if (targetPanel) {
-                targetPanel.classList.add('active');
-            }
+            const target = document.getElementById('tab-' + tabName);
+            if (target) target.classList.add('active');
         }
 
         function openBioModal() {
@@ -900,7 +688,7 @@
                     url: window.location.href
                 }).catch(() => {});
             } else {
-                alert('Channel link copied: ' + window.location.href);
+                alert('Channel link copied!');
             }
         }
     </script>
