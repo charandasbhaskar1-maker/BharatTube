@@ -2,9 +2,9 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#070b10">
-    <title>BharatTube - You</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f0f">
+    <title>Profile & Creator Hub - BharatTube</title>
     <style>
         * {
             margin: 0;
@@ -14,524 +14,829 @@
         }
 
         :root {
-            --bg: #070b10;
-            --panel: #111822;
-            --panel2: #192332;
-            --border: #243245;
-            --text: #f5f7fa;
-            --muted: #9aa8ba;
-            --red: #ff0000;
-            --blue: #3ea6ff;
+            --yt-black: #0f0f0f;
+            --yt-card: #181818;
+            --yt-card-hover: #222222;
+            --yt-border: rgba(255, 255, 255, 0.1);
+            --yt-text: #ffffff;
+            --yt-muted: #aaaaaa;
+            --yt-blue: #3ea6ff;
+            --yt-green: #2ecc71;
+            --yt-gold: #f1c40f;
+            --yt-red: #ff4e45;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            background-color: var(--yt-black);
+            color: var(--yt-text);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
             padding-bottom: 70px;
         }
 
         /* Top Header */
-        .you-header {
+        .top-nav-bar {
             height: 52px;
-            background: rgba(7, 11, 16, 0.98);
-            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
             position: sticky;
             top: 0;
+            background: var(--yt-black);
             z-index: 100;
+            border-bottom: 1px solid var(--yt-border);
         }
 
-        .back-link {
-            color: var(--text);
-            text-decoration: none;
+        .nav-back-link {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 15px;
-            font-weight: 600;
+            gap: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
         }
 
-        .header-icons {
+        .nav-back-link svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        .top-icons-row {
             display: flex;
             align-items: center;
             gap: 16px;
         }
 
-        .icon-action {
+        .top-icon-btn {
             background: none;
             border: none;
-            color: var(--text);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #ffffff;
         }
 
-        .icon-action svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
+        .top-icon-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
         }
 
-        .container {
-            max-width: 680px;
-            margin: auto;
-            padding: 16px;
+        /* Creator Profile Header */
+        .profile-hero {
+            padding: 20px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        /* User Identity Card (YouTube Style) */
-        .user-identity-card {
+        .profile-meta-row {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 18px;
-            text-decoration: none;
-            color: inherit;
+            gap: 16px;
         }
 
-        .big-avatar {
+        .creator-avatar-wrap {
             width: 68px;
             height: 68px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff0000, #ff5e62);
-            color: #ffffff;
+            background: linear-gradient(135deg, #ff0000, #ff4e45);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
+            color: #ffffff;
             flex-shrink: 0;
-            box-shadow: 0 4px 14px rgba(255, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        .identity-text h2 {
-            font-size: 18px;
+        .creator-text-details h1 {
+            font-size: 19px;
             font-weight: 700;
-            margin-bottom: 3px;
+            line-height: 1.25;
         }
 
-        .identity-handle {
-            font-size: 12px;
-            color: var(--muted);
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .creator-handle {
+            font-size: 13px;
+            color: var(--yt-muted);
+            margin: 3px 0 6px;
         }
 
         .view-channel-link {
-            font-size: 12px;
-            color: var(--blue);
+            font-size: 13px;
+            color: var(--yt-blue);
+            text-decoration: none;
             font-weight: 600;
         }
 
-        /* Profile Quick Pills */
-        .quick-pills {
+        /* Quick Profile Action Buttons */
+        .profile-actions-pills {
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            padding-bottom: 12px;
             scrollbar-width: none;
-            margin-bottom: 16px;
         }
 
-        .quick-pills::-webkit-scrollbar {
+        .profile-actions-pills::-webkit-scrollbar {
             display: none;
         }
 
         .pill-btn {
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 7px 14px;
-            border-radius: 18px;
-            font-size: 12px;
+            background: #222222;
+            border: 1px solid var(--yt-border);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
             font-weight: 600;
-            white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 6px;
-            cursor: pointer;
+            gap: 8px;
             text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
         }
 
         .pill-btn svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
         }
 
-        /* Section Block */
-        .section-block {
-            margin-bottom: 24px;
+        /* Section Container */
+        .hub-section {
+            padding: 14px 16px 0;
         }
 
-        .section-title-row {
+        .section-header-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 12px;
         }
 
-        .section-title-row h3 {
-            font-size: 15px;
+        .section-header-row h2 {
+            font-size: 16px;
             font-weight: 700;
         }
 
-        .see-all-btn {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--blue);
-            font-size: 12px;
+        .section-action-link {
+            color: var(--yt-blue);
+            font-size: 13px;
             font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 16px;
-            cursor: pointer;
+            text-decoration: none;
         }
 
-        /* Horizontal Carousel (History / Playlists) */
-        .horizontal-carousel {
+        /* Horizontal Carousel (History & Playlists) */
+        .horizontal-cards-deck {
             display: flex;
             gap: 12px;
             overflow-x: auto;
             scrollbar-width: none;
-            padding-bottom: 4px;
+            padding-bottom: 6px;
         }
 
-        .horizontal-carousel::-webkit-scrollbar {
+        .horizontal-cards-deck::-webkit-scrollbar {
             display: none;
         }
 
-        .video-mini-card {
+        .video-card-mini {
             width: 140px;
             flex-shrink: 0;
-            text-decoration: none;
-            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
-        .thumb-wrap {
-            width: 140px;
+        .video-thumb-wrap {
+            width: 100%;
             aspect-ratio: 16 / 9;
-            background: var(--panel2);
+            background: #252525;
             border-radius: 10px;
-            border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 6px;
         }
 
-        .thumb-wrap .play-sym {
-            font-size: 16px;
-            opacity: 0.8;
+        .video-thumb-wrap svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--yt-muted);
         }
 
-        .duration-tag {
+        .time-badge {
             position: absolute;
             bottom: 4px;
             right: 4px;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             font-size: 10px;
             padding: 2px 4px;
             border-radius: 4px;
             font-weight: 600;
         }
 
-        .mini-title {
+        .video-mini-title {
             font-size: 12px;
             font-weight: 600;
-            line-height: 1.3;
+            line-height: 1.35;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            margin-bottom: 2px;
         }
 
-        .mini-channel {
+        .video-mini-meta {
             font-size: 11px;
-            color: var(--muted);
+            color: var(--yt-muted);
         }
 
-        /* YouTube Studio Tools List */
-        .menu-list-group {
-            background: var(--panel);
-            border: 1px solid var(--border);
+        /* Menu Groups */
+        .settings-menu-group {
+            margin: 16px 16px 0;
+            background: var(--yt-card);
             border-radius: 16px;
+            border: 1px solid var(--yt-border);
             overflow: hidden;
-            margin-bottom: 20px;
         }
 
-        .menu-item {
+        .group-label-header {
+            padding: 12px 16px 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--yt-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-row-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 14px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
             text-decoration: none;
-            color: inherit;
+            color: #ffffff;
             cursor: pointer;
-            background: transparent;
-            width: 100%;
-            border-left: 0;
-            border-right: 0;
-            border-top: 0;
-            font-family: inherit;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.15s;
         }
 
-        .menu-item:last-child {
+        .menu-row-item:last-child {
             border-bottom: none;
         }
 
-        .menu-item:active {
-            background: var(--panel2);
+        .menu-row-item:active {
+            background: var(--yt-card-hover);
         }
 
-        .menu-left {
+        .menu-left-block {
             display: flex;
             align-items: center;
             gap: 14px;
+        }
+
+        .menu-icon-wrap {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .menu-icon-wrap svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        .menu-title-text {
             font-size: 14px;
+            font-weight: 500;
+        }
+
+        .menu-tag-pill {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+        }
+
+        .tag-green {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--yt-green);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .tag-blue {
+            background: rgba(62, 166, 255, 0.15);
+            color: var(--yt-blue);
+            border: 1px solid rgba(62, 166, 255, 0.3);
+        }
+
+        .menu-chevron {
+            color: var(--yt-muted);
+            font-size: 16px;
             font-weight: 600;
         }
 
-        .menu-left svg {
-            width: 20px;
-            height: 20px;
-            fill: #9aa8ba;
-        }
-
-        .menu-right-arrow {
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .logout-item .menu-left {
-            color: #ff4d4d;
-        }
-
-        .logout-item svg {
-            fill: #ff4d4d !important;
-        }
-
-        /* Toast */
-        .toast {
+        /* Modal Overlay & Bottom Sheet */
+        .modal-overlay {
+            display: none;
             position: fixed;
-            left: 50%;
-            bottom: 24px;
-            transform: translate(-50%, 20px);
-            background: #ffffff;
-            color: #070b10;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.25s ease;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
             z-index: 1000;
-            white-space: nowrap;
+            align-items: flex-end;
+            justify-content: center;
         }
 
-        .toast.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
+        .bottom-sheet-card {
+            width: 100%;
+            max-width: 520px;
+            background: #1e1e1e;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border: 1px solid var(--yt-border);
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 20px 18px max(24px, env(safe-area-inset-bottom, 24px));
+        }
+
+        .sheet-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+        }
+
+        .sheet-header-row h3 {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .sheet-close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* Monetization Progress Cards */
+        .metric-card {
+            background: #141414;
+            border: 1px solid var(--yt-border);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .metric-top-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .metric-progress-bar {
+            height: 8px;
+            background: #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: var(--yt-blue);
+            border-radius: 4px;
+        }
+
+        /* Rules list items inside modal */
+        .policy-list-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .policy-item {
+            background: #141414;
+            border: 1px solid var(--yt-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+
+        .policy-item h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .policy-item p {
+            font-size: 12px;
+            color: var(--yt-muted);
+            line-height: 1.45;
+        }
+
+        .sheet-done-action-btn {
+            width: 100%;
+            background: var(--yt-blue);
+            color: #000;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="you-header">
-        <a href="../frontend/index.html" class="back-link">
-            ← <span>Home</span>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav-bar">
+        <a href="../frontend/index.html" class="nav-back-link">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            <span>Home</span>
         </a>
-        <div class="header-icons">
-            <button class="icon-action" onclick="showToast('Notifications are up to date 🔔')" title="Notifications">
+        <div class="top-icons-row">
+            <button class="top-icon-btn" onclick="openPolicyModal('guidelines')">
                 <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
             </button>
-            <button class="icon-action" onclick="showToast('Opening Settings ⚙️')" title="Settings">
+            <button class="top-icon-btn" onclick="openPolicyModal('settings')">
                 <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
             </button>
         </div>
     </header>
 
-    <div class="container">
-
-        <!-- Channel Identification -->
-        <a href="channel.html" class="user-identity-card">
-            <div class="big-avatar">B</div>
-            <div class="identity-text">
-                <h2>Bharat User</h2>
-                <div class="identity-handle">@bharat_creator • 45.2K subs</div>
-                <div class="view-channel-link">View channel ></div>
+    <!-- Creator Header Info -->
+    <section class="profile-hero">
+        <div class="profile-meta-row">
+            <div class="creator-avatar-wrap" id="userAvatarText">CB</div>
+            <div class="creator-text-details">
+                <h1 id="userDisplayName">Charandas Bhaskar</h1>
+                <div class="creator-handle" id="userHandleText">@charandas_creator • 45.2K subs</div>
+                <a href="channel.html" class="view-channel-link">View channel ></a>
             </div>
-        </a>
+        </div>
 
-        <!-- Quick Pills (YouTube Style) -->
-        <div class="quick-pills">
-            <button class="pill-btn" onclick="showToast('Switching Account...')">
+        <div class="profile-actions-pills">
+            <button class="pill-btn" onclick="openPolicyModal('switch')">
                 <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                 <span>Switch account</span>
             </button>
             <a href="upload.html" class="pill-btn">
                 <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
-                <span>Upload</span>
+                <span>Create / Upload</span>
             </a>
-            <button class="pill-btn" onclick="showToast('Google Account settings')">
+            <button class="pill-btn" onclick="openPolicyModal('account')">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                <span>Account</span>
+                <span>Google Account</span>
             </button>
         </div>
+    </section>
 
-        <!-- History Section (Horizontal Carousel) -->
-        <section class="section-block">
-            <div class="section-title-row">
-                <h3>History</h3>
-                <button class="see-all-btn" onclick="showToast('History list')">View all</button>
+    <!-- History Carousel -->
+    <section class="hub-section">
+        <div class="section-header-row">
+            <h2>History</h2>
+            <a href="#" class="section-action-link">View all</a>
+        </div>
+        <div class="horizontal-cards-deck">
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <span class="time-badge">08:15</span>
+                </div>
+                <div class="video-mini-title">India Today News Headlines</div>
+                <div class="video-mini-meta">Bharat News</div>
             </div>
-            <div class="horizontal-carousel">
-                <a href="watch.html?title=India+Today+News&channel=Bharat+News&views=342K" class="video-mini-card">
-                    <div class="thumb-wrap">
-                        <span class="play-sym">▶</span>
-                        <span class="duration-tag">08:15</span>
-                    </div>
-                    <div class="mini-title">India Today News Headlines</div>
-                    <div class="mini-channel">Bharat News</div>
-                </a>
-
-                <a href="watch.html?title=Learn+Computer+Basics&channel=Education+India&views=84K" class="video-mini-card">
-                    <div class="thumb-wrap">
-                        <span class="play-sym">▶</span>
-                        <span class="duration-tag">12:48</span>
-                    </div>
-                    <div class="mini-title">Learn Computer Basics Full Course</div>
-                    <div class="mini-channel">Education India</div>
-                </a>
-
-                <a href="watch.html?title=Chhattisgarhi+Panthi+Song&channel=A+One+Music&views=125K" class="video-mini-card">
-                    <div class="thumb-wrap">
-                        <span class="play-sym">▶</span>
-                        <span class="duration-tag">04:32</span>
-                    </div>
-                    <div class="mini-title">Chhattisgarhi Panthi Song 2026</div>
-                    <div class="mini-channel">A One Music</div>
-                </a>
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <span class="time-badge">12:48</span>
+                </div>
+                <div class="video-mini-title">FastAPI & Python Crash Course</div>
+                <div class="video-mini-meta">Dev India</div>
             </div>
-        </section>
-
-        <!-- Playlists Section -->
-        <section class="section-block">
-            <div class="section-title-row">
-                <h3>Playlists</h3>
-                <button class="see-all-btn" onclick="showToast('Creating new playlist...')">+ New</button>
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <span class="time-badge">04:20</span>
+                </div>
+                <div class="video-mini-title">Chhattisgarhi Folk Beats Official</div>
+                <div class="video-mini-meta">Regional Songs</div>
             </div>
-            <div class="horizontal-carousel">
-                <a href="watch.html?title=Liked+Videos&channel=BharatTube&views=Playlist" class="video-mini-card">
-                    <div class="thumb-wrap" style="background:#1b2838;">
-                        <span style="font-size:22px;">👍</span>
-                        <span class="duration-tag">24 vids</span>
-                    </div>
-                    <div class="mini-title">Liked Videos</div>
-                    <div class="mini-channel">Auto Playlist</div>
-                </a>
+        </div>
+    </section>
 
-                <a href="watch.html?title=Watch+Later&channel=BharatTube&views=Playlist" class="video-mini-card">
-                    <div class="thumb-wrap" style="background:#202b36;">
-                        <span style="font-size:22px;">⏱</span>
-                        <span class="duration-tag">12 vids</span>
-                    </div>
-                    <div class="mini-title">Watch Later</div>
-                    <div class="mini-channel">Private</div>
-                </a>
-
-                <a href="watch.html?title=Chhattisgarhi+Favorites&channel=My+Songs&views=Playlist" class="video-mini-card">
-                    <div class="thumb-wrap" style="background:#241d2d;">
-                        <span style="font-size:22px;">🎵</span>
-                        <span class="duration-tag">8 vids</span>
-                    </div>
-                    <div class="mini-title">Regional Favorites</div>
-                    <div class="mini-channel">Custom</div>
-                </a>
+    <!-- Playlists Carousel -->
+    <section class="hub-section">
+        <div class="section-header-row">
+            <h2>Playlists</h2>
+            <a href="#" class="section-action-link">+ New</a>
+        </div>
+        <div class="horizontal-cards-deck">
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap" style="background:#202020;">
+                    <span style="font-size:22px;">👍</span>
+                    <span class="time-badge">24 vids</span>
+                </div>
+                <div class="video-mini-title">Liked Videos</div>
+                <div class="video-mini-meta">Auto Playlist</div>
             </div>
-        </section>
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap" style="background:#202020;">
+                    <span style="font-size:22px;">⏱️</span>
+                    <span class="time-badge">12 vids</span>
+                </div>
+                <div class="video-mini-title">Watch Later</div>
+                <div class="video-mini-meta">Private</div>
+            </div>
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap" style="background:#202020;">
+                    <span style="font-size:22px;">📂</span>
+                    <span class="time-badge">8 vids</span>
+                </div>
+                <div class="video-mini-title">My Creations</div>
+                <div class="video-mini-meta">Public</div>
+            </div>
+        </div>
+    </section>
 
-        <!-- YouTube Services & Creator Hub -->
-        <div class="menu-list-group">
-            <a href="channel.html" class="menu-item">
-                <div class="menu-left">
+    <!-- 1. CREATOR MONETIZATION & POLICY HUB (NEW SECTION) -->
+    <section class="settings-menu-group">
+        <div class="group-label-header">Partner Program & Policies</div>
+
+        <!-- Monetization Program Item -->
+        <div class="menu-row-item" onclick="openPolicyModal('monetization')">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap" style="color:var(--yt-green);">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.12 1.87 1.39 0 2.05-.77 2.05-1.57 0-1.12-.9-1.63-2.69-2.07-2.12-.52-3.43-1.42-3.43-3.24 0-1.71 1.33-2.91 2.93-3.29V5h2.67v1.87c1.47.33 2.72 1.34 2.89 3.03h-1.96c-.16-.84-.79-1.54-1.89-1.54-1.15 0-1.88.66-1.88 1.49 0 .97.81 1.45 2.59 1.9 2.3.58 3.53 1.51 3.53 3.43 0 1.83-1.39 3.04-2.9 3.4z"/></svg>
+                </div>
+                <div>
+                    <span class="menu-title-text">Monetization & Earn</span>
+                    <span class="menu-tag-pill tag-green">Active Tracker</span>
+                </div>
+            </div>
+            <span class="menu-chevron">></span>
+        </div>
+
+        <!-- Copyright & Protection -->
+        <div class="menu-row-item" onclick="openPolicyModal('copyright')">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap" style="color:var(--yt-gold);">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6c1.66 0 3.16-.67 4.24-1.76l-1.41-1.41C14.07 15.6 13.08 16 12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4c1.08 0 2.07.4 2.83 1.17l1.41-1.41C15.16 6.67 13.66 6 12 6z"/></svg>
+                </div>
+                <div>
+                    <span class="menu-title-text">Copyright & Content ID</span>
+                    <span class="menu-tag-pill tag-blue">0 Strikes</span>
+                </div>
+            </div>
+            <span class="menu-chevron">></span>
+        </div>
+
+        <!-- Community Guidelines -->
+        <div class="menu-row-item" onclick="openPolicyModal('guidelines')">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap" style="color:var(--yt-blue);">
+                    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                </div>
+                <div>
+                    <span class="menu-title-text">Community Guidelines</span>
+                    <span class="menu-tag-pill tag-green">Good Standing</span>
+                </div>
+            </div>
+            <span class="menu-chevron">></span>
+        </div>
+    </section>
+
+    <!-- Standard Channel Management Group -->
+    <section class="settings-menu-group">
+        <div class="group-label-header">Channel Tools</div>
+
+        <a href="channel.html" class="menu-row-item">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap">
                     <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
-                    <span>Your channel</span>
                 </div>
-                <span class="menu-right-arrow">></span>
-            </a>
+                <span class="menu-title-text">Your channel</span>
+            </div>
+            <span class="menu-chevron">></span>
+        </a>
 
-            <a href="upload.html" class="menu-item">
-                <div class="menu-left">
+        <a href="upload.html" class="menu-row-item">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap">
                     <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
-                    <span>YouTube Studio / Upload</span>
                 </div>
-                <span class="menu-right-arrow">></span>
-            </a>
+                <span class="menu-title-text">BharatTube Studio / Upload</span>
+            </div>
+            <span class="menu-chevron">></span>
+        </a>
 
-            <button class="menu-item" onclick="showToast('Your Downloads is empty')">
-                <div class="menu-left">
+        <div class="menu-row-item" onclick="openPolicyModal('downloads')">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap">
                     <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
-                    <span>Downloads</span>
                 </div>
-                <span class="menu-right-arrow">></span>
-            </button>
-
-            <button class="menu-item" onclick="showToast('History & privacy settings')">
-                <div class="menu-left">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
-                    <span>Help and feedback</span>
-                </div>
-                <span class="menu-right-arrow">></span>
-            </button>
+                <span class="menu-title-text">Downloads & Offline</span>
+            </div>
+            <span class="menu-chevron">></span>
         </div>
 
-        <!-- Log Out -->
-        <div class="menu-list-group">
-            <button class="menu-item logout-item" onclick="handleLogout()">
-                <div class="menu-left">
-                    <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-                    <span>Log Out</span>
+        <div class="menu-row-item" onclick="openPolicyModal('help')">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
                 </div>
-                <span class="menu-right-arrow">></span>
-            </button>
+                <span class="menu-title-text">Help & Feedback</span>
+            </div>
+            <span class="menu-chevron">></span>
         </div>
+    </section>
 
+    <!-- Logout Group -->
+    <section class="settings-menu-group" style="margin-bottom: 24px;">
+        <div class="menu-row-item" onclick="handleLogout()" style="color:var(--yt-red);">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap">
+                    <svg viewBox="0 0 24 24" style="fill:var(--yt-red);"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                </div>
+                <span class="menu-title-text" style="font-weight:700;">Log Out</span>
+            </div>
+            <span class="menu-chevron" style="color:var(--yt-red);">></span>
+        </div>
+    </section>
+
+    <!-- ================= MODALS (MONETIZATION, COPYRIGHT, GUIDELINES) ================= -->
+    <div class="modal-overlay" id="policyModal">
+        <div class="bottom-sheet-card">
+            <div class="sheet-header-row">
+                <h3 id="modalSheetHeading">Monetization Hub</h3>
+                <button class="sheet-close-btn" onclick="closePolicyModal()">✕</button>
+            </div>
+            <div id="modalSheetBody">
+                <!-- Dynamically injected via JavaScript -->
+            </div>
+            <button class="sheet-done-action-btn" onclick="closePolicyModal()">Got It</button>
+        </div>
     </div>
 
-    <div id="toast" class="toast"></div>
-
     <script>
-        const toast = document.getElementById('toast');
-        let toastTimer;
+        // Load logged in user info if exists
+        window.addEventListener('load', () => {
+            const raw = localStorage.getItem('bharatTube_user');
+            if (raw) {
+                try {
+                    const u = JSON.parse(raw);
+                    if (u.name) {
+                        document.getElementById('userDisplayName').textContent = u.name;
+                        document.getElementById('userHandleText').textContent = `@${u.name.toLowerCase().replace(/\\s+/g, '_')} • 45.2K subs`;
+                        document.getElementById('userAvatarText').textContent = u.name.substring(0, 2).toUpperCase();
+                    }
+                } catch(e) {}
+            }
+        });
 
-        function showToast(msg) {
-            if (!toast) return;
-            toast.textContent = msg;
-            toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
+        // Open YouTube Studio Bottom Sheets
+        function openPolicyModal(type) {
+            const modal = document.getElementById('policyModal');
+            const heading = document.getElementById('modalSheetHeading');
+            const body = document.getElementById('modalSheetBody');
+
+            if (type === 'monetization') {
+                heading.textContent = 'BharatTube Partner Program (Earn)';
+                body.innerHTML = `
+                    <p style="font-size:13px; color:var(--yt-muted); margin-bottom:14px;">
+                        Monetize your videos with ad revenue, channel memberships, and super thanks once you meet the milestones.
+                    </p>
+
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <span>Subscribers</span>
+                            <span style="color:var(--yt-green);">45,200 / 1,000 (Completed ✓)</span>
+                        </div>
+                        <div class="metric-progress-bar">
+                            <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <span>Public Watch Hours</span>
+                            <span>3,210 / 4,000 hrs (80%)</span>
+                        </div>
+                        <div class="metric-progress-bar">
+                            <div class="metric-fill" style="width:80%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <span>Shorts Views (Past 90 Days)</span>
+                            <span>4.5M / 10M views</span>
+                        </div>
+                        <div class="metric-progress-bar">
+                            <div class="metric-fill" style="width:45%; background:var(--yt-gold);"></div>
+                        </div>
+                    </div>
+
+                    <div style="background:#141414; border:1px solid var(--yt-border); border-radius:10px; padding:12px; font-size:12px; color:var(--yt-muted);">
+                        🔒 <b>2-Step Verification:</b> Turned on<br>
+                        🚫 <b>Active Community Strikes:</b> 0 Active Strikes (Eligible)
+                    </div>
+                `;
+            } else if (type === 'copyright') {
+                heading.textContent = 'Copyright & Content Protection';
+                body.innerHTML = `
+                    <div class="policy-list-box">
+                        <div class="policy-item" style="border-left: 4px solid var(--yt-green);">
+                            <h4>✓ Channel Status: 0 Copyright Strikes</h4>
+                            <p>You have no active strikes. All your uploads follow the Content ID and Copyright guidelines.</p>
+                        </div>
+                        <div class="policy-item">
+                            <h4>⚖️ Fair Use & Original Content</h4>
+                            <p>Only upload videos that you made or are authorized to use. Using background audio without a license can lead to audio muting or copyright claims.</p>
+                        </div>
+                        <div class="policy-item">
+                            <h4>🚨 3-Strike Policy</h4>
+                            <p>If you receive 3 copyright strikes within 90 days, your channel and associated accounts will be permanently suspended.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'guidelines') {
+                heading.textContent = 'Community Guidelines & Safety';
+                body.innerHTML = `
+                    <div class="policy-list-box">
+                        <div class="policy-item" style="border-left: 4px solid var(--yt-green);">
+                            <h4>🛡️️ Community Health: 100% Clean</h4>
+                            <p>Your channel is in good standing with zero warnings or active community strikes.</p>
+                        </div>
+                        <div class="policy-item">
+                            <h4>1. Spam & Deceptive Practices</h4>
+                            <p>Misleading thumbnails, clickbait metadata, and artificial engagement bot loops are strictly banned.</p>
+                        </div>
+                        <div class="policy-item">
+                            <h4>2. Sensitive & Harmful Content</h4>
+                            <p>Content promoting hate speech, cyberbullying, graphic violence, or harassment is immediately removed.</p>
+                        </div>
+                        <div class="policy-item">
+                            <h4>3. Child Safety (COPPA Compliance)</h4>
+                            <p>Always classify whether your stream or video is "Made for Kids" during creation.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'switch' || type === 'account') {
+                heading.textContent = 'Account Management';
+                body.innerHTML = `
+                    <p style="font-size:13px; color:var(--yt-muted); margin-bottom:12px;">Manage channel accounts associated with BharatTube:</p>
+                    <div style="background:#141414; border:1px solid var(--yt-border); border-radius:10px; padding:12px; margin-bottom:10px;">
+                        <b>Charandas Bhaskar (Primary Channel)</b><br>
+                        <span style="font-size:12px; color:var(--yt-muted);">charandas@bharattube.in • 45.2K Subscribers</span>
+                    </div>
+                    <a href="login.html" style="color:var(--yt-blue); font-size:13px; font-weight:600; text-decoration:none;">+ Add another Google Account</a>
+                `;
+            } else {
+                heading.textContent = 'Help & App Support';
+                body.innerHTML = `
+                    <div class="policy-item">
+                        <h4>BharatTube Help Desk</h4>
+                        <p>Need assistance with upload processing, audio sync, or live stream keys? Contact support@bharattube.in</p>
+                    </div>
+                `;
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function closePolicyModal() {
+            document.getElementById('policyModal').style.display = 'none';
         }
 
         function handleLogout() {
-            showToast('लॉगआउट किया जा रहा है...');
-            setTimeout(() => {
-                window.location.href = '../frontend/index.html';
-            }, 1200);
+            if (confirm('Kya aap BharatTube account se Log out karna chahte hain?')) {
+                localStorage.removeItem('bharatTube_user');
+                window.location.href = 'login.html';
+            }
         }
     </script>
 </body>
