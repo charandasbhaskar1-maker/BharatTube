@@ -18,15 +18,14 @@
 
         :root {
             --yt-black: #0f0f0f;
-            --yt-card: #181818;
+            --yt-card: #161616;
             --yt-card-hover: #222222;
-            --yt-border: rgba(255, 255, 255, 0.1);
+            --yt-border: rgba(255, 255, 255, 0.08);
             --yt-text: #ffffff;
             --yt-muted: #aaaaaa;
             --yt-blue: #3ea6ff;
             --yt-green: #2ecc71;
             --yt-gold: #f1c40f;
-            --yt-red: #ff4e45;
         }
 
         html, body {
@@ -36,9 +35,10 @@
             color: var(--yt-text);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
-            padding-bottom: 80px;
+            padding-bottom: 90px;
         }
 
+        /* Top Header */
         .top-nav-bar {
             height: 52px;
             display: flex;
@@ -68,6 +68,29 @@
             fill: #ffffff;
         }
 
+        .top-icons-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .top-icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .top-icon-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        /* Profile Hero */
         .profile-hero {
             padding: 20px 16px 16px;
             display: flex;
@@ -108,6 +131,14 @@
             margin: 3px 0 6px;
         }
 
+        .view-channel-link {
+            font-size: 13px;
+            color: var(--yt-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Quick Pills */
         .profile-actions-pills {
             display: flex;
             gap: 10px;
@@ -120,7 +151,7 @@
         }
 
         .pill-btn {
-            background: #222222;
+            background: #202020;
             border: 1px solid var(--yt-border);
             color: #ffffff;
             padding: 8px 16px;
@@ -141,6 +172,95 @@
             fill: #ffffff;
         }
 
+        /* Playlists Section */
+        .hub-section {
+            padding: 14px 16px 0;
+        }
+
+        .section-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .section-header-row h2 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .section-action-link {
+            color: var(--yt-blue);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .horizontal-cards-deck {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 6px;
+        }
+
+        .horizontal-cards-deck::-webkit-scrollbar {
+            display: none;
+        }
+
+        .video-card-mini {
+            width: 140px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .video-thumb-wrap {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #202020;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-thumb-wrap svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--yt-muted);
+        }
+
+        .time-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.85);
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .video-mini-title {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-mini-meta {
+            font-size: 11px;
+            color: var(--yt-muted);
+        }
+
+        /* Settings Card Groups */
         .settings-menu-group {
             margin: 16px 16px 0;
             background: var(--yt-card);
@@ -150,12 +270,12 @@
         }
 
         .group-label-header {
-            padding: 12px 16px 6px;
+            padding: 14px 16px 8px;
             font-size: 12px;
             font-weight: 700;
             color: var(--yt-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
         }
 
         .menu-row-item {
@@ -166,7 +286,7 @@
             text-decoration: none;
             color: #ffffff;
             cursor: pointer;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             transition: background 0.15s;
         }
 
@@ -182,6 +302,8 @@
             display: flex;
             align-items: center;
             gap: 14px;
+            flex: 1;
+            min-width: 0;
         }
 
         .menu-icon-wrap {
@@ -199,31 +321,51 @@
             fill: #ffffff;
         }
 
+        .menu-text-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
         .menu-title-text {
             font-size: 14px;
             font-weight: 500;
+            white-space: nowrap;
         }
 
+        /* Fixed Non-Breaking Pill Badge */
         .menu-tag-pill {
             font-size: 11px;
             font-weight: 700;
             padding: 3px 8px;
             border-radius: 12px;
-            margin-left: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            display: inline-block;
         }
 
         .tag-green {
             background: rgba(46, 204, 113, 0.15);
             color: var(--yt-green);
-            border: 1px solid rgba(46, 204, 113, 0.3);
+            border: 1px solid rgba(46, 204, 113, 0.35);
         }
 
         .tag-blue {
             background: rgba(62, 166, 255, 0.15);
             color: var(--yt-blue);
-            border: 1px solid rgba(62, 166, 255, 0.3);
+            border: 1px solid rgba(62, 166, 255, 0.35);
         }
 
+        .menu-arrow-icon {
+            width: 18px;
+            height: 18px;
+            fill: var(--yt-muted);
+            flex-shrink: 0;
+        }
+
+        /* Modal Overlay & Bottom Sheet */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -245,6 +387,29 @@
             max-height: 85vh;
             overflow-y: auto;
             padding: 20px 18px max(24px, env(safe-area-inset-bottom, 24px));
+        }
+
+        .sheet-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+        }
+
+        .sheet-header-row h3 {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .sheet-close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
         }
 
         .metric-card {
@@ -312,123 +477,206 @@
 </head>
 <body>
 
+    <!-- Header -->
     <header class="top-nav-bar">
         <a href="../frontend/index.html" class="nav-back-link">
             <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
             <span>Home</span>
         </a>
+        <div class="top-icons-row">
+            <button class="top-icon-btn" onclick="openPolicyModal('guidelines')">
+                <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            </button>
+            <button class="top-icon-btn" onclick="openPolicyModal('guidelines')">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            </button>
+        </div>
     </header>
 
+    <!-- Creator Hero -->
     <section class="profile-hero">
         <div class="profile-meta-row">
             <div class="creator-avatar-wrap">CB</div>
             <div class="creator-text-details">
                 <h1>Charandas Bhaskar</h1>
                 <div class="creator-handle">@charandas_creator • 45.2K subs</div>
+                <a href="channel.html" class="view-channel-link">View channel ></a>
             </div>
         </div>
+
         <div class="profile-actions-pills">
             <a href="upload.html" class="pill-btn">
                 <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
                 <span>Upload / Create</span>
             </a>
+            <a href="channel.html" class="pill-btn">
+                <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+                <span>Your channel</span>
+            </a>
         </div>
     </section>
 
-    <!-- NEW SECTION: Monetization, Copyright, Community Guidelines -->
-    <section class="settings-menu-group">
-        <div class="group-label-header">Partner Program & Rules</div>
+    <!-- Playlists Carousel -->
+    <section class="hub-section">
+        <div class="section-header-row">
+            <h2>Playlists</h2>
+            <a href="#" class="section-action-link">+ New</a>
+        </div>
+        <div class="horizontal-cards-deck">
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap">
+                    <span style="font-size:22px;">👍</span>
+                    <span class="time-badge">24 vids</span>
+                </div>
+                <div class="video-mini-title">Liked Videos</div>
+                <div class="video-mini-meta">Auto Playlist</div>
+            </div>
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap">
+                    <span style="font-size:22px;">⏱️</span>
+                    <span class="time-badge">12 vids</span>
+                </div>
+                <div class="video-mini-title">Watch Later</div>
+                <div class="video-mini-meta">Private</div>
+            </div>
+            <div class="video-card-mini">
+                <div class="video-thumb-wrap">
+                    <span style="font-size:22px;">📁</span>
+                    <span class="time-badge">8 vids</span>
+                </div>
+                <div class="video-mini-title">My Creations</div>
+                <div class="video-mini-meta">Public</div>
+            </div>
+        </div>
+    </section>
 
-        <!-- 1. Monetization -->
+    <!-- 1. PARTNER PROGRAM & POLICIES -->
+    <section class="settings-menu-group">
+        <div class="group-label-header">Partner Program & Policies</div>
+
+        <!-- Monetization -->
         <div class="menu-row-item" onclick="openPolicyModal('monetization')">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-green);">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.12 1.87 1.39 0 2.05-.77 2.05-1.57 0-1.12-.9-1.63-2.69-2.07-2.12-.52-3.43-1.42-3.43-3.24 0-1.71 1.33-2.91 2.93-3.29V5h2.67v1.87c1.47.33 2.72 1.34 2.89 3.03h-1.96c-.16-.84-.79-1.54-1.89-1.54-1.15 0-1.88.66-1.88 1.49 0 .97.81 1.45 2.59 1.9 2.3.58 3.53 1.51 3.53 3.43 0 1.83-1.39 3.04-2.9 3.4z"/></svg>
                 </div>
-                <div>
+                <div class="menu-text-wrap">
                     <span class="menu-title-text">Monetization & Earn</span>
-                    <span class="menu-tag-pill tag-green">Live Tracker</span>
+                    <span class="menu-tag-pill tag-green">Active Tracker</span>
                 </div>
             </div>
-            <span>></span>
+            <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </div>
 
-        <!-- 2. Copyright -->
+        <!-- Copyright -->
         <div class="menu-row-item" onclick="openPolicyModal('copyright')">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-gold);">
                     <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6c1.66 0 3.16-.67 4.24-1.76l-1.41-1.41C14.07 15.6 13.08 16 12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4c1.08 0 2.07.4 2.83 1.17l1.41-1.41C15.16 6.67 13.66 6 12 6z"/></svg>
                 </div>
-                <div>
+                <div class="menu-text-wrap">
                     <span class="menu-title-text">Copyright & Content ID</span>
                     <span class="menu-tag-pill tag-blue">0 Strikes</span>
                 </div>
             </div>
-            <span>></span>
+            <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </div>
 
-        <!-- 3. Community Guidelines -->
+        <!-- Community Guidelines -->
         <div class="menu-row-item" onclick="openPolicyModal('guidelines')">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-blue);">
                     <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
                 </div>
-                <div>
+                <div class="menu-text-wrap">
                     <span class="menu-title-text">Community Guidelines</span>
                     <span class="menu-tag-pill tag-green">Good Standing</span>
                 </div>
             </div>
-            <span>></span>
+            <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </div>
     </section>
 
-    <!-- Standard Channel Tools -->
+    <!-- 2. CHANNEL TOOLS -->
     <section class="settings-menu-group">
         <div class="group-label-header">Channel Tools</div>
+
         <a href="channel.html" class="menu-row-item">
             <div class="menu-left-block">
+                <div class="menu-icon-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+                </div>
                 <span class="menu-title-text">Your channel</span>
             </div>
-            <span>></span>
+            <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </a>
+
         <a href="upload.html" class="menu-row-item">
             <div class="menu-left-block">
+                <div class="menu-icon-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+                </div>
                 <span class="menu-title-text">BharatTube Studio / Upload</span>
             </div>
-            <span>></span>
+            <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </a>
+
+        <div class="menu-row-item" onclick="openPolicyModal('downloads')">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                </div>
+                <span class="menu-title-text">Downloads & Offline</span>
+            </div>
+            <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </div>
+
+        <div class="menu-row-item" onclick="openPolicyModal('help')">
+            <div class="menu-left-block">
+                <div class="menu-icon-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                </div>
+                <span class="menu-title-text">Help & Feedback</span>
+            </div>
+            <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </div>
     </section>
 
-    <!-- Bottom Sheet Modal -->
+    <!-- Bottom Sheets Modal -->
     <div class="modal-overlay" id="policyModal">
         <div class="bottom-sheet-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <h3 id="modalHeading">Details</h3>
-                <button onclick="closePolicyModal()" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">✕</button>
+            <div class="sheet-header-row">
+                <h3 id="modalSheetHeading">Details</h3>
+                <button class="sheet-close-btn" onclick="closePolicyModal()">✕</button>
             </div>
-            <div id="modalBody"></div>
-            <button class="sheet-done-action-btn" onclick="closePolicyModal()">Done</button>
+            <div id="modalSheetBody"></div>
+            <button class="sheet-done-action-btn" onclick="closePolicyModal()">Got It</button>
         </div>
     </div>
 
     <script>
         function openPolicyModal(type) {
             const modal = document.getElementById('policyModal');
-            const heading = document.getElementById('modalHeading');
-            const body = document.getElementById('modalBody');
+            const heading = document.getElementById('modalSheetHeading');
+            const body = document.getElementById('modalSheetBody');
 
             if (type === 'monetization') {
-                heading.textContent = 'Monetization Criteria (Earn)';
+                heading.textContent = 'BharatTube Partner Program (Earn)';
                 body.innerHTML = `
+                    <p style="font-size:13px; color:var(--yt-muted); margin-bottom:14px;">
+                        Monetize your videos with ad revenue, channel memberships, and super thanks once you meet the milestones.
+                    </p>
+
                     <div class="metric-card">
                         <div class="metric-top-row">
                             <span>Subscribers</span>
-                            <span style="color:var(--yt-green);">45,200 / 1,000 (Eligible ✓)</span>
+                            <span style="color:var(--yt-green);">45,200 / 1,000 (Completed ✓)</span>
                         </div>
                         <div class="metric-progress-bar">
                             <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
                         </div>
                     </div>
+
                     <div class="metric-card">
                         <div class="metric-top-row">
                             <span>Public Watch Hours</span>
@@ -438,36 +686,64 @@
                             <div class="metric-fill" style="width:80%;"></div>
                         </div>
                     </div>
-                    <div style="background:#141414; padding:12px; border-radius:10px; font-size:12px; color:var(--yt-muted);">
-                        🔒 2-Step Verification: On<br>
-                        🚫 Community Strikes: 0 Active (Eligible)
+
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <span>Shorts Views (Past 90 Days)</span>
+                            <span>4.5M / 10M views</span>
+                        </div>
+                        <div class="metric-progress-bar">
+                            <div class="metric-fill" style="width:45%; background:var(--yt-gold);"></div>
+                        </div>
+                    </div>
+
+                    <div style="background:#141414; border:1px solid var(--yt-border); border-radius:10px; padding:12px; font-size:12px; color:var(--yt-muted);">
+                        🔒 <b>2-Step Verification:</b> Turned on<br>
+                        🚫 <b>Active Community Strikes:</b> 0 Active Strikes (Eligible)
                     </div>
                 `;
             } else if (type === 'copyright') {
-                heading.textContent = 'Copyright & Strikes';
+                heading.textContent = 'Copyright & Content Protection';
                 body.innerHTML = `
-                    <div class="policy-item" style="border-left:4px solid var(--yt-green);">
-                        <h4>Channel Status: 0 Copyright Strikes</h4>
-                        <p>Aapke channel par koi copyright strike nahi hai. Saara content fair use ke andar hai.</p>
+                    <div class="policy-item" style="border-left: 4px solid var(--yt-green);">
+                        <h4>✓ Channel Status: 0 Copyright Strikes</h4>
+                        <p>You have no active strikes. All your uploads follow Content ID guidelines.</p>
                     </div>
                     <div class="policy-item">
-                        <h4>3-Strike Rule</h4>
-                        <p>90 din ke andar 3 strikes aane par channel suspend ho jata hai.</p>
+                        <h4>⚖️ Fair Use & Original Content</h4>
+                        <p>Only upload videos that you own or are authorized to use. Background music requires proper usage rights.</p>
+                    </div>
+                    <div class="policy-item">
+                        <h4>🚨 3-Strike Policy</h4>
+                        <p>Receiving 3 copyright strikes in 90 days results in permanent channel suspension.</p>
                     </div>
                 `;
             } else if (type === 'guidelines') {
-                heading.textContent = 'Community Guidelines';
+                heading.textContent = 'Community Guidelines & Safety';
                 body.innerHTML = `
-                    <div class="policy-item" style="border-left:4px solid var(--yt-green);">
-                        <h4>Community Health: Good Standing</h4>
-                        <p>Aapka channel safe aur verified state me hai.</p>
+                    <div class="policy-item" style="border-left: 4px solid var(--yt-green);">
+                        <h4>🛡 Community Health: 100% Clean</h4>
+                        <p>Your channel is in good standing with zero warnings or active community strikes.</p>
                     </div>
                     <div class="policy-item">
-                        <h4>Spam & Deception</h4>
-                        <p>Misleading titles ya thumbnails lagana strictly prohibited hai.</p>
+                        <h4>1. Spam & Deceptive Practices</h4>
+                        <p>Misleading titles, fake thumbnails, and artificial engagement loops are strictly prohibited.</p>
+                    </div>
+                    <div class="policy-item">
+                        <h4>2. Safety & Respect</h4>
+                        <p>Harassment, hate speech, and graphic violent content are immediately removed.</p>
+                    </div>
+                `;
+            } else {
+                heading.textContent = 'Help & Feedback';
+                body.innerHTML = `
+                    <div class="policy-item">
+                        <h4>BharatTube Creator Support</h4>
+                        <p>Need help with video upload speeds or studio features? Contact support@bharattube.in</p>
                     </div>
                 `;
             }
+
             modal.style.display = 'flex';
         }
 
