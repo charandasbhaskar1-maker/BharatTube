@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#070b10">
-    <title>BharatTube Studio - Upload</title>
+    <meta name="theme-color" content="#0f0f0f">
+    <title>BharatTube Studio - Create</title>
     <style>
         * {
             margin: 0;
@@ -14,29 +14,30 @@
         }
 
         :root {
-            --bg: #070b10;
-            --panel: #111822;
-            --panel2: #192332;
-            --border: #28374a;
-            --text: #f5f7fa;
-            --muted: #9aa8ba;
-            --red: #ff0000;
-            --blue: #3ea6ff;
-            --green: #2ecc71;
+            --yt-black: #0f0f0f;
+            --yt-panel: #181818;
+            --yt-panel2: #222222;
+            --yt-border: rgba(255, 255, 255, 0.12);
+            --yt-text: #f1f1f1;
+            --yt-muted: #aaaaaa;
+            --yt-blue: #3ea6ff;
+            --yt-red: #ff0000;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: var(--yt-black);
+            color: var(--yt-text);
             min-height: 100vh;
-            padding-bottom: 70px;
+            padding-bottom: 50px;
+            user-select: none;
         }
 
-        .upload-header {
-            height: 52px;
-            background: rgba(11, 16, 23, 0.98);
-            border-bottom: 1px solid var(--border);
+        /* Top Header */
+        .yt-header {
+            height: 48px;
+            background: #0f0f0f;
+            border-bottom: 1px solid var(--yt-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -46,417 +47,615 @@
             z-index: 100;
         }
 
-        .back-link {
-            color: var(--text);
-            text-decoration: none;
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 15px;
-            font-weight: 600;
+            gap: 16px;
+        }
+
+        .header-btn {
+            background: none;
+            border: none;
+            color: var(--yt-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .header-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
         }
 
         .header-title {
-            font-size: 15px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .header-badge {
-            background: #253346;
-            color: #d1d5db;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 12px;
-        }
-
-        .studio-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--red);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 14px;
-        }
-
-        .container {
-            max-width: 680px;
-            margin: auto;
-            padding: 16px;
-        }
-
-        /* YouTube Unified Dropzone */
-        .upload-dropzone {
-            background: var(--panel);
-            border: 2px dashed var(--border);
-            border-radius: 16px;
-            padding: 32px 16px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .upload-icon-circle {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: var(--panel2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
-            border: 1px solid var(--border);
-        }
-
-        .upload-icon-circle svg {
-            width: 32px;
-            height: 32px;
-            fill: var(--blue);
-        }
-
-        .upload-dropzone h3 {
             font-size: 16px;
-            margin-bottom: 6px;
             font-weight: 700;
         }
 
-        .upload-dropzone p {
-            font-size: 12px;
-            color: var(--muted);
-            margin-bottom: 14px;
-            line-height: 1.4;
-        }
-
-        .browse-pill {
-            display: inline-block;
-            background: var(--blue);
-            color: #05080c;
-            font-weight: 700;
+        .yt-action-btn {
+            background: var(--yt-blue);
+            color: #000000;
+            border: none;
+            border-radius: 18px;
+            padding: 6px 16px;
             font-size: 13px;
-            padding: 9px 22px;
-            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.15s;
         }
 
-        /* Auto Detected File Card */
-        .selected-file-card {
-            display: none;
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 20px;
+        .yt-action-btn.disabled {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--yt-muted);
+            cursor: not-allowed;
+        }
+
+        /* SCREEN 1: CREATE HUB */
+        .create-hub-view {
+            padding: 24px 16px;
+            max-width: 550px;
+            margin: auto;
+        }
+
+        .hub-greeting {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .hub-sub {
+            font-size: 13px;
+            color: var(--yt-muted);
+            margin-bottom: 22px;
+        }
+
+        .create-options-list {
+            display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .file-top-row {
+        .create-option-card {
+            background: var(--yt-panel);
+            border: 1px solid var(--yt-border);
+            border-radius: 14px;
+            padding: 16px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 16px;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        .file-meta {
+        .create-option-card:active {
+            background: var(--yt-panel2);
+            transform: scale(0.98);
+        }
+
+        .option-icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 10px;
-            overflow: hidden;
-        }
-
-        .file-meta svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--green);
+            justify-content: center;
             flex-shrink: 0;
         }
 
-        .file-name {
-            font-size: 13px;
+        .option-icon-circle svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
+        }
+
+        .opt-content h3 {
+            font-size: 15px;
             font-weight: 600;
-            white-space: nowrap;
+            margin-bottom: 3px;
+        }
+
+        .opt-content p {
+            font-size: 12px;
+            color: var(--yt-muted);
+            line-height: 1.35;
+        }
+
+        /* SCREEN 2: VIDEO / SHORTS DETAILS */
+        .step-details {
+            display: none;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .preview-hero-container {
+            width: 100%;
+            background: #000000;
+            position: relative;
+            aspect-ratio: 16 / 9;
             overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .file-size {
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        .remove-file-btn {
-            background: transparent;
-            border: none;
-            color: var(--muted);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        .format-badge-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.35);
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
+            justify-content: center;
         }
 
-        .format-tag {
-            display: inline-flex;
+        .preview-hero-container.short-ratio {
+            aspect-ratio: 9 / 16;
+            max-height: 430px;
+            margin: 12px auto;
+            border-radius: 14px;
+        }
+
+        .preview-video-elem {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+            transition: filter 0.3s ease;
+        }
+
+        .preview-text-overlay {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.65);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            max-width: 80%;
+            text-align: center;
+            display: none;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .preview-edit-bar {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 20;
+        }
+
+        .tool-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .tool-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        #soundToolBtn {
+            display: none;
+        }
+
+        .change-thumb-pill {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            border: 1px solid var(--yt-border);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 12px;
-            font-weight: 700;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .video-type-pill {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.85);
             padding: 4px 10px;
-            border-radius: 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
         }
 
-        .tag-short {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff4d4d;
-            border: 1px solid #ff4d4d;
+        .pill-short {
+            color: #ff4e45;
+            border: 1px solid #ff4e45;
         }
 
-        .tag-long {
-            background: rgba(62, 166, 255, 0.2);
+        .pill-long {
             color: #3ea6ff;
             border: 1px solid #3ea6ff;
         }
 
-        .switch-format-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--muted);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
+        .details-form {
+            padding: 16px;
         }
 
-        /* Form Controls */
-        .form-section {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 18px 16px;
-            margin-bottom: 18px;
+        .field-group {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 14px;
         }
 
-        .section-heading {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 14px;
-            color: #dbe3ed;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .form-label {
+        .field-label {
+            font-size: 12px;
+            color: var(--yt-muted);
+            font-weight: 500;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--muted);
         }
 
-        .char-count {
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        .input-control, .select-control, .textarea-control {
+        .field-input, .field-textarea {
             width: 100%;
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 10px 14px;
-            color: var(--text);
-            font-size: 13px;
-            outline: none;
+            background: transparent;
+            border: none;
+            color: var(--yt-text);
+            font-size: 15px;
             font-family: inherit;
+            outline: none;
         }
 
-        .input-control:focus, .select-control:focus, .textarea-control:focus {
-            border-color: var(--blue);
+        .field-textarea {
+            resize: none;
+            min-height: 60px;
+            font-size: 13px;
         }
 
-        .textarea-control {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .thumbnail-box {
+        .option-item-row {
             display: flex;
-            gap: 12px;
             align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .thumb-preview {
-            width: 110px;
+        .option-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .option-left svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--yt-muted);
+        }
+
+        /* SCREEN 3: GO LIVE */
+        .step-live {
+            display: none;
+            max-width: 650px;
+            margin: auto;
+            padding: 16px;
+        }
+
+        .live-preview-box {
+            width: 100%;
             aspect-ratio: 16 / 9;
-            background: var(--panel2);
-            border: 1px dashed var(--border);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: #000;
+            border-radius: 12px;
             overflow: hidden;
-            flex-shrink: 0;
+            position: relative;
+            margin-bottom: 16px;
+            border: 1px solid var(--yt-border);
         }
 
-        .thumb-preview.short-ratio {
-            aspect-ratio: 9 / 16;
-            width: 65px;
-        }
-
-        .thumb-preview img {
+        .live-preview-box video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: none;
         }
 
-        .thumb-preview span {
+        .live-badge-rec {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--yt-red);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
             font-size: 11px;
-            color: var(--muted);
-            text-align: center;
-            padding: 4px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .custom-file-btn {
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
+        .live-badge-rec::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
             display: inline-block;
         }
 
-        .radio-card-group {
+        .live-viewers-count {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* SCREEN 4: COMMUNITY POST */
+        .step-post {
+            display: none;
+            max-width: 650px;
+            margin: auto;
+            padding: 16px;
+        }
+
+        .post-card {
+            background: var(--yt-panel);
+            border: 1px solid var(--yt-border);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .post-author-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .post-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--yt-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .post-textarea {
+            width: 100%;
+            min-height: 120px;
+            background: transparent;
+            border: none;
+            color: var(--yt-text);
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            resize: none;
+        }
+
+        .post-photo-preview {
+            width: 100%;
+            max-height: 250px;
+            border-radius: 8px;
+            object-fit: cover;
+            display: none;
+            margin-top: 10px;
+            border: 1px solid var(--yt-border);
+        }
+
+        .post-tools-bar {
+            display: flex;
+            gap: 12px;
+            margin-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 12px;
+        }
+
+        .post-tool-pill {
+            background: var(--yt-panel2);
+            border: 1px solid var(--yt-border);
+            color: var(--yt-text);
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* YOUTUBE LIVE ELIGIBILITY MODAL ALERT */
+        .eligibility-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 1500;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .eligibility-modal-card {
+            background: #212121;
+            border: 1px solid var(--yt-border);
+            border-radius: 16px;
+            padding: 24px 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .eligibility-icon-wrap {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.15);
+            color: var(--yt-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .eligibility-icon-wrap svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--yt-red);
+        }
+
+        .eligibility-modal-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .eligibility-modal-card p {
+            font-size: 13px;
+            color: var(--yt-muted);
+            line-height: 1.45;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .criteria-box {
+            background: #181818;
+            border: 1px solid var(--yt-border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 12px;
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        .radio-option {
+        .crit-item {
             display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            background: var(--panel2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 14px;
+            align-items: center;
+            gap: 8px;
+            color: #d1d5db;
+        }
+
+        .crit-status {
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .crit-fail {
+            color: #ff4d4d;
+        }
+
+        .crit-pass {
+            color: #2ecc71;
+        }
+
+        .modal-action-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-modal-dismiss {
+            flex: 1;
+            background: #333333;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
         }
 
-        .radio-option input[type="radio"] {
-            margin-top: 3px;
-            accent-color: var(--blue);
-        }
-
-        .option-text strong {
-            display: block;
+        .btn-modal-learn {
+            flex: 1;
+            background: var(--yt-blue);
+            color: #000000;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            font-weight: 700;
             font-size: 13px;
-            margin-bottom: 2px;
+            cursor: pointer;
         }
 
-        .option-text p {
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        .progress-card {
+        /* Upload Progress Modal */
+        .upload-modal-overlay {
             display: none;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 18px;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
+        .upload-modal-card {
+            background: var(--yt-panel);
+            border: 1px solid var(--yt-border);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
         }
 
-        .progress-track {
-            height: 8px;
-            background: var(--panel2);
-            border-radius: 6px;
+        .progress-track-bg {
+            height: 6px;
+            background: #333333;
+            border-radius: 4px;
             overflow: hidden;
-            position: relative;
+            margin: 16px 0 10px;
         }
 
-        .progress-fill {
+        .progress-track-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #ff0000, #ff5e62);
-            border-radius: 6px;
+            background: var(--yt-blue);
+            border-radius: 4px;
             transition: width 0.15s ease;
         }
 
-        .progress-status {
-            font-size: 11px;
-            color: var(--muted);
-            margin-top: 6px;
-            text-align: right;
-        }
-
-        .publish-btn {
-            width: 100%;
-            height: 48px;
-            background: var(--red);
-            color: #ffffff;
-            border: 0;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 16px rgba(255, 0, 0, 0.3);
-        }
-
-        .publish-btn:active {
-            transform: scale(0.98);
-        }
-
+        /* Toast */
         .toast {
             position: fixed;
             left: 50%;
-            bottom: 24px;
+            bottom: 30px;
             transform: translate(-50%, 20px);
             background: #ffffff;
-            color: #070b10;
-            padding: 10px 20px;
+            color: #0f0f0f;
+            padding: 8px 18px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             opacity: 0;
             pointer-events: none;
             transition: 0.25s ease;
-            z-index: 1000;
+            z-index: 3000;
             white-space: nowrap;
         }
 
@@ -468,362 +667,568 @@
 </head>
 <body>
 
-    <header class="upload-header">
-        <a href="../frontend/index.html" class="back-link">
-            ← <span>Home</span>
-        </a>
-        <div class="header-title">
-            <span>BharatTube Studio</span>
-            <span class="header-badge">Upload</span>
+    <header class="yt-header">
+        <div class="header-left">
+            <button class="header-btn" onclick="handleBackNavigation()">
+                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            </button>
+            <div class="header-title" id="pageTitle">Create</div>
         </div>
-        <div class="studio-avatar">B</div>
+        <button class="yt-action-btn disabled" id="headerActionBtn" onclick="handleHeaderAction()">Next</button>
     </header>
 
-    <div class="container">
+    <input type="file" id="videoPicker" accept="video/*" style="display:none;" onchange="onVideoChosen(event)">
+    <input type="file" id="shortsPicker" accept="video/*" style="display:none;" onchange="onShortsChosen(event)">
+    <input type="file" id="thumbPicker" accept="image/*" style="display:none;" onchange="onThumbnailChosen(event)">
+    <input type="file" id="postPhotoPicker" accept="image/*" style="display:none;" onchange="onPostPhotoChosen(event)">
 
-        <input type="file" id="videoFileInput" accept="video/*" style="display:none;" onchange="handleSmartVideoUpload(event)">
-        <input type="file" id="thumbFileInput" accept="image/*" style="display:none;" onchange="handleThumbnailSelected(event)">
+    <!-- ================= 1. CREATE HUB ================= -->
+    <main class="create-hub-view" id="createHubView">
+        <h1 class="hub-greeting">Create on BharatTube</h1>
+        <p class="hub-sub">Choose how you want to share with your audience</p>
 
-        <video id="hiddenProbeVideo" style="display:none;"></video>
-
-        <!-- Dropzone -->
-        <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('videoFileInput').click()">
-            <div class="upload-icon-circle">
-                <svg viewBox="0 0 24 24">
-                    <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/>
-                </svg>
+        <div class="create-options-list">
+            <div class="create-option-card" onclick="document.getElementById('shortsPicker').click()">
+                <div class="option-icon-circle" style="background: linear-gradient(135deg, #ff0000, #ff5e62);">
+                    <svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5L18 9.06c1.84-.8 2.63-3 .17-4.83-1.63-1.22-3.83-.8-4.83.17l-6 7.4c-.6.74-.7 1.76-.27 2.6.43.84 1.3 1.37 2.27 1.37h1.4l-1.43.8c-1.84.8-2.63 3-.17 4.83 1.63 1.22 3.83.8 4.83-.17l6-7.4c.6-.74.7-1.76.27-2.6-.43-.84-1.3-1.37-2.27-1.37h-1.4z"/></svg>
+                </div>
+                <div class="opt-content">
+                    <h3>Create a Short</h3>
+                    <p>Record or pick vertical video with music, sound & filters (9:16)</p>
+                </div>
             </div>
-            <h3>Select Video to Upload</h3>
-            <p>Upload Long Videos or Bharat Shorts automatically from here.<br>Any format or resolution up to 500MB</p>
-            <div class="browse-pill">Select Files</div>
+
+            <div class="create-option-card" onclick="document.getElementById('videoPicker').click()">
+                <div class="option-icon-circle" style="background: #272727;">
+                    <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+                </div>
+                <div class="opt-content">
+                    <h3>Upload a video</h3>
+                    <p>Standard long format video with thumbnail, tags & HD stream</p>
+                </div>
+            </div>
+
+            <div class="create-option-card" onclick="checkLiveEligibilityAndOpen()">
+                <div class="option-icon-circle" style="background: #cc0000;">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                </div>
+                <div class="opt-content">
+                    <h3>Go Live</h3>
+                    <p>Stream live video directly to your viewers with real-time chat</p>
+                </div>
+            </div>
+
+            <div class="create-option-card" onclick="openPostSetup()">
+                <div class="option-icon-circle" style="background: #1f3a52;">
+                    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                </div>
+                <div class="opt-content">
+                    <h3>Create a post</h3>
+                    <p>Share photos, updates, questions or video links with subscribers</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= 2. VIDEO / SHORTS EDIT SCREEN ================= -->
+    <div class="step-details" id="stepDetails">
+        <div class="preview-hero-container" id="previewContainer">
+            <video class="preview-video-elem" id="previewVideo" playsinline loop controls></video>
+            <div class="preview-text-overlay" id="textOverlay"></div>
+
+            <div class="preview-edit-bar">
+                <button class="tool-btn" onclick="openTextTool()" title="Text">
+                    <span style="font-weight:800; font-size:14px;">Aa</span>
+                </button>
+                <button class="tool-btn" onclick="cycleVideoFilter()" title="Filter">
+                    <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
+                </button>
+                <button class="tool-btn" id="soundToolBtn" onclick="selectMusicTrack()" title="Add Sound">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                </button>
+                <button class="tool-btn" onclick="trimVideoTool()" title="Trim">
+                    <svg viewBox="0 0 24 24"><path d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64zM6 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm9.64-8l2.36-2.36C18.14 7.87 18.59 8 19 8c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4c0 .41.07.79.18 1.14L15.64 12z"/></svg>
+                </button>
+            </div>
+
+            <div class="change-thumb-pill" onclick="document.getElementById('thumbPicker').click()">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="#ffffff"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                <span id="thumbLabel">Thumbnail</span>
+            </div>
+
+            <div class="video-type-pill pill-long" id="formatPill">📹 Video (16:9)</div>
         </div>
 
-        <!-- Detected Card -->
-        <div class="selected-file-card" id="selectedFileCard">
-            <div class="file-top-row">
-                <div class="file-meta">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    <div>
-                        <div class="file-name" id="selectedFileName">my_video.mp4</div>
-                        <div class="file-size" id="selectedFileSize">0 MB • Duration: 0s</div>
-                    </div>
+        <div class="details-form">
+            <div class="field-group">
+                <div class="field-label">
+                    <span>Title</span>
+                    <span id="titleCount">0/100</span>
                 </div>
-                <button class="remove-file-btn" onclick="resetUploadForm()" title="Remove file">✕</button>
+                <input type="text" class="field-input" id="videoTitle" placeholder="Create a title (required)" maxlength="100" oninput="onTitleType(this)">
             </div>
 
-            <div class="format-badge-row">
-                <div>
-                    <span class="format-tag tag-long" id="formatBadge">📹 Long Video (16:9 Detected)</span>
-                </div>
-                <button class="switch-format-btn" onclick="manuallyToggleFormat()">Change to Short / Video</button>
-            </div>
-        </div>
-
-        <!-- Details Form -->
-        <div class="form-section">
-            <div class="section-heading">📝 Video Details</div>
-
-            <div class="form-group">
-                <div class="form-label">
-                    <span>Title (required)</span>
-                    <span class="char-count" id="titleCount">0/100</span>
-                </div>
-                <input 
-                    type="text" 
-                    class="input-control" 
-                    id="videoTitleInput" 
-                    placeholder="Add a title that describes your video..." 
-                    maxlength="100"
-                    oninput="updateCount('videoTitleInput', 'titleCount', 100)"
-                >
-            </div>
-
-            <div class="form-group">
-                <div class="form-label">
+            <div class="field-group">
+                <div class="field-label">
                     <span>Description</span>
-                    <span class="char-count" id="descCount">0/1000</span>
+                    <span id="descCount">0/1000</span>
                 </div>
-                <textarea 
-                    class="textarea-control" 
-                    id="videoDescInput" 
-                    placeholder="Tell viewers about your video..." 
-                    maxlength="1000"
-                    oninput="updateCount('videoDescInput', 'descCount', 1000)"
-                ></textarea>
+                <textarea class="field-textarea" id="videoDesc" placeholder="Add description" maxlength="1000" oninput="document.getElementById('descCount').textContent = this.value.length + '/1000'"></textarea>
             </div>
 
-            <div class="form-group">
-                <div class="form-label">Category</div>
-                <select class="select-control" id="videoCategorySelect">
-                    <option value="music">Music</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="education">Education</option>
-                    <option value="news">News & Politics</option>
-                    <option value="gaming">Gaming</option>
-                    <option value="devotional">Devotional & Culture</option>
-                    <option value="vlogs">People & Vlogs</option>
-                    <option value="sports">Sports</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <div class="form-label">Thumbnail</div>
-                <div class="thumbnail-box">
-                    <div class="thumb-preview" id="thumbPreviewBox">
-                        <img id="thumbImg" alt="Thumbnail Preview">
-                        <span id="thumbPlaceholder">Cover Photo</span>
-                    </div>
+            <div class="option-item-row" onclick="cycleVisibility()">
+                <div class="option-left">
+                    <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                     <div>
-                        <button type="button" class="custom-file-btn" onclick="document.getElementById('thumbFileInput').click()">Upload Thumbnail</button>
-                        <p style="font-size:11px; color:var(--muted); margin-top:4px;">JPG, PNG or WEBP (Max 5MB)</p>
+                        <div class="option-title">Visibility</div>
+                        <div class="option-subtitle" id="visLabel">Public</div>
+                    </div>
+                </div>
+                <span style="color:var(--yt-muted);">></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 3. GO LIVE SCREEN ================= -->
+    <div class="step-live" id="stepLive">
+        <div class="live-preview-box">
+            <video id="liveCameraFeed" autoplay playsinline muted></video>
+            <div class="live-badge-rec">LIVE STREAM</div>
+            <div class="live-viewers-count">0 Viewers</div>
+        </div>
+
+        <div class="details-form" style="padding:0;">
+            <div class="field-group">
+                <div class="field-label">
+                    <span>Live Stream Title</span>
+                </div>
+                <input type="text" class="field-input" id="liveTitle" placeholder="What is your live stream about?">
+            </div>
+
+            <div class="option-item-row">
+                <div class="option-left">
+                    <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
+                    <div>
+                        <div class="option-title">Audio & Microphone</div>
+                        <div class="option-subtitle">Internal Mic Active 🎙️</div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="form-group">
-                <div class="form-label">Tags (separated by comma)</div>
-                <input type="text" class="input-control" id="videoTagsInput" placeholder="chhattisgarh, vlogs, bharattube">
+    <!-- ================= 4. COMMUNITY POST SCREEN ================= -->
+    <div class="step-post" id="stepPost">
+        <div class="post-card">
+            <div class="post-author-row">
+                <div class="post-avatar">B</div>
+                <div>
+                    <div style="font-size:13px; font-weight:700;">Bharat Creator</div>
+                    <div style="font-size:11px; color:var(--yt-muted);">Public post • All Subscribers</div>
+                </div>
+            </div>
+
+            <textarea class="post-textarea" id="postContent" placeholder="What's on your mind? Share an update, photo, or YouTube video link..."></textarea>
+            <img id="postImagePreview" class="post-photo-preview" alt="Post Image">
+
+            <div class="post-tools-bar">
+                <button type="button" class="post-tool-pill" onclick="document.getElementById('postPhotoPicker').click()">
+                    <span>📷 Photo</span>
+                </button>
+                <button type="button" class="post-tool-pill" onclick="addVideoLinkPrompt()">
+                    <span>🔗 Video Link</span>
+                </button>
             </div>
         </div>
+    </div>
 
-        <!-- Visibility -->
-        <div class="form-section">
-            <div class="section-heading">👁️ Visibility</div>
-            <div class="radio-card-group">
-                <label class="radio-option">
-                    <input type="radio" name="visibility" value="public" checked>
-                    <div class="option-text">
-                        <strong>Public</strong>
-                        <p>Everyone can watch your video</p>
-                    </div>
-                </label>
+    <!-- YOUTUBE LIVE ELIGIBILITY ALERT MODAL (50 Subs & 90 Days) -->
+    <div class="eligibility-modal-overlay" id="eligibilityModal">
+        <div class="eligibility-modal-card">
+            <div class="eligibility-icon-wrap">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            </div>
+            <h3>Eligibility Requirements</h3>
+            <p>Your channel does not meet our updated eligibility requirements for mobile live streaming. To protect our community, we require channels to meet the following milestones:</p>
 
-                <label class="radio-option">
-                    <input type="radio" name="visibility" value="unlisted">
-                    <div class="option-text">
-                        <strong>Unlisted</strong>
-                        <p>Anyone with the link can watch</p>
-                    </div>
-                </label>
+            <div class="criteria-box">
+                <div class="crit-item">
+                    <span class="crit-status crit-fail" id="critSubsStatus">✕</span>
+                    <span id="critSubsText">At least 50 subscribers (Current: 12)</span>
+                </div>
+                <div class="crit-item">
+                    <span class="crit-status crit-fail" id="critAgeStatus">✕</span>
+                    <span id="critAgeText">Account active for at least 90 days (3 months)</span>
+                </div>
+                <div class="crit-item">
+                    <span class="crit-status crit-pass">✓</span>
+                    <span>No live streaming restrictions in past 90 days</span>
+                </div>
+            </div>
 
-                <label class="radio-option">
-                    <input type="radio" name="visibility" value="private">
-                    <div class="option-text">
-                        <strong>Private</strong>
-                        <p>Only you can watch</p>
-                    </div>
-                </label>
+            <div class="modal-action-row">
+                <button class="btn-modal-dismiss" onclick="closeEligibilityModal()">Dismiss</button>
+                <button class="btn-modal-learn" onclick="toggleTestCriteria()">Simulate Eligibility</button>
             </div>
         </div>
+    </div>
 
-        <!-- Progress -->
-        <div class="progress-card" id="progressCard">
-            <div class="progress-header">
-                <span id="progressTitle">Uploading video...</span>
-                <span id="progressPercent">0%</span>
+    <!-- Upload Progress Modal -->
+    <div class="upload-modal-overlay" id="uploadModal">
+        <div class="upload-modal-card">
+            <h3 style="font-size:16px; margin-bottom:4px;">Uploading to BharatTube...</h3>
+            <p style="font-size:12px; color:var(--yt-muted);" id="modalPercent">0%</p>
+            <div class="progress-track-bg">
+                <div class="progress-track-fill" id="progressFill"></div>
             </div>
-            <div class="progress-track">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="progress-status" id="progressSpeed">Uploading to BharatTube cloud...</div>
+            <p style="font-size:11px; color:#888888;">Applying checks & publishing...</p>
         </div>
-
-        <!-- Publish -->
-        <button class="publish-btn" id="publishBtn" onclick="startPublishingProcess()">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                <path d="M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z"/>
-            </svg>
-            <span id="publishBtnText">Publish Video</span>
-        </button>
-
     </div>
 
     <div id="toast" class="toast"></div>
 
     <script>
-        let detectedType = 'video';
-        let uploadedFile = null;
-        let isUploading = false;
+        let currentMode = 'hub';
+        let chosenFile = null;
+        let isShort = false;
+        let visState = 0;
+        const visList = ['Public', 'Unlisted', 'Private'];
+
+        // USER CREATOR ACCOUNT STATUS (YouTube Rules)
+        let userChannel = {
+            subscriberCount: 12,       // Requirement: 50+
+            channelAgeDays: 24,        // Requirement: 90+ days (3 months)
+            hasStrikes: false
+        };
+
+        const filters = [
+            { name: 'Normal', css: 'none' },
+            { name: 'Cinematic Warm', css: 'sepia(0.3) saturate(1.4) contrast(1.1)' },
+            { name: 'Vibrant Colors', css: 'saturate(1.8) contrast(1.15)' },
+            { name: 'Classic B&W', css: 'grayscale(1) contrast(1.2)' }
+        ];
+        let filterIndex = 0;
 
         const toast = document.getElementById('toast');
-        let toastTimer;
-
         function showToast(msg) {
-            if (!toast) return;
             toast.textContent = msg;
             toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2200);
+            setTimeout(() => toast.classList.remove('show'), 2200);
         }
 
-        function updateCount(inputId, countId, max) {
-            const input = document.getElementById(inputId);
-            const count = document.getElementById(countId);
-            count.textContent = `${input.value.length}/${max}`;
-        }
+        // Back Navigation
+        function handleBackNavigation() {
+            if (currentMode !== 'hub') {
+                document.getElementById('stepDetails').style.display = 'none';
+                document.getElementById('stepLive').style.display = 'none';
+                document.getElementById('stepPost').style.display = 'none';
+                document.getElementById('createHubView').style.display = 'block';
 
-        function handleSmartVideoUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+                document.getElementById('pageTitle').textContent = 'Create';
+                const actionBtn = document.getElementById('headerActionBtn');
+                actionBtn.textContent = 'Next';
+                actionBtn.classList.add('disabled');
 
-            uploadedFile = file;
-            const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
-            document.getElementById('selectedFileName').textContent = file.name;
-            document.getElementById('selectedFileSize').textContent = `${sizeInMB} MB • Reading format...`;
-
-            const titleInput = document.getElementById('videoTitleInput');
-            if (!titleInput.value) {
-                const autoName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-                titleInput.value = autoName.replace(/[_-]/g, ' ');
-                updateCount('videoTitleInput', 'titleCount', 100);
+                const vid = document.getElementById('previewVideo');
+                vid.pause();
+                vid.src = '';
+                chosenFile = null;
+                currentMode = 'hub';
+            } else {
+                window.location.href = '../frontend/index.html';
             }
+        }
 
-            const probeVideo = document.getElementById('hiddenProbeVideo');
-            probeVideo.src = URL.createObjectURL(file);
+        function handleHeaderAction() {
+            if (currentMode === 'video' || currentMode === 'shorts') {
+                triggerVideoUpload();
+            } else if (currentMode === 'live') {
+                startLiveStream();
+            } else if (currentMode === 'post') {
+                publishCommunityPost();
+            }
+        }
 
-            probeVideo.onloadedmetadata = function() {
-                const width = probeVideo.videoWidth;
-                const height = probeVideo.videoHeight;
-                const duration = Math.round(probeVideo.duration);
+        /* --- CHECK LIVE ELIGIBILITY (50 SUBS & 90 DAYS RULE) --- */
+        function checkLiveEligibilityAndOpen() {
+            const meetsSubs = userChannel.subscriberCount >= 50;
+            const meetsAge = userChannel.channelAgeDays >= 90;
 
-                document.getElementById('selectedFileSize').textContent = `${sizeInMB} MB • Duration: ${duration}s`;
+            if (meetsSubs && meetsAge && !userChannel.hasStrikes) {
+                // Criteria Passed -> Open Live Camera
+                openLiveSetup();
+            } else {
+                // Criteria Failed -> Show YouTube Policy Alert
+                document.getElementById('critSubsText').textContent = `At least 50 subscribers (Current: ${userChannel.subscriberCount})`;
+                document.getElementById('critSubsStatus').className = meetsSubs ? 'crit-status crit-pass' : 'crit-status crit-fail';
+                document.getElementById('critSubsStatus').textContent = meetsSubs ? '✓' : '✕';
 
-                if (height >= width || duration <= 60) {
-                    setFormatState('short');
-                    showToast('⚡ Detected as Bharat Short!');
+                document.getElementById('critAgeText').textContent = `Account active for at least 90 days (Current: ${userChannel.channelAgeDays} days)`;
+                document.getElementById('critAgeStatus').className = meetsAge ? 'crit-status crit-pass' : 'crit-status crit-fail';
+                document.getElementById('critAgeStatus').textContent = meetsAge ? '✓' : '✕';
+
+                document.getElementById('eligibilityModal').style.display = 'flex';
+            }
+        }
+
+        function closeEligibilityModal() {
+            document.getElementById('eligibilityModal').style.display = 'none';
+        }
+
+        // Creator Testing Mode Switcher
+        function toggleTestCriteria() {
+            userChannel.subscriberCount = 52;
+            userChannel.channelAgeDays = 95;
+            closeEligibilityModal();
+            showToast('✅ Criteria Met: 50+ Subs & 90 Days active!');
+            setTimeout(() => {
+                openLiveSetup();
+            }, 600);
+        }
+
+        function openLiveSetup() {
+            currentMode = 'live';
+            document.getElementById('createHubView').style.display = 'none';
+            document.getElementById('stepLive').style.display = 'block';
+            document.getElementById('pageTitle').textContent = 'Live stream setup';
+
+            const actionBtn = document.getElementById('headerActionBtn');
+            actionBtn.textContent = 'Go Live';
+            actionBtn.classList.remove('disabled');
+
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                    .then(stream => {
+                        document.getElementById('liveCameraFeed').srcObject = stream;
+                    })
+                    .catch(() => {
+                        showToast('Camera stream active 🔴');
+                    });
+            }
+        }
+
+        function startLiveStream() {
+            const title = document.getElementById('liveTitle').value.trim() || 'BharatTube Live Session';
+            showToast('🔴 You are now LIVE!');
+            setTimeout(() => {
+                window.location.href = `watch.html?title=${encodeURIComponent(title + ' [LIVE]')}&channel=You+(Live)&views=🔴+Live+Now`;
+            }, 1000);
+        }
+
+        /* --- VIDEO / SHORTS FLOW --- */
+        function onShortsChosen(e) {
+            isShort = true;
+            setupVideoPreview(e.target.files[0], true);
+        }
+
+        function onVideoChosen(e) {
+            isShort = false;
+            setupVideoPreview(e.target.files[0], false);
+        }
+
+        function setupVideoPreview(file, forceShort) {
+            if (!file) return;
+            chosenFile = file;
+            currentMode = forceShort ? 'shorts' : 'video';
+
+            document.getElementById('createHubView').style.display = 'none';
+            document.getElementById('stepDetails').style.display = 'block';
+            document.getElementById('pageTitle').textContent = forceShort ? 'Edit Short' : 'Add details';
+
+            const actionBtn = document.getElementById('headerActionBtn');
+            actionBtn.textContent = 'Upload';
+            actionBtn.classList.remove('disabled');
+
+            const titleInput = document.getElementById('videoTitle');
+            const cleanTitle = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+            titleInput.value = cleanTitle.replace(/[_-]/g, ' ');
+            document.getElementById('titleCount').textContent = titleInput.value.length + '/100';
+
+            const vid = document.getElementById('previewVideo');
+            const container = document.getElementById('previewContainer');
+            const soundBtn = document.getElementById('soundToolBtn');
+            const formatPill = document.getElementById('formatPill');
+
+            vid.src = URL.createObjectURL(file);
+            vid.play().catch(() => {});
+
+            vid.onloadedmetadata = function() {
+                const w = vid.videoWidth;
+                const h = vid.videoHeight;
+                const dur = Math.round(vid.duration);
+
+                if (forceShort || h >= w || dur <= 60) {
+                    isShort = true;
+                    container.classList.add('short-ratio');
+                    formatPill.className = 'video-type-pill pill-short';
+                    formatPill.textContent = '⚡ Bharat Short (9:16)';
+                    soundBtn.style.display = 'flex';
+                    if (!titleInput.value.includes('#Shorts')) {
+                        titleInput.value = (titleInput.value + ' #Shorts').trim();
+                    }
+                    showToast('Shorts mode: Sound & tools enabled! ⚡');
                 } else {
-                    setFormatState('video');
-                    showToast('📹 Detected as Standard Long Video');
+                    isShort = false;
+                    container.classList.remove('short-ratio');
+                    formatPill.className = 'video-type-pill pill-long';
+                    formatPill.textContent = '📹 Video (16:9)';
+                    soundBtn.style.display = 'none';
+                    showToast('Video mode: Ready to edit 📹');
                 }
-
-                document.getElementById('selectedFileCard').style.display = 'flex';
-                document.getElementById('dropzone').style.display = 'none';
             };
         }
 
-        function setFormatState(type) {
-            detectedType = type;
-            const badge = document.getElementById('formatBadge');
-            const previewBox = document.getElementById('thumbPreviewBox');
-            const titleInput = document.getElementById('videoTitleInput');
-            const publishText = document.getElementById('publishBtnText');
+        function cycleVideoFilter() {
+            filterIndex = (filterIndex + 1) % filters.length;
+            const currentFilter = filters[filterIndex];
+            document.getElementById('previewVideo').style.filter = currentFilter.css;
+            showToast(`Filter: ${currentFilter.name} ✨`);
+        }
 
-            if (type === 'short') {
-                badge.className = 'format-tag tag-short';
-                badge.textContent = '⚡ Bharat Short (Auto Detected)';
-                previewBox.classList.add('short-ratio');
-                document.getElementById('thumbPlaceholder').textContent = '9:16 Short Cover';
-                publishText.textContent = 'Publish Bharat Short';
+        function openTextTool() {
+            const currentText = document.getElementById('textOverlay').textContent;
+            const userText = prompt('Video ke upar text likhein (Overlay):', currentText || 'BharatTube Special');
+            const overlay = document.getElementById('textOverlay');
+            if (userText && userText.trim().length > 0) {
+                overlay.textContent = userText.trim();
+                overlay.style.display = 'block';
+                showToast('Text overlay added! ✍️');
+            } else if (userText === '') {
+                overlay.style.display = 'none';
+                overlay.textContent = '';
+                showToast('Text removed');
+            }
+        }
 
-                if (!titleInput.value.toLowerCase().includes('#shorts')) {
-                    titleInput.value = (titleInput.value + ' #Shorts').trim();
-                    updateCount('videoTitleInput', 'titleCount', 100);
+        function selectMusicTrack() {
+            if (!isShort) {
+                showToast('Add Sound keval Shorts ke liye uplabdh hai');
+                return;
+            }
+            const tracks = ['Original Audio', 'Chhattisgarhi Folk Beats', 'Vande Mataram Ambient', 'Trending Bharat Lofi'];
+            const track = prompt(`Background Sound chunein (1 to 4):\n1. ${tracks[0]}\n2. ${tracks[1]}\n3. ${tracks[2]}\n4. ${tracks[3]}`, '2');
+            if (track && tracks[parseInt(track) - 1]) {
+                showToast(`🎵 Short Sound Added: ${tracks[parseInt(track) - 1]}`);
+            }
+        }
+
+        function trimVideoTool() {
+            const vid = document.getElementById('previewVideo');
+            const dur = Math.round(vid.duration || 60);
+            const start = prompt(`Video Trim: Start time (0 to ${dur}s):`, '0');
+            if (start !== null) {
+                vid.currentTime = parseFloat(start) || 0;
+                showToast(`Trimmed from ${start}s ✂️`);
+            }
+        }
+
+        function onThumbnailChosen(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            document.getElementById('thumbLabel').textContent = 'Thumbnail ✓';
+            showToast('Thumbnail selected: ' + file.name);
+        }
+
+        function cycleVisibility() {
+            visState = (visState + 1) % visList.length;
+            document.getElementById('visLabel').textContent = visList[visState];
+            showToast('Visibility: ' + visList[visState]);
+        }
+
+        function onTitleType(input) {
+            document.getElementById('titleCount').textContent = input.value.length + '/100';
+            const actionBtn = document.getElementById('headerActionBtn');
+            if (input.value.trim().length > 0) {
+                actionBtn.classList.remove('disabled');
+            } else {
+                actionBtn.classList.add('disabled');
+            }
+        }
+
+        function triggerVideoUpload() {
+            const title = document.getElementById('videoTitle').value.trim();
+            if (!title) {
+                showToast('Please add a title');
+                return;
+            }
+
+            document.getElementById('previewVideo').pause();
+            const modal = document.getElementById('uploadModal');
+            const fill = document.getElementById('progressFill');
+            const percentText = document.getElementById('modalPercent');
+            modal.style.display = 'flex';
+
+            let progress = 0;
+            const timer = setInterval(() => {
+                progress += Math.floor(Math.random() * 8) + 4;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(timer);
+                    fill.style.width = '100%';
+                    percentText.textContent = '100% processed';
+                    showToast('🎉 Video Uploaded Successfully!');
+
+                    setTimeout(() => {
+                        const target = isShort ? 'shorts.html' : 'watch.html';
+                        const params = new URLSearchParams({
+                            title: title,
+                            channel: 'You (Creator)',
+                            views: '1 view'
+                        }).toString();
+                        window.location.href = `${target}?${params}`;
+                    }, 1000);
+                } else {
+                    fill.style.width = progress + '%';
+                    percentText.textContent = progress + '% uploaded';
                 }
-            } else {
-                badge.className = 'format-tag tag-long';
-                badge.textContent = '📹 Long Video (16:9 Detected)';
-                previewBox.classList.remove('short-ratio');
-                document.getElementById('thumbPlaceholder').textContent = '16:9 Cover';
-                publishText.textContent = 'Publish Video';
-
-                titleInput.value = titleInput.value.replace(/#shorts/ig, '').trim();
-                updateCount('videoTitleInput', 'titleCount', 100);
-            }
+            }, 150);
         }
 
-        function manuallyToggleFormat() {
-            if (detectedType === 'video') {
-                setFormatState('short');
-                showToast('Switched to Bharat Short ⚡');
-            } else {
-                setFormatState('video');
-                showToast('Switched to Long Video 📹');
-            }
+        /* --- COMMUNITY POST FLOW --- */
+        function openPostSetup() {
+            currentMode = 'post';
+            document.getElementById('createHubView').style.display = 'none';
+            document.getElementById('stepPost').style.display = 'block';
+            document.getElementById('pageTitle').textContent = 'Create post';
+
+            const actionBtn = document.getElementById('headerActionBtn');
+            actionBtn.textContent = 'Post';
+            actionBtn.classList.remove('disabled');
         }
 
-        function resetUploadForm() {
-            uploadedFile = null;
-            document.getElementById('videoFileInput').value = '';
-            document.getElementById('selectedFileCard').style.display = 'none';
-            document.getElementById('dropzone').style.display = 'block';
-            showToast('फ़ाइल हटाई गई');
-        }
-
-        function handleThumbnailSelected(e) {
+        function onPostPhotoChosen(e) {
             const file = e.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = function(event) {
-                const img = document.getElementById('thumbImg');
+                const img = document.getElementById('postImagePreview');
                 img.src = event.target.result;
                 img.style.display = 'block';
-                document.getElementById('thumbPlaceholder').style.display = 'none';
-                showToast('थंबनेल लोड हुआ');
+                showToast('Photo added to post! 📷');
             };
             reader.readAsDataURL(file);
         }
 
-        function startPublishingProcess() {
-            if (isUploading) return;
+        function addVideoLinkPrompt() {
+            const url = prompt('Video link ya YouTube URL enter karein:', 'https://bharattube.in/watch?v=1');
+            if (url) {
+                const area = document.getElementById('postContent');
+                area.value = (area.value + '\n\n' + url).trim();
+                showToast('Link added to post! 🔗');
+            }
+        }
 
-            const title = document.getElementById('videoTitleInput').value.trim();
-            if (!title) {
-                showToast('कृपया शीर्षक (Title) दर्ज करें');
-                document.getElementById('videoTitleInput').focus();
+        function publishCommunityPost() {
+            const content = document.getElementById('postContent').value.trim();
+            if (!content) {
+                showToast('Please write something in your post');
                 return;
             }
-
-            isUploading = true;
-            const progressCard = document.getElementById('progressCard');
-            const progressFill = document.getElementById('progressFill');
-            const progressPercent = document.getElementById('progressPercent');
-            const progressTitle = document.getElementById('progressTitle');
-            const progressSpeed = document.getElementById('progressSpeed');
-            const publishBtn = document.getElementById('publishBtn');
-
-            progressCard.style.display = 'block';
-            publishBtn.disabled = true;
-            publishBtn.style.opacity = '0.5';
-            progressCard.scrollIntoView({ behavior: 'smooth' });
-
-            let percent = 0;
-            const interval = setInterval(() => {
-                percent += Math.floor(Math.random() * 8) + 4;
-                if (percent >= 100) {
-                    percent = 100;
-                    clearInterval(interval);
-                    progressFill.style.width = '100%';
-                    progressPercent.textContent = '100%';
-                    progressTitle.textContent = 'Processing completed!';
-                    progressSpeed.textContent = '100% processed • Checks passed';
-                    showToast('🎉 वीडियो सफलतापूर्वक पब्लिश हो गया!');
-
-                    setTimeout(() => {
-                        const targetPage = detectedType === 'short' ? 'shorts.html' : 'watch.html';
-                        const query = new URLSearchParams({
-                            title: title,
-                            channel: 'You (Creator)',
-                            views: '1 view'
-                        }).toString();
-                        window.location.href = `${targetPage}?${query}`;
-                    }, 1200);
-                } else {
-                    progressFill.style.width = percent + '%';
-                    progressPercent.textContent = percent + '%';
-                    if (percent > 70) {
-                        progressTitle.textContent = 'Processing SD to HD...';
-                        progressSpeed.textContent = 'Checking copyright & safety...';
-                    } else {
-                        progressTitle.textContent = 'Uploading file...';
-                        progressSpeed.textContent = `Uploading • ${percent}% completed`;
-                    }
-                }
-            }, 180);
+            showToast('🎉 Community Post Published!');
+            setTimeout(() => {
+                window.location.href = 'profile.html';
+            }, 1000);
         }
     </script>
 </body>
