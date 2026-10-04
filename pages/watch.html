@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#070b10">
     <title>BharatTube - Watch Video</title>
     <style>
@@ -16,8 +16,8 @@
         :root {
             --bg: #070b10;
             --panel: #111821;
-            --panel2: #171f29;
-            --border: #27313d;
+            --panel2: #1c2533;
+            --border: #283444;
             --text: #f5f7fa;
             --muted: #9aa5b1;
             --red: #ff3040;
@@ -28,12 +28,12 @@
             background-color: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            padding-bottom: 30px;
+            padding-bottom: 40px;
         }
 
         /* Top Header */
         .watch-header {
-            height: 54px;
+            height: 52px;
             background: rgba(7, 11, 16, 0.98);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -65,7 +65,7 @@
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         /* Video Container */
@@ -73,7 +73,7 @@
             width: 100%;
             background: #000000;
             position: sticky;
-            top: 54px;
+            top: 52px;
             z-index: 900;
         }
 
@@ -84,7 +84,7 @@
             outline: none;
         }
 
-        /* Details Section */
+        /* Video Details Content */
         .video-content {
             padding: 14px 16px;
             max-width: 900px;
@@ -92,10 +92,10 @@
         }
 
         .video-title {
-            font-size: 16px;
+            font-size: 17px;
             line-height: 1.35;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .video-views {
@@ -104,15 +104,13 @@
             margin-bottom: 14px;
         }
 
-        /* Channel Bar */
+        /* YouTube Style Channel Bar */
         .channel-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 16px;
+            padding: 10px 0;
+            margin-bottom: 14px;
         }
 
         .channel-info {
@@ -125,12 +123,13 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #242f3d;
+            background: #222e3f;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             color: white;
+            font-size: 16px;
         }
 
         .channel-name {
@@ -143,6 +142,12 @@
             color: var(--muted);
         }
 
+        .sub-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .subscribe-btn {
             background: #ffffff;
             color: #0b0f14;
@@ -152,19 +157,41 @@
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .subscribe-btn.subscribed {
             background: var(--panel2);
             color: var(--muted);
+            border: 1px solid var(--border);
         }
 
-        /* Action Buttons */
+        /* Bell Notification Icon Button */
+        .bell-btn {
+            display: none;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+
+        .bell-btn.active {
+            display: flex;
+        }
+
+        /* YouTube Style Action Bar */
         .action-bar {
             display: flex;
+            align-items: center;
             gap: 8px;
             overflow-x: auto;
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             scrollbar-width: none;
         }
 
@@ -172,19 +199,178 @@
             display: none;
         }
 
+        /* YouTube Combined Like-Dislike Pill */
+        .yt-like-dislike-pill {
+            display: flex;
+            align-items: center;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            height: 36px;
+            flex-shrink: 0;
+        }
+
+        .yt-like-btn, .yt-dislike-btn {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 12px;
+            height: 100%;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .yt-like-btn svg, .yt-dislike-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .yt-like-btn.liked {
+            color: #4da3ff;
+        }
+
+        .yt-dislike-btn.disliked {
+            color: var(--red);
+        }
+
+        .pill-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--border);
+        }
+
+        /* Individual Action Buttons */
         .action-pill {
             background: var(--panel2);
             border: 1px solid var(--border);
             color: var(--text);
-            padding: 8px 16px;
-            border-radius: 18px;
-            font-size: 13px;
+            padding: 0 14px;
+            height: 36px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .action-pill svg {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
+        }
+
+        /* Comments Box */
+        .comments-section {
+            margin-top: 18px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .comments-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .comment-input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .comment-user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .comment-field {
+            flex: 1;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .comment-field:focus {
+            border-color: var(--red);
+        }
+
+        .comment-send-btn {
+            background: var(--red);
+            color: #ffffff;
+            border: 0;
+            padding: 0 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .comment-item .c-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #273444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .comment-item .c-body {
+            flex: 1;
+        }
+
+        .comment-item .c-author {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+
+        .comment-item .c-text {
+            color: #e6ebf1;
+            line-height: 1.35;
         }
 
         /* Up Next Section */
@@ -213,7 +399,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 15px;
             flex-shrink: 0;
         }
 
@@ -256,55 +442,124 @@
 <body>
 
     <header class="watch-header">
-        <a href="../frontend/index.html" class="back-link back-btn">← BharatTube</a>
+        <a href="../frontend/index.html" class="back-btn">← BharatTube</a>
         <div class="brand-logo-small">B</div>
     </header>
 
     <div class="video-container">
-        <video id="mainVideo" controls autoplay playsinline poster="">
+        <video id="mainVideo" controls autoplay playsinline>
             <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
             आपका ब्राउज़र वीडियो सपोर्ट नहीं करता।
         </video>
     </div>
 
     <main class="video-content">
-        <h1 class="video-title" id="videoTitle">Chhattisgarhi Panthi Song • Traditional Folk Music</h1>
-        <div class="video-views" id="videoMeta">125K views • 2 days ago • #BharatTube</div>
+        <h1 class="video-title" id="videoTitle">India Today News</h1>
+        <div class="video-views" id="videoMeta">342K views • 1 day ago • #BharatTube</div>
 
+        <!-- Channel Row with Bell -->
         <div class="channel-bar">
             <div class="channel-info">
-                <div class="avatar" id="chanAvatar">A</div>
+                <div class="avatar" id="chanAvatar">N</div>
                 <div>
-                    <div class="channel-name" id="chanName">A One Music</div>
+                    <div class="channel-name" id="chanName">Bharat News</div>
                     <div class="channel-subs">45.2K Subscribers</div>
                 </div>
             </div>
-            <button class="subscribe-btn" id="subBtn">Subscribe</button>
+            <div class="sub-group">
+                <button class="subscribe-btn" id="subBtn">Subscribe</button>
+                <button class="bell-btn" id="bellBtn" title="Notifications">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                    </svg>
+                </button>
+            </div>
         </div>
 
+        <!-- YouTube Style Action Bar -->
         <div class="action-bar">
-            <button class="action-pill" id="likeBtn">👍 <span id="likeCount">12K</span></button>
-            <button class="action-pill" id="dislikeBtn">👎</button>
-            <button class="action-pill" id="shareBtn">↗ Share</button>
-            <button class="action-pill" id="saveBtn">📥 Save</button>
+            <!-- Like + Dislike Combined Pill -->
+            <div class="yt-like-dislike-pill">
+                <button class="yt-like-btn" id="likeBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
+                    </svg>
+                    <span id="likeCount">12K</span>
+                </button>
+                <div class="pill-divider"></div>
+                <button class="yt-dislike-btn" id="dislikeBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Share Button -->
+            <button class="action-pill" id="shareBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/>
+                </svg>
+                <span>Share</span>
+            </button>
+
+            <!-- Save Button -->
+            <button class="action-pill" id="saveBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                </svg>
+                <span>Save</span>
+            </button>
         </div>
 
+        <!-- YouTube Style Comments Section -->
+        <section class="comments-section">
+            <div class="comments-header">
+                <span>Comments</span>
+                <span style="color:var(--muted); font-size:12px;" id="commentCounter">2</span>
+            </div>
+
+            <div class="comment-input-row">
+                <div class="comment-user-avatar">U</div>
+                <input type="text" class="comment-field" id="newCommentInput" placeholder="Add a comment...">
+                <button class="comment-send-btn" id="postCommentBtn">Post</button>
+            </div>
+
+            <div class="comments-list" id="commentsList">
+                <div class="comment-item">
+                    <div class="c-avatar">R</div>
+                    <div class="c-body">
+                        <div class="c-author">@rajesh_kumar • 2 hours ago</div>
+                        <div class="c-text">Bahut badhiya video! Bharat me apna platform dekhkar achha laga 🇮🇳</div>
+                    </div>
+                </div>
+
+                <div class="comment-item">
+                    <div class="c-avatar">A</div>
+                    <div class="c-body">
+                        <div class="c-author">@amit_vlogs • 5 hours ago</div>
+                        <div class="c-text">Video quality aur sound clear hai. Keep uploading!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Up Next -->
         <section class="up-next">
             <h3>Up Next</h3>
+
+            <div class="related-card" onclick="switchVideo('Chhattisgarhi Panthi Song', 'A One Music', '125K views')">
+                <div class="related-thumb">▶</div>
+                <div class="related-info">
+                    <h4>Chhattisgarhi Panthi Song</h4>
+                    <p>A One Music • 125K views</p>
+                </div>
+            </div>
 
             <div class="related-card" onclick="switchVideo('Learn Computer Basics', 'Education India', '84K views')">
                 <div class="related-thumb">▶</div>
                 <div class="related-info">
                     <h4>Learn Computer Basics</h4>
                     <p>Education India • 84K views</p>
-                </div>
-            </div>
-
-            <div class="related-card" onclick="switchVideo('India Today News', 'Bharat News', '342K views')">
-                <div class="related-thumb">▶</div>
-                <div class="related-info">
-                    <h4>India Today News</h4>
-                    <p>Bharat News • 342K views</p>
                 </div>
             </div>
 
@@ -328,7 +583,7 @@
             setTimeout(() => toast.classList.remove('show'), 2200);
         }
 
-        // URL Parameters reading (agar home page se title pass ho)
+        // URL Parameters reading
         const params = new URLSearchParams(window.location.search);
         const titleParam = params.get('title');
         const channelParam = params.get('channel');
@@ -336,58 +591,67 @@
 
         if (titleParam) document.getElementById('videoTitle').textContent = decodeURIComponent(titleParam);
         if (channelParam) {
-            document.getElementById('chanName').textContent = decodeURIComponent(channelParam);
-            document.getElementById('chanAvatar').textContent = decodeURIComponent(channelParam).charAt(0).toUpperCase();
+            const chan = decodeURIComponent(channelParam);
+            document.getElementById('chanName').textContent = chan;
+            document.getElementById('chanAvatar').textContent = chan.charAt(0).toUpperCase();
         }
         if (viewsParam) document.getElementById('videoMeta').textContent = decodeURIComponent(viewsParam) + ' • #BharatTube';
 
-        // Subscribe Toggle
+        // Subscribe & Bell Icon Logic
         const subBtn = document.getElementById('subBtn');
+        const bellBtn = document.getElementById('bellBtn');
         let isSubscribed = false;
+
         subBtn.addEventListener('click', () => {
             isSubscribed = !isSubscribed;
             if (isSubscribed) {
                 subBtn.textContent = 'Subscribed';
                 subBtn.classList.add('subscribed');
-                showToast('चैनल सब्सक्राइब हो गया');
+                bellBtn.classList.add('active');
+                showToast('चैनल सब्सक्राइब किया गया');
             } else {
                 subBtn.textContent = 'Subscribe';
                 subBtn.classList.remove('subscribed');
+                bellBtn.classList.remove('active');
                 showToast('अनसब्सक्राइब किया गया');
             }
         });
 
-        // Like Button
-        const likeBtn = document.getElementById('likeBtn');
-        let liked = false;
-        likeBtn.addEventListener('click', () => {
-            liked = !liked;
-            const likeSpan = document.getElementById('likeCount');
-            likeSpan.textContent = liked ? '12.1K' : '12K';
-            showToast(liked ? 'वीडियो लाइक किया गया 👍' : 'लाइक हटाया गया');
+        bellBtn.addEventListener('click', () => {
+            showToast('All notifications turned on 🔔');
         });
 
-        // Share Button
-        document.getElementById('shareBtn').addEventListener('click', () => {
-            if (navigator.share) {
-                navigator.share({
-                    title: document.getElementById('videoTitle').textContent,
-                    url: window.location.href
-                }).catch(() => {});
+        // Like / Dislike Logic
+        const likeBtn = document.getElementById('likeBtn');
+        const dislikeBtn = document.getElementById('dislikeBtn');
+        let isLiked = false;
+        let isDisliked = false;
+
+        likeBtn.addEventListener('click', () => {
+            isLiked = !isLiked;
+            if (isLiked) {
+                likeBtn.classList.add('liked');
+                document.getElementById('likeCount').textContent = '12.1K';
+                if (isDisliked) {
+                    isDisliked = false;
+                    dislikeBtn.classList.remove('disliked');
+                }
+                showToast('Liked');
             } else {
-                showToast('लिंक कॉपी किया गया!');
+                likeBtn.classList.remove('liked');
+                document.getElementById('likeCount').textContent = '12K';
             }
         });
 
-        // Switch Related Video
-        function switchVideo(title, channel, views) {
-            document.getElementById('videoTitle').textContent = title;
-            document.getElementById('chanName').textContent = channel;
-            document.getElementById('chanAvatar').textContent = channel.charAt(0).toUpperCase();
-            document.getElementById('videoMeta').textContent = views + ' • Recently • #BharatTube';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            showToast('नया वीडियो लोड हुआ');
-        }
-    </script>
-</body>
-</html>
+        dislikeBtn.addEventListener('click', () => {
+            isDisliked = !isDisliked;
+            if (isDisliked) {
+                dislikeBtn.classList.add('disliked');
+                if (isLiked) {
+                    isLiked = false;
+                    likeBtn.classList.remove('liked');
+                    document.getElementById('likeCount').textContent = '12K';
+                }
+                showToast('Disliked');
+            } else {
+                dislik
