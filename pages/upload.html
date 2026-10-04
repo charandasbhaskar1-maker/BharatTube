@@ -2,9 +2,9 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
-    <title>BharatTube Camera & Create</title>
+    <title>BharatTube Studio</title>
     <style>
         * {
             margin: 0;
@@ -15,8 +15,9 @@
 
         :root {
             --yt-black: #000000;
-            --yt-panel: #121212;
-            --yt-border: rgba(255, 255, 255, 0.12);
+            --yt-panel: #181818;
+            --yt-panel2: #242424;
+            --yt-border: rgba(255, 255, 255, 0.14);
             --yt-text: #ffffff;
             --yt-muted: #aaaaaa;
             --yt-blue: #3ea6ff;
@@ -40,9 +41,12 @@
             position: relative;
             background: #000000;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* Camera Feed */
+        /* 1. Camera Viewport */
         .camera-background {
             position: absolute;
             inset: 0;
@@ -59,26 +63,27 @@
             object-fit: cover;
         }
 
-        /* Top Bar */
+        /* 2. Top Action Bar */
         .top-action-bar {
             position: absolute;
-            top: 10px;
+            top: 0;
             left: 0;
             right: 0;
-            z-index: 100;
-            height: 50px;
+            z-index: 50;
+            height: calc(56px + env(safe-area-inset-top, 0px));
+            padding: env(safe-area-inset-top, 10px) 16px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 100%);
         }
 
         .circle-icon-btn {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
             display: flex;
@@ -86,7 +91,7 @@
             justify-content: center;
             cursor: pointer;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 19px;
         }
 
         .circle-icon-btn svg {
@@ -96,12 +101,12 @@
         }
 
         .add-sound-pill {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             color: #ffffff;
-            padding: 7px 18px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 24px;
             font-size: 13px;
             font-weight: 600;
             display: flex;
@@ -116,16 +121,23 @@
             fill: currentColor;
         }
 
-        /* Right Side Toolbars */
+        /* 3. Right Sidebar Tools */
         .side-tool-column {
             position: absolute;
             right: 14px;
-            top: 70px;
-            z-index: 100;
+            top: calc(70px + env(safe-area-inset-top, 0px));
+            z-index: 50;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            align-items: center;
+            gap: 14px;
+            align-items: flex-end;
+            max-height: calc(100vh - 250px);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .side-tool-column::-webkit-scrollbar {
+            display: none;
         }
 
         .tool-action-item {
@@ -136,51 +148,84 @@
             border: none;
             color: #ffffff;
             cursor: pointer;
-            justify-content: flex-end;
-            width: 100%;
         }
 
         .tool-title {
             font-size: 13px;
-            font-weight: 500;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            font-weight: 600;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.9);
             white-space: nowrap;
         }
 
         .tool-round-btn {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             color: #ffffff;
         }
 
         .tool-round-btn svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             fill: #ffffff;
         }
 
-        /* BOTTOM CONTROLS - LIFTED UP FOR MOBILE NAV BARS */
+        /* 4. Bottom Capture & Controls Deck */
         .bottom-control-deck {
             position: absolute;
-            bottom: 70px; /* नीचे के सिस्टम बटन से काफी ऊपर */
+            bottom: 0;
             left: 0;
             right: 0;
-            z-index: 9999;
+            z-index: 60;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
-            pointer-events: auto;
+            gap: 14px;
+            padding-bottom: max(18px, env(safe-area-inset-bottom, 18px));
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, transparent 100%);
+        }
+
+        .live-preview-info {
+            width: 100%;
+            padding: 0 24px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .live-creator-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--yt-border);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .live-creator-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #2ecc71;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
         }
 
         .capture-row {
@@ -188,7 +233,7 @@
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 0 24px;
+            padding: 0 20px;
         }
 
         .gallery-box {
@@ -197,19 +242,20 @@
             align-items: center;
             gap: 4px;
             cursor: pointer;
-            width: 50px;
+            width: 54px;
         }
 
         .gallery-preview-mini {
             width: 44px;
             height: 44px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 2px solid #ffffff;
             background: #222;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
 
         .gallery-preview-mini img {
@@ -220,25 +266,26 @@
 
         .gallery-box span {
             font-size: 11px;
-            font-weight: 600;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
         .shutter-outer-ring {
-            width: 72px;
-            height: 72px;
+            width: 74px;
+            height: 74px;
             border-radius: 50%;
             border: 4px solid #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.25);
+            transition: transform 0.15s;
         }
 
         .shutter-inner-red {
-            width: 54px;
-            height: 54px;
+            width: 58px;
+            height: 58px;
             border-radius: 50%;
             background: #ff0000;
             transition: 0.2s;
@@ -246,64 +293,87 @@
 
         .shutter-outer-ring.recording .shutter-inner-red {
             border-radius: 8px;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
+        }
+
+        .live-btn-stack {
+            display: none;
+            width: 100%;
+            padding: 0 20px;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
         .big-pill-btn {
+            width: 100%;
+            max-width: 320px;
             background: #ffffff;
             color: #000000;
             border: none;
-            border-radius: 24px;
-            padding: 10px 30px;
-            font-size: 14px;
+            border-radius: 28px;
+            padding: 12px 0;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.6);
         }
 
-        /* 4-MODE SELECTOR */
+        .practice-mode-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        /* 5. Mode Selector Bar */
         .mode-scroll-deck {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 6px;
             background: rgba(0, 0, 0, 0.7);
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            width: fit-content;
         }
 
         .mode-chip {
             font-size: 13px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.65);
+            color: rgba(255, 255, 255, 0.7);
             cursor: pointer;
-            padding: 6px 14px;
-            border-radius: 16px;
+            padding: 7px 16px;
+            border-radius: 20px;
             transition: 0.2s;
             white-space: nowrap;
         }
 
         .mode-chip.active {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.28);
         }
 
-        /* POST SCREEN MODAL */
+        /* 6. Professional Community Post Screen */
         .post-fullscreen-modal {
             display: none;
             position: absolute;
             inset: 0;
             background: #000000;
-            z-index: 10000;
+            z-index: 100;
             flex-direction: column;
             justify-content: space-between;
         }
 
         .post-inner-content {
-            padding: 14px 16px;
+            padding: 16px;
         }
 
         .post-author-row {
@@ -311,7 +381,6 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 16px;
-            margin-top: 10px;
         }
 
         .post-author-avatar {
@@ -325,6 +394,7 @@
             font-weight: 700;
             font-size: 17px;
             color: #ffffff;
+            border: 1.5px solid rgba(255,255,255,0.2);
             flex-shrink: 0;
         }
 
@@ -334,11 +404,11 @@
         }
 
         .post-visibility-pill {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             border: 1px solid var(--yt-border);
             color: #ffffff;
-            padding: 4px 10px;
-            border-radius: 14px;
+            padding: 4px 12px;
+            border-radius: 16px;
             font-size: 12px;
             font-weight: 500;
             display: inline-flex;
@@ -369,6 +439,34 @@
 
         .post-textarea-main::placeholder {
             color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Post Poll / Quiz Display Block */
+        .interactive-post-card {
+            display: none;
+            background: var(--yt-panel);
+            border: 1px solid var(--yt-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin: 12px 0;
+        }
+
+        .interactive-card-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--yt-blue);
+            margin-bottom: 8px;
+        }
+
+        .interactive-opt {
+            background: var(--yt-panel2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .attached-post-img-box {
@@ -404,7 +502,7 @@
         }
 
         .post-bottom-suite {
-            padding-bottom: 60px;
+            padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
         }
 
         .post-gallery-strip {
@@ -442,8 +540,8 @@
         .post-tools-tray {
             display: flex;
             align-items: center;
-            gap: 24px;
-            padding: 10px 18px;
+            gap: 26px;
+            padding: 12px 18px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
@@ -463,13 +561,86 @@
             fill: #ffffff;
         }
 
-        /* ADD DETAILS SHEET */
+        /* 7. YouTube Native Modal Builders (Poll & Quiz) */
+        .yt-native-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .yt-native-modal-sheet {
+            width: 100%;
+            max-width: 500px;
+            background: #212121;
+            border-top-left-radius: 18px;
+            border-top-right-radius: 18px;
+            padding: 20px 18px max(24px, env(safe-area-inset-bottom, 24px));
+            border-top: 1px solid var(--yt-border);
+        }
+
+        .sheet-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sheet-input {
+            width: 100%;
+            background: #121212;
+            border: 1px solid var(--yt-border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        .sheet-btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .sheet-action-btn {
+            flex: 1;
+            background: var(--yt-blue);
+            color: #000;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 0;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .sheet-cancel-btn {
+            flex: 1;
+            background: #333333;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 0;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* 8. Add Details Sheet */
         .add-details-sheet {
             display: none;
             position: absolute;
             inset: 0;
             background: #000000;
-            z-index: 10001;
+            z-index: 150;
             flex-direction: column;
         }
 
@@ -554,7 +725,7 @@
         .toast {
             position: fixed;
             left: 50%;
-            bottom: 130px;
+            bottom: 84px;
             transform: translate(-50%, 20px);
             background: #ffffff;
             color: #000000;
@@ -565,7 +736,7 @@
             opacity: 0;
             pointer-events: none;
             transition: 0.25s ease;
-            z-index: 20000;
+            z-index: 30000;
             white-space: nowrap;
         }
 
@@ -596,7 +767,7 @@
                 <span id="soundLabel">Add sound</span>
             </div>
 
-            <div class="circle-icon-btn" onclick="showToast('Effects & Highlights ready ✨')">
+            <div class="circle-icon-btn" onclick="showToast('Effects & Filters ready ✨')">
                 <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
             </div>
         </header>
@@ -604,8 +775,18 @@
         <!-- RIGHT TOOLS -->
         <div class="side-tool-column" id="sideToolColumn"></div>
 
-        <!-- BOTTOM CONTROLS - LIFTED UP -->
+        <!-- BOTTOM DECK -->
         <div class="bottom-control-deck">
+
+            <!-- Live Details Pill -->
+            <div class="live-preview-info" id="livePreviewInfo">
+                <div class="live-creator-badge">
+                    <div class="live-creator-avatar">CB</div>
+                    <span>Charandas Bhaskar • Public</span>
+                </div>
+            </div>
+
+            <!-- Standard Video/Shorts Capture Row -->
             <div class="capture-row" id="captureRow">
                 <div class="gallery-box" onclick="document.getElementById('videoPicker').click()">
                     <div class="gallery-preview-mini">
@@ -618,12 +799,16 @@
                     <div class="shutter-inner-red"></div>
                 </div>
 
-                <button class="big-pill-btn" id="nextActionBtn" style="display:none;" onclick="handleNextAction()">Next</button>
-
-                <div style="width: 50px;"></div>
+                <div style="width: 54px;"></div>
             </div>
 
-            <!-- MODE SELECTOR -->
+            <!-- Live Action Stack (Practice mode & Next) -->
+            <div class="live-btn-stack" id="liveBtnStack">
+                <button class="big-pill-btn" onclick="handleLiveNext()">Next</button>
+                <button class="practice-mode-btn" onclick="showToast('Practice mode on (Only you can view)')">Practice mode</button>
+            </div>
+
+            <!-- 4-Mode Selector -->
             <nav class="mode-scroll-deck">
                 <span class="mode-chip" id="modeVideo" onclick="switchMode('video')">Video</span>
                 <span class="mode-chip active" id="modeShort" onclick="switchMode('short')">Short</span>
@@ -632,15 +817,15 @@
             </nav>
         </div>
 
-        <!-- POST SCREEN -->
+        <!-- COMMUNITY POST MODAL -->
         <div class="post-fullscreen-modal" id="postModal">
             <div>
-                <header class="top-action-bar" style="border-bottom: 1px solid var(--yt-border); background:#000; position:relative; top:0;">
+                <header class="top-action-bar" style="position:relative; background:#000; border-bottom:1px solid var(--yt-border);">
                     <div style="display:flex; align-items:center; gap:16px;">
                         <button class="circle-icon-btn" onclick="closePostModal()">✕</button>
                         <span style="font-size:17px; font-weight:700;">Create post</span>
                     </div>
-                    <button class="big-pill-btn" style="padding:6px 18px; font-size:13px;" onclick="publishPostNow()">Post</button>
+                    <button class="big-pill-btn" style="width:auto; padding:6px 20px; font-size:13px;" onclick="publishPostNow()">Post</button>
                 </header>
 
                 <div class="post-inner-content">
@@ -656,6 +841,14 @@
                     </div>
 
                     <textarea class="post-textarea-main" id="postText" placeholder="Share an image to start a caption contest"></textarea>
+
+                    <!-- Interactive Attached Card (Poll / Quiz) -->
+                    <div class="interactive-post-card" id="interactivePostCard">
+                        <div class="interactive-card-title" id="cardHeading">📊 Poll</div>
+                        <div id="cardQuestion" style="font-size:14px; font-weight:600; margin-bottom:8px;">Question</div>
+                        <div class="interactive-opt" id="opt1">Option 1</div>
+                        <div class="interactive-opt" id="opt2">Option 2</div>
+                    </div>
 
                     <div class="attached-post-img-box" id="attachedImgBox">
                         <img id="attachedPostImg" alt="Attached">
@@ -678,18 +871,18 @@
                 </div>
 
                 <div class="post-tools-tray">
-                    <button class="tray-icon-btn" onclick="promptPoll()" title="Poll">
+                    <button class="tray-icon-btn" onclick="openPollBuilder()" title="Poll">
                         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
                     </button>
                     <button class="tray-icon-btn" onclick="document.getElementById('postImagePicker').click()" title="Image">
                         <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
                     </button>
-                    <button class="tray-icon-btn" onclick="promptQuiz()" title="Quiz">
+                    <button class="tray-icon-btn" onclick="openQuizBuilder()" title="Quiz">
                         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                     </button>
                 </div>
 
-                <nav class="mode-scroll-deck" style="margin-top: 14px; width: fit-content; margin-left: auto; margin-right: auto;">
+                <nav class="mode-scroll-deck" style="margin-top: 14px; margin-left: auto; margin-right: auto;">
                     <span class="mode-chip" onclick="switchMode('short'); closePostModal();">Short</span>
                     <span class="mode-chip" onclick="switchMode('live'); closePostModal();">Live</span>
                     <span class="mode-chip active">Post</span>
@@ -697,14 +890,31 @@
             </div>
         </div>
 
-        <!-- DETAILS SHEET -->
+        <!-- 7. POLL & QUIZ NATIVE MODAL BUILDER (NO BROWSER POPUPS) -->
+        <div class="yt-native-modal-backdrop" id="nativeBuilderModal">
+            <div class="yt-native-modal-sheet">
+                <div class="sheet-title">
+                    <span id="builderModalTitle">Create a poll</span>
+                    <span onclick="closeBuilderModal()" style="cursor:pointer; font-size:18px;">✕</span>
+                </div>
+                <input type="text" class="sheet-input" id="builderQuestion" placeholder="Ask your community...">
+                <input type="text" class="sheet-input" id="builderOpt1" placeholder="Option 1">
+                <input type="text" class="sheet-input" id="builderOpt2" placeholder="Option 2">
+                <div class="sheet-btn-row">
+                    <button class="sheet-cancel-btn" onclick="closeBuilderModal()">Cancel</button>
+                    <button class="sheet-action-btn" onclick="applyBuilderData()">Add to Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. ADD DETAILS SHEET -->
         <div class="add-details-sheet" id="detailsSheet">
             <header class="details-header-row">
                 <div style="display:flex; align-items:center; gap:16px;">
                     <button class="circle-icon-btn" onclick="closeDetailsSheet()">✕</button>
                     <span style="font-size:17px; font-weight:700;">Add details</span>
                 </div>
-                <button class="big-pill-btn" style="padding:6px 18px; font-size:13px;" onclick="closeDetailsSheet()">Done</button>
+                <button class="big-pill-btn" style="width:auto; padding:6px 18px; font-size:13px;" onclick="closeDetailsSheet()">Done</button>
             </header>
 
             <div class="details-body">
@@ -748,6 +958,7 @@
     <script>
         let currentMode = 'short';
         let isRecording = false;
+        let activeBuilderType = 'poll';
 
         const toast = document.getElementById('toast');
         function showToast(msg) {
@@ -778,28 +989,31 @@
             if (activeChip) activeChip.classList.add('active');
 
             const soundPill = document.getElementById('topSoundPill');
-            const shutter = document.getElementById('shutterBtn');
-            const nextBtn = document.getElementById('nextActionBtn');
+            const captureRow = document.getElementById('captureRow');
+            const liveInfo = document.getElementById('livePreviewInfo');
+            const liveStack = document.getElementById('liveBtnStack');
 
             if (mode === 'short') {
                 soundPill.style.display = 'flex';
-                shutter.style.display = 'flex';
-                nextBtn.style.display = 'none';
+                captureRow.style.display = 'flex';
+                liveInfo.style.display = 'none';
+                liveStack.style.display = 'none';
                 renderToolsForMode('short');
                 showToast('Shorts Camera Mode ⚡');
             } else if (mode === 'video') {
                 soundPill.style.display = 'none';
-                shutter.style.display = 'flex';
-                nextBtn.style.display = 'none';
+                captureRow.style.display = 'flex';
+                liveInfo.style.display = 'none';
+                liveStack.style.display = 'none';
                 renderToolsForMode('video');
-                showToast('Video Recording Mode 📹');
+                showToast('Video Mode 📹');
             } else if (mode === 'live') {
                 soundPill.style.display = 'none';
-                shutter.style.display = 'none';
-                nextBtn.style.display = 'block';
-                nextBtn.textContent = 'Next';
+                captureRow.style.display = 'none';
+                liveInfo.style.display = 'flex';
+                liveStack.style.display = 'flex';
                 renderToolsForMode('live');
-                showToast('Live Stream Setup 🔴');
+                showToast('Live Mode 🔴');
             } else if (mode === 'post') {
                 openPostModal();
             }
@@ -835,7 +1049,7 @@
                     </div>
                     <div class="tool-action-item" onclick="showToast('Mic Muted 🔇')">
                         <span class="tool-title">Mute</span>
-                        <div class="tool-round-btn">🎙</div>
+                        <div class="tool-round-btn">🎙️</div>
                     </div>
                     <div class="tool-action-item" onclick="showToast('Video hidden')">
                         <span class="tool-title">Hide video</span>
@@ -865,28 +1079,23 @@
         function toggleRecording() {
             isRecording = !isRecording;
             const ring = document.getElementById('shutterBtn');
-            const nextBtn = document.getElementById('nextActionBtn');
-
             if (isRecording) {
                 ring.classList.add('recording');
                 showToast('Recording started... 🔴');
             } else {
                 ring.classList.remove('recording');
                 showToast('Recording saved!');
-                ring.style.display = 'none';
-                nextBtn.style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = currentMode === 'short' ? 'shorts.html' : 'watch.html';
+                }, 800);
             }
         }
 
-        function handleNextAction() {
-            if (currentMode === 'live') {
-                showToast('🔴 Entering Live Room...');
-                setTimeout(() => {
-                    window.location.href = `watch.html?title=Charandas+Bhaskar+Live&channel=Charandas+Bhaskar&views=🔴+Live+Now`;
-                }, 800);
-            } else {
-                window.location.href = currentMode === 'short' ? 'shorts.html' : 'watch.html';
-            }
+        function handleLiveNext() {
+            showToast('🔴 Going Live...');
+            setTimeout(() => {
+                window.location.href = `watch.html?title=Charandas+Bhaskar+Live&channel=Charandas+Bhaskar&views=🔴+Live+Now`;
+            }, 800);
         }
 
         function selectMusicTrack() {
@@ -957,22 +1166,50 @@
             r.readAsDataURL(file);
         }
 
-        function promptPoll() {
-            const q = prompt('Poll Question:', 'Next video topic?');
-            if (q) {
-                const area = document.getElementById('postText');
-                area.value = (area.value + `\n\n📊 POLL: ${q}\n1. Option A\n2. Option B`).trim();
-                showToast('Poll added!');
-            }
+        /* NATIVE MODAL BUILDER (POLL & QUIZ) - NO DEFAULT BROWSER ALERTS */
+        function openPollBuilder() {
+            activeBuilderType = 'poll';
+            document.getElementById('builderModalTitle').textContent = 'Create a poll';
+            document.getElementById('builderQuestion').placeholder = 'Ask your community...';
+            document.getElementById('builderOpt1').placeholder = 'Option 1';
+            document.getElementById('builderOpt2').placeholder = 'Option 2';
+            document.getElementById('nativeBuilderModal').style.display = 'flex';
+            document.getElementById('builderQuestion').focus();
         }
 
-        function promptQuiz() {
-            const q = prompt('Quiz Question:', 'India Capital?');
-            if (q) {
-                const area = document.getElementById('postText');
-                area.value = (area.value + `\n\n✅ QUIZ: ${q}\n[A] New Delhi (Correct)`).trim();
-                showToast('Quiz added!');
+        function openQuizBuilder() {
+            activeBuilderType = 'quiz';
+            document.getElementById('builderModalTitle').textContent = 'Create a quiz';
+            document.getElementById('builderQuestion').placeholder = 'Enter quiz question...';
+            document.getElementById('builderOpt1').placeholder = 'Option 1 (Correct answer)';
+            document.getElementById('builderOpt2').placeholder = 'Option 2';
+            document.getElementById('nativeBuilderModal').style.display = 'flex';
+            document.getElementById('builderQuestion').focus();
+        }
+
+        function closeBuilderModal() {
+            document.getElementById('nativeBuilderModal').style.display = 'none';
+        }
+
+        function applyBuilderData() {
+            const q = document.getElementById('builderQuestion').value.trim();
+            const o1 = document.getElementById('builderOpt1').value.trim() || 'Option 1';
+            const o2 = document.getElementById('builderOpt2').value.trim() || 'Option 2';
+
+            if (!q) {
+                showToast('Please enter a question');
+                return;
             }
+
+            const card = document.getElementById('interactivePostCard');
+            document.getElementById('cardHeading').textContent = activeBuilderType === 'poll' ? '📊 Poll' : '✅ Quiz';
+            document.getElementById('cardQuestion').textContent = q;
+            document.getElementById('opt1').textContent = o1;
+            document.getElementById('opt2').textContent = o2;
+            card.style.display = 'block';
+
+            closeBuilderModal();
+            showToast(`${activeBuilderType === 'poll' ? 'Poll' : 'Quiz'} added!`);
         }
 
         function publishPostNow() {
@@ -985,10 +1222,10 @@
         function loadChosenVideo(e) {
             const file = e.target.files[0];
             if (!file) return;
-            showToast('Video chosen: ' + file.name);
-            document.getElementById('shutterBtn').style.display = 'none';
-            const nextBtn = document.getElementById('nextActionBtn');
-            nextBtn.style.display = 'block';
+            showToast('Video selected: ' + file.name);
+            setTimeout(() => {
+                window.location.href = currentMode === 'short' ? 'shorts.html' : 'watch.html';
+            }, 800);
         }
     </script>
 </body>
