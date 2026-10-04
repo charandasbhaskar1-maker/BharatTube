@@ -7,7 +7,7 @@
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f0f">
-    <title>Profile & Creator Studio - BharatTube</title>
+    <title>Profile - BharatTube</title>
     <style>
         * {
             margin: 0;
@@ -83,6 +83,7 @@
             align-items: center;
             justify-content: center;
             color: #ffffff;
+            position: relative;
         }
 
         .top-icon-btn svg {
@@ -91,51 +92,14 @@
             fill: #ffffff;
         }
 
-        /* Channel Lockout Banner */
-        .channel-lockout-banner {
-            display: none;
-            background: rgba(255, 78, 69, 0.15);
-            border: 1px solid var(--yt-red);
-            border-radius: 14px;
-            margin: 16px 16px 0;
-            padding: 14px;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .lockout-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--yt-red);
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .lockout-header svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--yt-red);
-            flex-shrink: 0;
-        }
-
-        .lockout-desc {
-            font-size: 12px;
-            color: var(--yt-text);
-            line-height: 1.45;
-        }
-
-        .resolve-violations-btn {
+        .notif-badge-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
             background: var(--yt-red);
-            color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            width: fit-content;
-            margin-top: 4px;
+            border-radius: 50%;
         }
 
         /* Profile Hero */
@@ -167,23 +131,10 @@
             border: 2px solid rgba(255, 255, 255, 0.15);
         }
 
-        .creator-title-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .creator-title-row h1 {
+        .creator-text-details h1 {
             font-size: 19px;
             font-weight: 700;
             line-height: 1.25;
-        }
-
-        .verified-badge-svg {
-            display: none;
-            width: 17px;
-            height: 17px;
-            fill: var(--yt-blue);
         }
 
         .creator-handle {
@@ -229,64 +180,6 @@
             height: 15px;
             fill: #ffffff;
             flex-shrink: 0;
-        }
-
-        /* Active Revenue Card */
-        .revenue-active-dashboard {
-            display: none;
-            background: linear-gradient(135deg, #1b3824, #122116);
-            border: 1px solid rgba(46, 204, 113, 0.3);
-            border-radius: 16px;
-            margin: 0 16px 12px;
-            padding: 16px;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .rev-top-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .rev-tag-badge {
-            background: rgba(46, 204, 113, 0.2);
-            color: var(--yt-green);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .rev-big-number {
-            font-size: 26px;
-            font-weight: 800;
-            color: #ffffff;
-            margin: 2px 0;
-        }
-
-        .rev-stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            background: rgba(0,0,0,0.3);
-            padding: 10px 12px;
-            border-radius: 10px;
-        }
-
-        .rev-stat-item div:first-child {
-            font-size: 11px;
-            color: var(--yt-muted);
-        }
-
-        .rev-stat-item div:last-child {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--yt-text);
-            margin-top: 2px;
         }
 
         /* Hub Section */
@@ -474,18 +367,6 @@
             border: 1px solid rgba(62, 166, 255, 0.35);
         }
 
-        .tag-gold {
-            background: rgba(241, 196, 15, 0.15);
-            color: var(--yt-gold);
-            border: 1px solid rgba(241, 196, 15, 0.35);
-        }
-
-        .tag-red {
-            background: rgba(255, 78, 69, 0.15);
-            color: var(--yt-red);
-            border: 1px solid rgba(255, 78, 69, 0.35);
-        }
-
         .menu-arrow-icon {
             width: 18px;
             height: 18px;
@@ -620,152 +501,87 @@
             box-shadow: 0 4px 14px rgba(62, 166, 255, 0.4);
         }
 
-        /* Review Audit Step Card */
-        .review-status-card {
-            background: #101010;
-            border: 1px solid var(--yt-border);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-
-        .review-status-header {
+        /* Notification List Style */
+        .notif-row-card {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
-            margin-bottom: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .review-badge-icon {
-            width: 32px;
-            height: 32px;
+        .notif-row-card:last-child {
+            border-bottom: none;
+        }
+
+        .notif-avatar {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            background: #333;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .review-check-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            font-size: 12px;
-            color: var(--yt-muted);
-            margin-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding-top: 10px;
-        }
-
-        .review-check-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Strike Infringing Videos List */
-        .strike-video-item {
-            background: #101010;
-            border: 1px solid rgba(255, 78, 69, 0.3);
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-
-        .strike-video-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 0;
-        }
-
-        .strike-thumb-fake {
-            width: 50px;
-            aspect-ratio: 16 / 9;
-            background: #222;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: var(--yt-muted);
-            flex-shrink: 0;
-        }
-
-        .strike-video-name {
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .strike-claim-owner {
-            font-size: 11px;
-            color: var(--yt-red);
-            margin-top: 2px;
-        }
-
-        .btn-delete-infringing {
-            background: var(--yt-red);
-            color: #ffffff;
-            border: none;
-            border-radius: 14px;
-            padding: 6px 12px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 700;
-            cursor: pointer;
             flex-shrink: 0;
+        }
+
+        .notif-content {
+            flex: 1;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        .notif-time {
+            font-size: 11px;
+            color: var(--yt-muted);
+            margin-top: 4px;
+        }
+
+        /* Settings Option Style */
+        .setting-option-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .setting-option-row:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header (Bell & Settings Now Correctly Hooked) -->
     <header class="top-nav-bar">
         <a href="../frontend/index.html" class="nav-back-link">
             <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
             <span>Home</span>
         </a>
         <div class="top-icons-row">
-            <button class="top-icon-btn" onclick="openPolicyModal('guidelines')">
+            <!-- 1. BELL ICON -> NOTIFICATIONS -->
+            <button class="top-icon-btn" onclick="openPolicyModal('notifications')">
                 <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                <span class="notif-badge-dot"></span>
             </button>
-            <button class="top-icon-btn" onclick="openPolicyModal('guidelines')">
+            <!-- 2. SETTINGS ICON -> APP & ACCOUNT SETTINGS -->
+            <button class="top-icon-btn" onclick="openPolicyModal('settings')">
                 <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
             </button>
         </div>
     </header>
-
-    <!-- AUTOMATIC STRIKE-3 CHANNEL LOCKOUT BANNER -->
-    <div class="channel-lockout-banner" id="lockoutBanner">
-        <div class="lockout-header">
-            <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-            <span>Channel Suspended (3/3 Copyright Strikes)</span>
-        </div>
-        <p class="lockout-desc">
-            Aapke channel par 3 copyright claims aane ke karan monetization aur uploads band kar diye gaye hain. Channel dobara active karne ke liye copyright content wali videos ko delete karein.
-        </p>
-        <button class="resolve-violations-btn" onclick="openPolicyModal('copyright')">Resolve Violations (Delete Videos)</button>
-    </div>
 
     <!-- Creator Hero -->
     <section class="profile-hero">
         <div class="profile-meta-row">
             <div class="creator-avatar-wrap">CB</div>
             <div class="creator-text-details">
-                <div class="creator-title-row">
-                    <h1 id="creatorNameHeading">Charandas Bhaskar</h1>
-                    <!-- Partner Verified Badge -->
-                    <svg class="verified-badge-svg" id="partnerVerifiedBadge" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                </div>
+                <h1>Charandas Bhaskar</h1>
                 <div class="creator-handle">@charandas_creator • 45.2K subs</div>
                 <a href="channel.html" class="view-channel-link">View channel ></a>
             </div>
@@ -777,7 +593,7 @@
                 <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                 <span>Switch account</span>
             </button>
-            <a href="upload.html" class="pill-btn" id="uploadBtnPill">
+            <a href="upload.html" class="pill-btn">
                 <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
                 <span>Upload</span>
             </a>
@@ -785,25 +601,6 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                 <span>Account</span>
             </button>
-        </div>
-    </section>
-
-    <!-- LIVE EARNINGS DASHBOARD (WHEN APPROVED) -->
-    <section class="revenue-active-dashboard" id="liveRevenueCard">
-        <div class="rev-top-row">
-            <span style="font-size:12px; color:var(--yt-muted);">ESTIMATED REVENUE (THIS MONTH)</span>
-            <span class="rev-tag-badge">● Partner Active</span>
-        </div>
-        <div class="rev-big-number">₹ 42,850.00</div>
-        <div class="rev-stats-grid">
-            <div class="rev-stat-item">
-                <div>Playback RPM</div>
-                <div>₹ 74.20</div>
-            </div>
-            <div class="rev-stat-item">
-                <div>Ad Impressions</div>
-                <div>582.4K</div>
-            </div>
         </div>
     </section>
 
@@ -887,7 +684,7 @@
                 </div>
                 <div class="menu-text-wrap">
                     <span class="menu-title-text">Monetization & Earn</span>
-                    <span class="menu-tag-pill" id="monetizeStatusPill">Eligible (Apply)</span>
+                    <span class="menu-tag-pill tag-green">Eligible (Apply)</span>
                 </div>
             </div>
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
@@ -901,7 +698,7 @@
                 </div>
                 <div class="menu-text-wrap">
                     <span class="menu-title-text">Copyright & Content ID</span>
-                    <span class="menu-tag-pill tag-blue" id="copyrightBadgePill">0 Strikes</span>
+                    <span class="menu-tag-pill tag-blue">0 Strikes</span>
                 </div>
             </div>
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
@@ -915,7 +712,7 @@
                 </div>
                 <div class="menu-text-wrap">
                     <span class="menu-title-text">Community Guidelines</span>
-                    <span class="menu-tag-pill tag-green" id="guidelinesBadgePill">Good Standing</span>
+                    <span class="menu-tag-pill tag-green">Good Standing</span>
                 </div>
             </div>
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
@@ -936,342 +733,114 @@
     </div>
 
     <script>
-        // Official Creator Review State Machine
-        let creatorState = {
-            monetizationStage: 'eligible', // 'eligible' | 'under_review' | 'approved' | 'rejected'
-            hasApplied: false,
-            strikesCount: 0,
-            hasCommunityViolations: false,
-            infringingVideos: [
-                { id: 'v101', title: 'T-Series Song Remix Live Stream', claimBy: 'T-Series Audio Label' },
-                { id: 'v102', title: 'ICC World Cup Full Match Replay', claimBy: 'Star Sports India' },
-                { id: 'v103', title: 'Hollywood Movie Hindi Dubbed Scene', claimBy: 'Sony Pictures Ent.' }
-            ]
-        };
-
-        window.addEventListener('load', () => {
-            const savedState = localStorage.getItem('bt_creator_state');
-            if (savedState) {
-                try { creatorState = JSON.parse(savedState); } catch(e){}
-            }
-            refreshCreatorEngine();
-        });
-
-        function saveCreatorState() {
-            localStorage.setItem('bt_creator_state', JSON.stringify(creatorState));
-            refreshCreatorEngine();
-        }
-
-        function refreshCreatorEngine() {
-            const lockout = document.getElementById('lockoutBanner');
-            const verifiedBadge = document.getElementById('partnerVerifiedBadge');
-            const revCard = document.getElementById('liveRevenueCard');
-            const monetizePill = document.getElementById('monetizeStatusPill');
-            const copyrightPill = document.getElementById('copyrightBadgePill');
-            const uploadBtn = document.getElementById('uploadBtnPill');
-
-            // 1. Strike Lockout Engine
-            if (creatorState.strikesCount >= 3) {
-                lockout.style.display = 'flex';
-                copyrightPill.textContent = '3 Strikes (Suspended)';
-                copyrightPill.className = 'menu-tag-pill tag-red';
-                
-                creatorState.monetizationStage = 'rejected';
-                verifiedBadge.style.display = 'none';
-                revCard.style.display = 'none';
-                monetizePill.textContent = 'De-Monetized';
-                monetizePill.className = 'menu-tag-pill tag-red';
-
-                uploadBtn.style.opacity = '0.4';
-                uploadBtn.style.pointerEvents = 'none';
-            } else {
-                lockout.style.display = 'none';
-                copyrightPill.textContent = `${creatorState.strikesCount} Strikes`;
-                copyrightPill.className = creatorState.strikesCount === 0 ? 'menu-tag-pill tag-blue' : 'menu-tag-pill tag-red';
-
-                uploadBtn.style.opacity = '1';
-                uploadBtn.style.pointerEvents = 'auto';
-
-                // 2. Monetization Review Stage Handlers
-                if (creatorState.monetizationStage === 'approved') {
-                    verifiedBadge.style.display = 'block';
-                    revCard.style.display = 'flex';
-                    monetizePill.textContent = 'Partner Active 🟢';
-                    monetizePill.className = 'menu-tag-pill tag-green';
-                } else if (creatorState.monetizationStage === 'under_review') {
-                    verifiedBadge.style.display = 'none';
-                    revCard.style.display = 'none';
-                    monetizePill.textContent = 'In Review ⏳';
-                    monetizePill.className = 'menu-tag-pill tag-gold';
-                } else {
-                    verifiedBadge.style.display = 'none';
-                    revCard.style.display = 'none';
-                    monetizePill.textContent = 'Eligible (Apply)';
-                    monetizePill.className = 'menu-tag-pill tag-green';
-                }
-            }
-        }
-
-        // Apply Trigger: Start Real YouTube 3-Step Setup
-        function startApplicationSetup() {
-            const heading = document.getElementById('modalSheetHeading');
-            const body = document.getElementById('modalSheetBody');
-            heading.textContent = 'Partner Program 3-Step Setup';
-
-            body.innerHTML = `
-                <div class="metric-card" style="margin-bottom:14px;">
-                    <div style="font-weight:700; font-size:14px; margin-bottom:4px;">Step 1: Base Partner Terms</div>
-                    <div style="font-size:12px; color:var(--yt-muted);">Revenue Share: 55% Creator / 45% BharatTube Platform</div>
-                    <div style="color:var(--yt-green); font-size:12px; font-weight:700; margin-top:4px;">✓ Terms Accepted</div>
-                </div>
-
-                <div class="metric-card" style="margin-bottom:14px;">
-                    <div style="font-weight:700; font-size:14px; margin-bottom:4px;">Step 2: Payout Gateway Link (AdSense / Bank)</div>
-                    <input type="text" id="payoutInput" style="width:100%; background:#1c1c1c; border:1px solid var(--yt-border); border-radius:8px; padding:10px 12px; color:#fff; font-size:13px; margin-top:4px; outline:none;" value="bhaskar@okaxis" placeholder="UPI ID or Bank Account Number">
-                </div>
-
-                <div class="metric-card" style="margin-bottom:14px;">
-                    <div style="font-weight:700; font-size:14px; margin-bottom:4px;">Step 3: Submit for Channel Audit</div>
-                    <div style="font-size:12px; color:var(--yt-muted); line-height:1.45;">
-                        Aapke submit karne ke baad BharatTube review team aapke watch hours authenticity, original content, aur community guidelines ka audit karegi.
-                    </div>
-                </div>
-
-                <button class="sheet-primary-action-btn" onclick="submitForChannelReview()">Submit Channel for Review 🚀</button>
-            `;
-        }
-
-        // Submit for Review: Trigger Simulated YouTube Audit Engine
-        function submitForChannelReview() {
-            creatorState.monetizationStage = 'under_review';
-            creatorState.hasApplied = true;
-            saveCreatorState();
-            openPolicyModal('monetization'); // Refresh modal to show "Under Review" state
-        }
-
-        // Run Verification Audit Engine (Simulate AI/Human Review outcome)
-        function triggerManualAuditRun() {
-            const btn = document.getElementById('auditTestBtn');
-            if (btn) btn.textContent = 'Auditing Channel Policies...';
-
-            setTimeout(() => {
-                // If channel has strikes or violation -> Reject! Else Pass!
-                if (creatorState.strikesCount > 0 || creatorState.hasCommunityViolations) {
-                    creatorState.monetizationStage = 'rejected';
-                    saveCreatorState();
-                    alert('❌ Application Rejected: Channel me Copyright Strikes ya Community Policy violations payi gayi hain. Violation solve karne ke baad hi dobara apply kar sakte hain.');
-                } else {
-                    creatorState.monetizationStage = 'approved';
-                    saveCreatorState();
-                    alert('🎉 Congratulations! BharatTube Review Team ne aapka channel approve kar diya hai! Channel par Verified Badge lag gaya hai aur ₹ Revenue Dashboard active ho chuka hai.');
-                }
-                openPolicyModal('monetization');
-            }, 1200);
-        }
-
-        function deleteOffendingVideo(videoId) {
-            creatorState.infringingVideos = creatorState.infringingVideos.filter(v => v.id !== videoId);
-            creatorState.strikesCount = creatorState.infringingVideos.length;
-
-            if (creatorState.strikesCount === 0) {
-                creatorState.monetizationStage = 'approved';
-                alert('🎉 Sabhi copyright content delete ho gaye! Channel wapas REOPEN aur REMONETIZE kar diya gaya hai!');
-            }
-            saveCreatorState();
-            openPolicyModal('copyright');
-        }
-
-        function trigger3StrikesTest() {
-            creatorState.strikesCount = 3;
-            creatorState.infringingVideos = [
-                { id: 'v101', title: 'T-Series Song Remix Live Stream', claimBy: 'T-Series Audio Label' },
-                { id: 'v102', title: 'ICC World Cup Full Match Replay', claimBy: 'Star Sports India' },
-                { id: 'v103', title: 'Hollywood Movie Hindi Dubbed Scene', claimBy: 'Sony Pictures Ent.' }
-            ];
-            saveCreatorState();
-            openPolicyModal('copyright');
-        }
-
         function openPolicyModal(type) {
             const modal = document.getElementById('policyModal');
             const heading = document.getElementById('modalSheetHeading');
             const body = document.getElementById('modalSheetBody');
 
-            if (type === 'monetization') {
-                heading.textContent = 'BharatTube Partner Program';
-
-                if (creatorState.strikesCount >= 3) {
-                    body.innerHTML = `
-                        <div class="policy-item" style="border-left: 3px solid var(--yt-red);">
-                            <div class="policy-item-title" style="color:var(--yt-red);">✕ Channel De-Monetized</div>
-                            <p style="padding-left:0;">3 copyright strikes hone ke karan monetization suspend hai. Pehle violating videos delete karein.</p>
-                        </div>
-                        <button class="sheet-primary-action-btn" style="background:#333; color:#fff;" onclick="closePolicyModal()">Got It</button>
-                    `;
-                } else if (creatorState.monetizationStage === 'under_review') {
-                    // YOUTUBE "IN REVIEW" STAGE (Screenshot Standard)
-                    body.innerHTML = `
-                        <div class="review-status-card">
-                            <div class="review-status-header">
-                                <div class="review-badge-icon" style="background:rgba(241,196,15,0.2); color:var(--yt-gold);">⏳</div>
-                                <div>
-                                    <div style="font-weight:700; font-size:15px; color:#fff;">Channel is Under Review</div>
-                                    <div style="font-size:12px; color:var(--yt-muted);">Step 3 of 3: Policy Compliance Audit</div>
-                                </div>
-                            </div>
-                            <p style="font-size:12px; color:var(--yt-muted); line-height:1.5;">
-                                BharatTube automated systems aur human reviewers aapke channel ka jaancha kar rahe hain taaki yeh confirm ho sake ki aapka channel Community Guidelines, Copyright Rules aur Original Content criteria ko follow karta hai.
-                            </p>
-                            <div class="review-check-list">
-                                <div class="review-check-row">
-                                    <span>1. Subscribers & Watch Time Authenticity</span>
-                                    <span style="color:var(--yt-green); font-weight:700;">Verified ✓</span>
-                                </div>
-                                <div class="review-check-row">
-                                    <span>2. 0 Active Copyright Strikes Rule</span>
-                                    <span style="color:${creatorState.strikesCount === 0 ? 'var(--yt-green)' : 'var(--yt-red)'}; font-weight:700;">
-                                        ${creatorState.strikesCount === 0 ? 'Passed ✓' : 'Failed ✕'}
-                                    </span>
-                                </div>
-                                <div class="review-check-row">
-                                    <span>3. Community Safety & No Spam</span>
-                                    <span style="color:var(--yt-green); font-weight:700;">Good Standing ✓</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="sheet-primary-action-btn" id="auditTestBtn" onclick="triggerManualAuditRun()" style="background:var(--yt-gold); color:#000;">
-                            Check Review Outcome Now (AI Audit)
-                        </button>
-                    `;
-                } else if (creatorState.monetizationStage === 'approved') {
-                    // APPROVED PARTNER STAGE
-                    body.innerHTML = `
-                        <div style="background:rgba(46,204,113,0.15); border:1px solid var(--yt-green); border-radius:12px; padding:14px; margin-bottom:14px;">
-                            <div style="font-size:15px; font-weight:700; color:var(--yt-green); display:flex; align-items:center; gap:8px;">
-                                ✓ Approved Partner Verified
-                            </div>
-                            <div style="font-size:12px; color:var(--yt-text); margin-top:4px; line-height:1.45;">
-                                Badhaai ho! Aapka channel monetize ho chuka hai. Video ads, live super thanks aur memberships active hain.
-                            </div>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-top-row">
-                                <span>Subscribers Requirement</span>
-                                <span style="color:var(--yt-green);">45,200 / 1,000 (Passed ✓)</span>
-                            </div>
-                            <div class="metric-progress-bar">
-                                <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
-                            </div>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-top-row">
-                                <span>Public Watch Hours</span>
-                                <span style="color:var(--yt-green);">4,820 / 4,000 hrs (Passed ✓)</span>
-                            </div>
-                            <div class="metric-progress-bar">
-                                <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
-                            </div>
-                        </div>
-
-                        <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Done</button>
-                    `;
-                } else {
-                    // ELIGIBLE STAGE: SHOW "APPLY NOW"
-                    body.innerHTML = `
-                        <p style="font-size:13px; color:var(--yt-muted); margin-bottom:14px;">
-                            Aapne BharatTube Partner Program ke sabhi criteria pure kar liye hain. Earn karne ke liye apply karein:
-                        </p>
-
-                        <div class="metric-card">
-                            <div class="metric-top-row">
-                                <span>Subscribers</span>
-                                <span style="color:var(--yt-green);">45,200 / 1,000 (Completed ✓)</span>
-                            </div>
-                            <div class="metric-progress-bar">
-                                <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
-                            </div>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-top-row">
-                                <span>Public Watch Hours</span>
-                                <span style="color:var(--yt-green);">4,820 / 4,000 hrs (Completed ✓)</span>
-                            </div>
-                            <div class="metric-progress-bar">
-                                <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
-                            </div>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-top-row">
-                                <span>Shorts Views (Past 90 Days)</span>
-                                <span style="color:var(--yt-green);">12.5M / 10M views (Completed ✓)</span>
-                            </div>
-                            <div class="metric-progress-bar">
-                                <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
-                            </div>
-                        </div>
-
-                        <div style="background:#101010; border:1px solid var(--yt-border); border-radius:10px; padding:12px; font-size:12px; color:var(--yt-muted); line-height:1.6;">
-                            <span style="color:#ffffff;">• 2-Step Verification:</span> Turned on<br>
-                            <span style="color:#ffffff;">• Active Community Strikes:</span> 0 Active Strikes (Eligible)
-                        </div>
-
-                        <button class="sheet-primary-action-btn" onclick="startApplicationSetup()">🎉 Apply Now</button>
-                    `;
-                }
-            } else if (type === 'copyright') {
-                heading.textContent = 'Copyright & Content Protection';
-                let videosHtml = '';
-                if (creatorState.infringingVideos.length > 0) {
-                    videosHtml = `
-                        <div style="margin-top:14px;">
-                            <div style="font-size:13px; font-weight:700; color:var(--yt-red); margin-bottom:8px;">
-                                Action Required: Delete Claimed Videos to Reopen Channel (${creatorState.infringingVideos.length} Claims)
-                            </div>
-                            ${creatorState.infringingVideos.map(v => `
-                                <div class="strike-video-item">
-                                    <div class="strike-video-left">
-                                        <div class="strike-thumb-fake">VIDEO</div>
-                                        <div>
-                                            <div class="strike-video-name">${v.title}</div>
-                                            <div class="strike-claim-owner">Claimed by: ${v.claimBy}</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn-delete-infringing" onclick="deleteOffendingVideo('${v.id}')">Delete Video</button>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                }
-
+            // 1. NOTIFICATIONS BOTTOM SHEET
+            if (type === 'notifications') {
+                heading.textContent = 'Notifications';
                 body.innerHTML = `
-                    <div class="policy-item" style="border-left: 3px solid ${creatorState.strikesCount >= 3 ? 'var(--yt-red)' : 'var(--yt-green)'};">
-                        <div class="policy-item-title" style="color:${creatorState.strikesCount >= 3 ? 'var(--yt-red)' : 'var(--yt-green)'};">
-                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                            Channel Status: ${creatorState.strikesCount} Copyright Strikes
+                    <div class="notif-row-card">
+                        <div class="notif-avatar" style="background:#2ecc71;">🎉</div>
+                        <div class="notif-content">
+                            <b>Partner Program:</b> Aapka channel 1,000 subscribers aur 4,000 watch hours ke milestone par pahunch chuka hai. Abhi apply karein!
+                            <div class="notif-time">2 hours ago</div>
                         </div>
-                        <p style="padding-left:0;">
-                            ${creatorState.strikesCount >= 3 
-                                ? '🚨 3 Strikes hone ki wajah se channel suspend aur dimonitize ho gaya hai. Reopen karne ke liye copyright videos ko DELETE karein.' 
-                                : 'Channel good standing me hai. Sabhi video original hain aur Content ID fair use me chal rahe hain.'}
-                        </p>
                     </div>
-
-                    ${videosHtml}
-
-                    <div style="display:flex; justify-content:center; margin-top:10px;">
-                        <button style="background:none; border:1px dashed #444; color:#888; font-size:11px; padding:6px 12px; border-radius:12px; cursor:pointer;" onclick="trigger3StrikesTest()">
-                            [Test: Trigger 3 Strikes Suspension]
-                        </button>
+                    <div class="notif-row-card">
+                        <div class="notif-avatar" style="background:#3ea6ff;">👍</div>
+                        <div class="notif-content">
+                            <b>Ramesh Sahu</b> aur 24 anya logo ne aapki video <i>"Chhattisgarhi Panthi Song"</i> ko like kiya.
+                            <div class="notif-time">1 day ago</div>
+                        </div>
                     </div>
-
+                    <div class="notif-row-card">
+                        <div class="notif-avatar" style="background:#ff4e45;">💬</div>
+                        <div class="notif-content">
+                            <b>Devendra Kumar:</b> "Bhai next tutorial FastAPI backend par jaldi lana!"
+                            <div class="notif-time">2 days ago</div>
+                        </div>
+                    </div>
+                    <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Clear All</button>
+                `;
+            } 
+            // 2. SETTINGS BOTTOM SHEET
+            else if (type === 'settings') {
+                heading.textContent = 'Settings';
+                body.innerHTML = `
+                    <div class="setting-option-row">
+                        <span>General & App Preferences</span>
+                        <span style="color:var(--yt-muted);">></span>
+                    </div>
+                    <div class="setting-option-row">
+                        <span>Account & Security</span>
+                        <span style="color:var(--yt-muted);">></span>
+                    </div>
+                    <div class="setting-option-row">
+                        <span>Video Quality Preferences (Auto 1080p)</span>
+                        <span style="color:var(--yt-muted);">></span>
+                    </div>
+                    <div class="setting-option-row">
+                        <span>Downloads & Storage (High Quality)</span>
+                        <span style="color:var(--yt-muted);">></span>
+                    </div>
+                    <div class="setting-option-row">
+                        <span>Privacy & Data in BharatTube</span>
+                        <span style="color:var(--yt-muted);">></span>
+                    </div>
+                    <div class="setting-option-row" onclick="window.location.href='admin.html'">
+                        <span style="color:var(--yt-blue); font-weight:700;">⚡ Open BharatTube AI Console</span>
+                        <span style="color:var(--yt-blue);">></span>
+                    </div>
+                    <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Close Settings</button>
+                `;
+            } 
+            // 3. MONETIZATION BOTTOM SHEET
+            else if (type === 'monetization') {
+                heading.textContent = 'BharatTube Partner Program (Earn)';
+                body.innerHTML = `
+                    <p style="font-size:13px; color:var(--yt-muted); margin-bottom:14px;">
+                        Aapne BharatTube Partner Program ke sabhi criteria pure kar liye hain. Earn karne ke liye apply karein:
+                    </p>
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <span>Subscribers</span>
+                            <span style="color:var(--yt-green);">45,200 / 1,000 (Completed ✓)</span>
+                        </div>
+                        <div class="metric-progress-bar">
+                            <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <span>Public Watch Hours</span>
+                            <span style="color:var(--yt-green);">4,820 / 4,000 hrs (Completed ✓)</span>
+                        </div>
+                        <div class="metric-progress-bar">
+                            <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
+                        </div>
+                    </div>
+                    <button class="sheet-primary-action-btn" onclick="alert('Applied successfully!'); closePolicyModal();">🎉 Apply Now</button>
+                `;
+            } 
+            // 4. COPYRIGHT BOTTOM SHEET
+            else if (type === 'copyright') {
+                heading.textContent = 'Copyright & Content Protection';
+                body.innerHTML = `
+                    <div class="policy-item" style="border-left: 3px solid var(--yt-green);">
+                        <div class="policy-item-title" style="color:var(--yt-green);">
+                            <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            Channel Status: 0 Copyright Strikes
+                        </div>
+                        <p style="padding-left:0;">Channel good standing me hai. Sabhi video original hain aur Content ID fair use me chal rahe hain.</p>
+                    </div>
                     <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Got It</button>
                 `;
-            } else if (type === 'guidelines') {
+            } 
+            // 5. COMMUNITY GUIDELINES
+            else if (type === 'guidelines') {
                 heading.textContent = 'Community Guidelines & Safety';
                 body.innerHTML = `
                     <div class="policy-item" style="border-left: 3px solid var(--yt-green);">
@@ -1281,20 +850,11 @@
                         </div>
                         <p style="padding-left:0;">Your channel follows all creator safety standards. Zero community warnings.</p>
                     </div>
-
-                    <div class="policy-item">
-                        <div class="policy-item-title">1. Spam & Deceptive Metadata</div>
-                        <p style="padding-left:0;">Misleading titles, fake thumbnails, and fake engagement loops are strictly prohibited.</p>
-                    </div>
-
-                    <div class="policy-item">
-                        <div class="policy-item-title">2. Safety & Respect</div>
-                        <p style="padding-left:0;">Harassment, hate speech, and graphic violent content lead to immediate channel termination.</p>
-                    </div>
-
                     <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Got It</button>
                 `;
-            } else if (type === 'account') {
+            } 
+            // 6. ACCOUNT
+            else {
                 heading.textContent = 'Account Management';
                 body.innerHTML = `
                     <div style="background:#101010; border:1px solid var(--yt-border); border-radius:10px; padding:12px; margin-bottom:12px;">
