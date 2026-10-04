@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
     <title>BharatTube Camera & Create</title>
     <style>
@@ -24,24 +24,27 @@
             --yt-red: #ff0000;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             background-color: #000000;
             color: #ffffff;
-            height: 100vh;
-            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             user-select: none;
         }
 
-        /* Full Viewport App Container */
+        /* Full Viewport Container */
         .app-viewport {
-            height: 100vh;
             width: 100vw;
+            height: 100vh;
+            height: 100dvh;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             background: #000000;
+            overflow: hidden;
         }
 
         /* Camera / Media Layer */
@@ -56,21 +59,22 @@
             overflow: hidden;
         }
 
-        .camera-background video, .camera-background img {
+        .camera-background video {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* Top Bar Overlay */
+        /* Top Action Overlay */
         .top-action-bar {
             position: relative;
             z-index: 20;
-            height: 56px;
+            height: 54px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
+            padding: 8px 16px;
+            margin-top: env(safe-area-inset-top, 0px);
         }
 
         .circle-icon-btn {
@@ -95,7 +99,6 @@
             fill: #ffffff;
         }
 
-        /* Top Center 'Add sound' Pill */
         .add-sound-pill {
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(10px);
@@ -127,7 +130,7 @@
             flex-direction: column;
             gap: 14px;
             align-items: center;
-            max-height: calc(100vh - 210px);
+            max-height: calc(100vh - 240px);
             overflow-y: auto;
             scrollbar-width: none;
         }
@@ -168,6 +171,7 @@
             flex-shrink: 0;
             font-size: 14px;
             font-weight: 700;
+            color: #ffffff;
         }
 
         .tool-round-btn svg {
@@ -176,18 +180,21 @@
             fill: #ffffff;
         }
 
-        /* Bottom Control Panel */
+        /* Fixed Bottom Control Deck */
         .bottom-control-deck {
-            position: relative;
-            z-index: 20;
-            padding-bottom: 24px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 30;
+            padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
         }
 
-        /* Capture Row (Shutter + Gallery + Duration) */
         .capture-row {
             width: 100%;
             display: flex;
@@ -228,10 +235,9 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* Big Red Shutter Button */
         .shutter-outer-ring {
-            width: 76px;
-            height: 76px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             border: 4px solid #ffffff;
             display: flex;
@@ -242,8 +248,8 @@
         }
 
         .shutter-inner-red {
-            width: 58px;
-            height: 58px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: #ff0000;
             transition: 0.2s;
@@ -251,11 +257,10 @@
 
         .shutter-outer-ring.recording .shutter-inner-red {
             border-radius: 8px;
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
         }
 
-        /* YouTube Next / Action Large Pill */
         .big-pill-btn {
             background: #ffffff;
             color: #000000;
@@ -268,26 +273,16 @@
             box-shadow: 0 4px 14px rgba(0,0,0,0.5);
         }
 
-        .secondary-pill-btn {
-            background: rgba(255,255,255,0.25);
-            color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 20px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            backdrop-filter: blur(6px);
-        }
-
-        /* YouTube 4-Mode Selector (Video | Short | Live | Post) */
+        /* 4-Mode Selector Bar */
         .mode-scroll-deck {
             display: flex;
             align-items: center;
-            gap: 20px;
+            justify-content: center;
+            gap: 12px;
             overflow-x: auto;
             scrollbar-width: none;
             padding: 4px 16px;
+            width: 100%;
         }
 
         .mode-scroll-deck::-webkit-scrollbar {
@@ -299,7 +294,7 @@
             font-weight: 600;
             color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
-            padding: 8px 18px;
+            padding: 6px 16px;
             border-radius: 20px;
             transition: 0.2s;
             white-space: nowrap;
@@ -307,11 +302,11 @@
 
         .mode-chip.active {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.22);
             backdrop-filter: blur(10px);
         }
 
-        /* ================= COMMUNITY POST SPECIFIC SCREEN ================= */
+        /* Community Post Modal */
         .post-fullscreen-modal {
             display: none;
             position: absolute;
@@ -424,7 +419,7 @@
         }
 
         .post-bottom-suite {
-            padding-bottom: 24px;
+            padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
         }
 
         .post-gallery-strip {
@@ -483,7 +478,7 @@
             fill: #ffffff;
         }
 
-        /* ================= ADD DETAILS MODAL (SCREENSHOT 1) ================= */
+        /* Add Details Sheet */
         .add-details-sheet {
             display: none;
             position: absolute;
@@ -575,7 +570,7 @@
         .toast {
             position: fixed;
             left: 50%;
-            bottom: 30px;
+            bottom: 70px;
             transform: translate(-50%, 20px);
             background: #ffffff;
             color: #000000;
@@ -598,45 +593,36 @@
 </head>
 <body>
 
-    <!-- Native Pickers -->
     <input type="file" id="videoPicker" accept="video/*" style="display:none;" onchange="loadChosenVideo(event)">
     <input type="file" id="postImagePicker" accept="image/*" style="display:none;" onchange="loadPostImage(event)">
 
     <div class="app-viewport">
 
-        <!-- 1. LIVE / CAMERA STREAM OR PREVIEW MEDIA -->
+        <!-- CAMERA LAYER -->
         <div class="camera-background" id="cameraBackground">
             <video id="liveCameraFeed" autoplay playsinline muted></video>
-            <div id="mediaPlaceholder" style="font-size: 14px; color: var(--yt-muted); display: none;">Camera Stream Active</div>
         </div>
 
-        <!-- 2. TOP ACTION OVERLAY -->
+        <!-- TOP BAR -->
         <header class="top-action-bar">
             <a href="../frontend/index.html" class="circle-icon-btn">✕</a>
 
-            <!-- Shorts / Video Top Center Sound Pill -->
             <div class="add-sound-pill" id="topSoundPill" onclick="selectMusicTrack()">
                 <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
                 <span id="soundLabel">Add sound</span>
             </div>
 
-            <!-- Top Right: Magic Effect / Live Share -->
             <div class="circle-icon-btn" onclick="showToast('Effects & Highlights ready ✨')">
                 <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
             </div>
         </header>
 
-        <!-- 3. RIGHT SIDEBAR TOOLS (DYNAMIC ACCORDING TO MODE) -->
-        <div class="side-tool-column" id="sideToolColumn">
-            <!-- Populated via JavaScript dynamically for Short / Live / Video -->
-        </div>
+        <!-- RIGHT TOOLS -->
+        <div class="side-tool-column" id="sideToolColumn"></div>
 
-        <!-- 4. BOTTOM CONTROLS & 4-MODE SELECTOR -->
+        <!-- BOTTOM DECK -->
         <div class="bottom-control-deck">
-
-            <!-- Middle Action Row (Different for Camera vs Live vs Video) -->
             <div class="capture-row" id="captureRow">
-                <!-- Gallery Picker -->
                 <div class="gallery-box" onclick="document.getElementById('videoPicker').click()">
                     <div class="gallery-preview-mini">
                         <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=100" alt="Gallery">
@@ -644,18 +630,15 @@
                     <span>Add</span>
                 </div>
 
-                <!-- Record / Shutter Button (For Short & Video Camera) -->
                 <div class="shutter-outer-ring" id="shutterBtn" onclick="toggleRecording()">
                     <div class="shutter-inner-red"></div>
                 </div>
 
-                <!-- Next Button (Appears when Video is ready / Live Mode) -->
                 <button class="big-pill-btn" id="nextActionBtn" style="display:none;" onclick="handleNextAction()">Next</button>
 
-                <div style="width: 44px;" id="emptySpaceHolder"></div>
+                <div style="width: 44px;"></div>
             </div>
 
-            <!-- YouTube Bottom 4-Mode Selector -->
             <nav class="mode-scroll-deck">
                 <span class="mode-chip" id="modeVideo" onclick="switchMode('video')">Video</span>
                 <span class="mode-chip active" id="modeShort" onclick="switchMode('short')">Short</span>
@@ -664,7 +647,7 @@
             </nav>
         </div>
 
-        <!-- ================= COMMUNITY POST MODAL (SCREENSHOT 2) ================= -->
+        <!-- POST SCREEN -->
         <div class="post-fullscreen-modal" id="postModal">
             <div>
                 <header class="top-action-bar" style="border-bottom: 1px solid var(--yt-border); background:#000;">
@@ -729,7 +712,7 @@
             </div>
         </div>
 
-        <!-- ================= ADD DETAILS SHEET (SCREENSHOT 1) ================= -->
+        <!-- DETAILS SHEET -->
         <div class="add-details-sheet" id="detailsSheet">
             <header class="details-header-row">
                 <div style="display:flex; align-items:center; gap:16px;">
@@ -780,7 +763,6 @@
     <script>
         let currentMode = 'short';
         let isRecording = false;
-        let activeStream = null;
 
         const toast = document.getElementById('toast');
         function showToast(msg) {
@@ -789,7 +771,6 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // Initialize Camera
         window.addEventListener('load', () => {
             initCamera();
             renderToolsForMode('short');
@@ -799,16 +780,12 @@
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: true })
                     .then(stream => {
-                        activeStream = stream;
                         document.getElementById('liveCameraFeed').srcObject = stream;
                     })
-                    .catch(() => {
-                        document.getElementById('mediaPlaceholder').style.display = 'block';
-                    });
+                    .catch(() => {});
             }
         }
 
-        // Mode Switcher (Video | Short | Live | Post)
         function switchMode(mode) {
             currentMode = mode;
             document.querySelectorAll('.mode-chip').forEach(c => c.classList.remove('active'));
@@ -816,7 +793,6 @@
             if (activeChip) activeChip.classList.add('active');
 
             const soundPill = document.getElementById('topSoundPill');
-            const captureRow = document.getElementById('captureRow');
             const shutter = document.getElementById('shutterBtn');
             const nextBtn = document.getElementById('nextActionBtn');
 
@@ -844,13 +820,11 @@
             }
         }
 
-        // Render Dynamic Tool Columns (Shorts vs Live)
         function renderToolsForMode(mode) {
             const col = document.getElementById('sideToolColumn');
             col.innerHTML = '';
 
             if (mode === 'short') {
-                // Shorts Tools (Flip, Timer, 15s, Effects, Speed, Green screen)
                 col.innerHTML = `
                     <div class="tool-action-item" onclick="showToast('Camera flipped')">
                         <div class="tool-round-btn"><svg viewBox="0 0 24 24"><path d="M9 12c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3zm11-4h-3.17L15 6H9L7.17 8H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
@@ -869,7 +843,6 @@
                     </div>
                 `;
             } else if (mode === 'live') {
-                // Live Stream Tools (Flip, Mute, Hide live video, Orientation, Effects, Retouch)
                 col.innerHTML = `
                     <div class="tool-action-item" onclick="showToast('Flip camera')">
                         <span class="tool-title">Flip</span>
@@ -904,7 +877,6 @@
             }
         }
 
-        // Shutter Recording Handler
         function toggleRecording() {
             isRecording = !isRecording;
             const ring = document.getElementById('shutterBtn');
@@ -923,7 +895,7 @@
 
         function handleNextAction() {
             if (currentMode === 'live') {
-                showToast('🔴 Entering Live Stream Room...');
+                showToast('🔴 Entering Live Room...');
                 setTimeout(() => {
                     window.location.href = `watch.html?title=Charandas+Bhaskar+Live&channel=Charandas+Bhaskar&views=🔴+Live+Now`;
                 }, 800);
@@ -932,7 +904,6 @@
             }
         }
 
-        // Add Sound
         function selectMusicTrack() {
             const track = prompt('Choose Audio Track:\n1. Chhattisgarhi Folk Beats\n2. Vande Mataram\n3. Trending Lofi', '1');
             if (track) {
@@ -941,7 +912,6 @@
             }
         }
 
-        // Post Screen Handlers
         function openPostModal() {
             document.getElementById('postModal').style.display = 'flex';
         }
