@@ -7,7 +7,6 @@
     <meta name="theme-color" content="#0f0f0f">
     <title>BharatTube</title>
 
-    <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../assets/css/global.css">
     <link rel="stylesheet" href="../assets/css/components.css">
 
@@ -16,8 +15,8 @@
             padding-bottom: calc(var(--bottom-bar-height) + 20px);
         }
 
-        /* Top Bar */
-        .home-top-bar {
+        /* Top Header */
+        .home-header {
             height: 52px;
             display: flex;
             align-items: center;
@@ -27,15 +26,16 @@
             top: 0;
             background: var(--yt-black);
             z-index: 1000;
+            border-bottom: 1px solid var(--yt-border);
         }
 
-        .home-top-icons {
+        .header-actions {
             display: flex;
             align-items: center;
             gap: 16px;
         }
 
-        .home-icon-btn {
+        .header-btn {
             background: none;
             border: none;
             color: #ffffff;
@@ -45,203 +45,159 @@
             text-decoration: none;
         }
 
-        .home-icon-btn svg {
+        .header-btn svg {
             width: 22px;
             height: 22px;
             fill: #ffffff;
         }
 
-        /* Home Shorts Mini Shelf */
-        .home-shorts-section {
-            padding: 14px 0 16px;
-            border-top: 4px solid #1c1c1c;
-            border-bottom: 4px solid #1c1c1c;
-            margin-bottom: 16px;
-        }
-
-        .home-shorts-header {
+        /* Video Feed Item */
+        .feed-container {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0 16px 12px;
-            font-size: 16px;
-            font-weight: 700;
+            flex-direction: column;
+            gap: 16px;
+            padding-top: 10px;
         }
 
-        .home-shorts-header svg {
-            width: 20px;
-            height: 20px;
-            fill: #ff0000;
-        }
-
-        .home-shorts-carousel {
+        .video-card {
             display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 0 16px;
-            scrollbar-width: none;
-        }
-
-        .home-shorts-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .home-short-card {
-            width: 140px;
-            height: 230px;
-            background: #1e1e1e;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
+            flex-direction: column;
             text-decoration: none;
             color: #ffffff;
         }
 
-        .home-short-card img {
+        .thumb-box {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #202020;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thumb-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .home-short-overlay {
+        .duration-tag {
             position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.85) 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 10px;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.85);
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
         }
 
-        .home-short-title {
-            font-size: 12px;
+        .video-details {
+            display: flex;
+            padding: 12px 14px;
+            gap: 12px;
+        }
+
+        .channel-avatar-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .video-text-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .video-heading {
+            font-size: 14px;
             font-weight: 600;
-            line-height: 1.3;
+            line-height: 1.35;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .home-short-views {
-            font-size: 10px;
-            color: #ccc;
-            margin-top: 3px;
+        .video-sub-line {
+            font-size: 12px;
+            color: var(--yt-muted);
         }
     </style>
 </head>
 <body>
 
-    <!-- Main Navigation Top Bar -->
-    <header class="home-top-bar">
+    <!-- Header -->
+    <header class="home-header">
         <a href="index.html" class="bt-logo-wrap">
             <div class="bt-logo-badge">
                 <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
             </div>
             <div class="bt-brand-name">Bharat<span>Tube</span></div>
         </a>
-        <div class="home-top-icons">
-            <button class="home-icon-btn" onclick="alert('Search feature opening soon!')">
-                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            </button>
-            <a href="../pages/contact.html" class="home-icon-btn">
-                <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <div class="header-actions">
+            <a href="../pages/contact.html" class="header-btn">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
             </a>
-            <a href="../pages/profile.html" class="home-icon-btn">
+            <a href="../pages/profile.html" class="header-btn">
                 <div style="width:26px; height:26px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800;">CB</div>
             </a>
         </div>
     </header>
 
-    <!-- Category Filter Chips -->
-    <div class="bt-chips-bar">
-        <button class="bt-chip active">All</button>
-        <button class="bt-chip">Trending</button>
-        <button class="bt-chip">Chhattisgarh Special</button>
-        <button class="bt-chip">Folk & Music</button>
-        <button class="bt-chip">Education</button>
-        <button class="bt-chip">Vlogs</button>
-        <button class="bt-chip">Tech & Coding</button>
-    </div>
+    <!-- Main Feed -->
+    <main class="feed-container">
 
-    <!-- Video Feed List -->
-    <main style="padding: 10px 0;">
-
-        <!-- Video 1 -->
-        <a href="../pages/watch.html?title=Chhattisgarhi+Panthi+Song+Special&channel=Charandas+Bhaskar&views=210K+views" class="bt-video-card">
-            <div class="bt-card-thumb-wrap">
-                <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" alt="Video">
-                <span class="bt-card-duration-badge">05:42</span>
+        <!-- Card 1 -->
+        <a href="../pages/watch.html?title=Chhattisgarhi+Panthi+Song+Special&channel=Charandas+Bhaskar&views=210K+views" class="video-card">
+            <div class="thumb-box">
+                <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" alt="Song">
+                <span class="duration-tag">05:42</span>
             </div>
-            <div class="bt-card-meta-row">
-                <div class="bt-card-avatar" style="background:#e50914;">CB</div>
-                <div class="bt-card-info">
-                    <h3 class="bt-card-title">Chhattisgarhi Panthi Song • Special Cultural Video</h3>
-                    <p class="bt-card-subtext">Charandas Bhaskar • 210K views • 2 weeks ago</p>
+            <div class="video-details">
+                <div class="channel-avatar-circle" style="background:#e50914;">CB</div>
+                <div class="video-text-meta">
+                    <div class="video-heading">Chhattisgarhi Panthi Song • Special Cultural Video</div>
+                    <div class="video-sub-line">Charandas Bhaskar • 210K views • 2 weeks ago</div>
                 </div>
             </div>
         </a>
 
-        <!-- Video 2 -->
-        <a href="../pages/watch.html?title=Learn+Computer+Basics+Full+Course&channel=Education+India&views=85K+views" class="bt-video-card">
-            <div class="bt-card-thumb-wrap">
-                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800" alt="Video">
-                <span class="bt-card-duration-badge">12:48</span>
+        <!-- Card 2 -->
+        <a href="../pages/watch.html?title=Learn+Computer+Basics+Full+Course&channel=Education+India&views=85K+views" class="video-card">
+            <div class="thumb-box">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800" alt="Tech">
+                <span class="duration-tag">12:48</span>
             </div>
-            <div class="bt-card-meta-row">
-                <div class="bt-card-avatar" style="background:#3ea6ff;">EI</div>
-                <div class="bt-card-info">
-                    <h3 class="bt-card-title">Learn Computer Basics Full Course 2026 for Beginners</h3>
-                    <p class="bt-card-subtext">Education India • 85K views • 3 days ago</p>
+            <div class="video-details">
+                <div class="channel-avatar-circle" style="background:#3ea6ff;">EI</div>
+                <div class="video-text-meta">
+                    <div class="video-heading">Learn Computer Basics Full Course 2026 for Beginners</div>
+                    <div class="video-sub-line">Education India • 85K views • 3 days ago</div>
                 </div>
             </div>
         </a>
 
-        <!-- Shorts Shelf Inside Home Feed -->
-        <section class="home-shorts-section">
-            <div class="home-shorts-header">
-                <svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5-1.1-.46 1.05-.53c1.78-.9 2.5-3.08 1.6-4.86-.9-1.78-3.08-2.5-4.86-1.6L6.5 5.67c-1.78.9-2.5 3.08-1.6 4.86.32.64.83 1.13 1.44 1.43l1.2.5 1.1.46-1.05.53c-1.78.9-2.5 3.08-1.6 4.86.63 1.25 1.88 1.99 3.23 1.99.55 0 1.11-.13 1.63-.39l6.76-3.3c1.78-.9 2.5-3.08 1.6-4.86-.32-.64-.83-1.13-1.44-1.43zM10 14.5v-5l4.5 2.5-4.5 2.5z"/></svg>
-                <span>Shorts</span>
+        <!-- Card 3 -->
+        <a href="../pages/watch.html?title=India+Today+News+Headlines+Special&channel=Bharat+News&views=120K+views" class="video-card">
+            <div class="thumb-box">
+                <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800" alt="News">
+                <span class="duration-tag">08:15</span>
             </div>
-            <div class="home-shorts-carousel">
-                <a href="../pages/shorts.html" class="home-short-card">
-                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" alt="Short 1">
-                    <div class="home-short-overlay">
-                        <div class="home-short-title">Village morning life routine #Vlog</div>
-                        <div class="home-short-views">128K views</div>
-                    </div>
-                </a>
-
-                <a href="../pages/shorts.html" class="home-short-card">
-                    <img src="https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?w=400" alt="Short 2">
-                    <div class="home-short-overlay">
-                        <div class="home-short-title">JavaScript secret tips in 30s #Coding</div>
-                        <div class="home-short-views">94K views</div>
-                    </div>
-                </a>
-
-                <a href="../pages/shorts.html" class="home-short-card">
-                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400" alt="Short 3">
-                    <div class="home-short-overlay">
-                        <div class="home-short-title">Dhun AI beat making live setup #Music</div>
-                        <div class="home-short-views">45K views</div>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Video 3 -->
-        <a href="../pages/watch.html?title=India+Today+News+Headlines+Special&channel=Bharat+News&views=120K+views" class="bt-video-card">
-            <div class="bt-card-thumb-wrap">
-                <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800" alt="Video">
-                <span class="bt-card-duration-badge">08:15</span>
-            </div>
-            <div class="bt-card-meta-row">
-                <div class="bt-card-avatar" style="background:#2ecc71;">BN</div>
-                <div class="bt-card-info">
-                    <h3 class="bt-card-title">India Today News Headlines Special Report</h3>
-                    <p class="bt-card-subtext">Bharat News • 120K views • 5 hours ago</p>
+            <div class="video-details">
+                <div class="channel-avatar-circle" style="background:#2ecc71;">BN</div>
+                <div class="video-text-meta">
+                    <div class="video-heading">India Today News Headlines Special Report</div>
+                    <div class="video-sub-line">Bharat News • 120K views • 5 hours ago</div>
                 </div>
             </div>
         </a>
@@ -251,15 +207,5 @@
     <!-- Global Scripts -->
     <script src="../assets/js/app-state.js"></script>
     <script src="../assets/js/ui-kit.js"></script>
-
-    <script>
-        // Chip Click Highlight
-        document.querySelectorAll('.bt-chip').forEach(chip => {
-            chip.addEventListener('click', function() {
-                document.querySelectorAll('.bt-chip').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    </script>
 </body>
 </html>
