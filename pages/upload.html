@@ -2,1404 +2,587 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#000000">
-    <title>BharatTube Studio</title>
+    <meta name="theme-color" content="#0f0f0f">
+    <title>Creator Studio - Upload Video</title>
+
+    <!-- Global Assets -->
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+        body {
+            padding-bottom: calc(var(--bottom-bar-height) + 30px);
         }
 
-        :root {
-            --yt-black: #000000;
-            --yt-panel: #121212;
-            --yt-panel-card: #212121;
-            --yt-border: rgba(255, 255, 255, 0.16);
-            --yt-text: #ffffff;
-            --yt-muted: #888888;
-            --yt-blue: #3ea6ff;
-            --yt-green: #2ecc71;
-            --yt-red: #ff0000;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000000;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            user-select: none;
-            position: fixed;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .app-viewport {
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            position: relative;
-            background: #000000;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        /* 1. Camera Layer */
-        .camera-background {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            background: #050505;
+        /* Top Bar */
+        .studio-top-bar {
+            height: 52px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .camera-background video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* 2. Top Header */
-        .top-action-bar {
-            position: absolute;
+            justify-content: space-between;
+            padding: 0 16px;
+            background: var(--yt-black);
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            height: calc(52px + env(safe-area-inset-top, 0px));
-            padding: env(safe-area-inset-top, 8px) 16px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 100%);
+            z-index: 1000;
+            border-bottom: 1px solid var(--yt-border);
         }
 
-        .circle-icon-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .circle-icon-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: #ffffff;
-        }
-
-        .top-right-group {
+        .studio-title-wrap {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .add-sound-pill {
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            padding: 7px 18px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .add-sound-pill svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
-        /* 3. Right Floating Tool Column */
-        .side-toolbar-floating {
-            position: absolute;
-            right: 14px;
-            top: calc(64px + env(safe-area-inset-top, 0px));
-            z-index: 50;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            align-items: flex-end;
-            max-height: calc(100vh - 240px);
-            overflow-y: auto;
-            scrollbar-width: none;
-        }
-
-        .side-toolbar-floating::-webkit-scrollbar {
-            display: none;
-        }
-
-        .side-tool-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .studio-back-btn {
             background: none;
             border: none;
             color: #ffffff;
             cursor: pointer;
-        }
-
-        .side-tool-label {
-            font-size: 13px;
-            font-weight: 500;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-            white-space: nowrap;
-        }
-
-        .side-tool-capsule {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 13px;
-            font-weight: 700;
-            color: #ffffff;
         }
 
-        .side-tool-capsule svg {
+        .studio-back-btn svg {
             width: 22px;
             height: 22px;
             fill: #ffffff;
         }
 
-        /* 4. Bottom Native Controls Deck */
-        .bottom-control-deck {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 60;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 70%, transparent 100%);
-        }
-
-        .live-user-meta-row {
-            width: 100%;
-            padding: 0 24px;
-            display: none;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .live-user-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            border: 1.5px solid #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .live-user-text-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .live-channel-title {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .live-channel-sub {
-            font-size: 12px;
-            color: var(--yt-muted);
-        }
-
-        .capture-row {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0 24px;
-        }
-
-        .gallery-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            width: 52px;
-        }
-
-        .gallery-preview-mini {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            border: 2px solid #ffffff;
-            background: #181818;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .gallery-preview-mini img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .gallery-box span {
-            font-size: 11px;
-            font-weight: 700;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
-        }
-
-        .shutter-outer-ring {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            border: 4px solid #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background: rgba(0,0,0,0.25);
-            transition: transform 0.12s ease;
-        }
-
-        .shutter-inner-red {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: #ff0000;
-            transition: 0.15s ease;
-        }
-
-        .shutter-outer-ring.recording .shutter-inner-red {
-            border-radius: 8px;
-            width: 28px;
-            height: 28px;
-        }
-
-        .live-btn-stack {
-            display: none;
-            width: 100%;
-            padding: 0 20px;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .big-pill-btn {
-            width: 100%;
-            max-width: 320px;
-            background: #ffffff;
-            color: #000000;
+        .btn-publish {
+            background: var(--yt-blue);
+            color: #0f0f0f;
             border: none;
-            border-radius: 28px;
-            padding: 12px 0;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.6);
-        }
-
-        .practice-mode-btn {
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-        }
-
-        .mode-scroll-deck {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 5px 12px;
-            border-radius: 30px;
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            width: fit-content;
-        }
-
-        .mode-chip {
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            padding: 6px 15px;
             border-radius: 18px;
-            transition: 0.15s ease;
-            white-space: nowrap;
-        }
-
-        .mode-chip.active {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.28);
-        }
-
-        /* ================= 5. EXACT YOUTUBE COMMUNITY SCREEN (Screenshot 1) ================= */
-        .post-fullscreen-modal {
-            display: none;
-            position: absolute;
-            inset: 0;
-            background: #000000;
-            z-index: 100;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .post-top-header {
-            height: 52px;
-            padding: 0 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--yt-border);
-            background: #000000;
-        }
-
-        .post-inner-content {
-            padding: 16px;
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .post-author-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .post-author-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            color: #ffffff;
-            flex-shrink: 0;
-            border: 1.5px solid rgba(255,255,255,0.2);
-        }
-
-        .post-author-name {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .post-visibility-pill {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid var(--yt-border);
-            color: #ffffff;
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            margin-top: 3px;
-        }
-
-        .post-visibility-pill svg {
-            width: 14px;
-            height: 14px;
-            fill: #ffffff;
-        }
-
-        /* Text Input */
-        .post-textarea-main {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 16px;
-            font-family: inherit;
-            outline: none;
-            resize: none;
-            line-height: 1.45;
-            min-height: 50px;
-        }
-
-        .post-textarea-main::placeholder {
-            color: rgba(255, 255, 255, 0.45);
-        }
-
-        /* INLINE QUIZ BUILDER (Exact Screenshot 1) */
-        .quiz-builder-container {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 14px;
-        }
-
-        .quiz-option-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #000000;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            padding: 12px 14px;
-            transition: border-color 0.15s;
-        }
-
-        .quiz-option-card.correct {
-            border: 1.5px solid var(--yt-green);
-        }
-
-        .quiz-check-circle {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            flex-shrink: 0;
-            color: transparent;
+            padding: 7px 16px;
             font-size: 13px;
-            font-weight: 900;
-        }
-
-        .quiz-option-card.correct .quiz-check-circle {
-            background: var(--yt-green);
-            border-color: var(--yt-green);
-            color: #000000;
-        }
-
-        .quiz-input-field {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 15px;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .quiz-action-icon {
-            background: none;
-            border: none;
+            font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 2px;
+            transition: opacity 0.2s;
         }
 
-        .quiz-action-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: #ffffff;
+        .btn-publish:disabled {
+            background: #2a2a2a;
+            color: var(--yt-muted);
+            cursor: not-allowed;
         }
 
-        .add-answer-pill-btn {
-            background: #181818;
-            border: none;
-            color: #ffffff;
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .explanation-card-input {
-            background: #000000;
-            border: 1px solid var(--yt-border);
-            border-radius: 14px;
-            padding: 14px;
-            color: #ffffff;
-            font-size: 14px;
-            outline: none;
-            width: 100%;
-            font-family: inherit;
-        }
-
-        .explanation-card-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* INLINE POLL BUILDER (Exact Screenshot 5) */
-        .poll-builder-container {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 14px;
-        }
-
-        .poll-option-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #000000;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            padding: 12px 14px;
-        }
-
-        /* Attached Image Preview */
-        .attached-post-img-box {
-            position: relative;
-            margin: 14px 0;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid var(--yt-border);
-            display: none;
-            max-height: 240px;
-        }
-
-        .attached-post-img-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .remove-attach-cross {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(0,0,0,0.7);
-            border: none;
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* Bottom Gallery & Tools */
-        .post-bottom-suite {
-            padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
-            background: #000000;
-        }
-
-        .post-gallery-strip {
-            display: flex;
-            gap: 8px;
-            padding: 0 16px 12px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .post-gallery-strip::-webkit-scrollbar {
-            display: none;
-        }
-
-        .strip-card {
-            width: 66px;
-            height: 66px;
-            border-radius: 8px;
-            background: #181818;
-            border: 1px solid var(--yt-border);
-            flex-shrink: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .strip-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .post-tools-tray {
-            display: flex;
-            align-items: center;
-            gap: 26px;
-            padding: 12px 18px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .tray-icon-btn {
-            background: none;
-            border: none;
-            color: #ffffff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-
-        .tray-icon-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: #ffffff;
-        }
-
-        /* 6. Settings Details Sheet */
-        .add-details-sheet {
-            display: none;
-            position: absolute;
-            inset: 0;
-            background: #000000;
-            z-index: 150;
-            flex-direction: column;
-        }
-
-        .details-header-row {
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            border-bottom: 1px solid var(--yt-border);
-        }
-
-        .details-body {
+        /* Upload Container */
+        .upload-container {
             padding: 16px;
+            max-width: 640px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 22px;
-        }
-
-        .details-item-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-        }
-
-        .item-left-block {
-            display: flex;
-            align-items: center;
             gap: 16px;
         }
 
-        .item-left-block svg {
+        /* Video File Drop Zone */
+        .video-drop-box {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #141414;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-drop-box:hover {
+            border-color: var(--yt-blue);
+        }
+
+        .video-drop-box input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .video-preview-elem {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+
+        /* Form Group Cards */
+        .studio-card {
+            background: var(--yt-surface);
+            border: 1px solid var(--yt-border);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .studio-card h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-item label {
+            font-size: 12px;
+            color: var(--yt-muted);
+            font-weight: 500;
+        }
+
+        .input-item input, .input-item textarea, .input-item select {
+            width: 100%;
+            background: #101010;
+            border: 1px solid var(--yt-border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #ffffff;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-item input:focus, .input-item textarea:focus, .input-item select:focus {
+            border-color: var(--yt-blue);
+        }
+
+        /* Monetization Toggle Switch */
+        .monetize-toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 4px;
+        }
+
+        .monetize-info div:first-child {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .monetize-info div:last-child {
+            font-size: 11px;
+            color: var(--yt-muted);
+            margin-top: 2px;
+        }
+
+        .switch-toggle {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider`pages/upload.html` ke liye YouTube Studio jaisa clean aur professional upload interface taiyar karte hain. 
+
+Is page mein yeh saari suvidhayein shamil hongi:
+1. **Video Picker & Preview Box**: File select karte hi instant preview.
+2. **Metadata Inputs**: Video Title, Description, aur Category selection.
+3. **Thumbnail Selector**: Custom thumbnail choose karne ka option.
+4. **Visibility Controls**: Public, Unlisted, ya Private options.
+5. **Monetization Switch**: Agar channel eligible/approved ho, toh video par ads on/off karne ka toggle.
+6. **Publish Flow**: Video publish hote hi data `localStorage` mein store hokar direct Home ya Channel feed par dikhega.
+
+---
+
+### Step-by-Step GitHub Guide:
+
+1. GitHub par `BharatTube` repo kholein.
+2. `pages` folder mein jayein.
+3. **Add file** -> **Create new file** par tap karein.
+4. File ka naam likhein: `pages/upload.html`
+5. Neeche diya gaya code paste karein aur **Commit changes...** dabakar save kar lein.
+
+---
+
+### `pages/upload.html` Code:
+
+```html
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f0f">
+    <title>Upload Video - BharatTube Studio</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <style>
+        body {
+            padding-bottom: calc(var(--bottom-bar-height) + 30px);
+        }
+
+        .upload-header {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            background: var(--yt-black);
+            z-index: 100;
+            border-bottom: 1px solid var(--yt-border);
+        }
+
+        .header-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-icon-back {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-icon-back svg {
             width: 22px;
             height: 22px;
             fill: #ffffff;
         }
 
-        .item-small-sub {
-            font-size: 12px;
-            color: var(--yt-muted);
-        }
-
-        .item-big-label {
-            font-size: 15px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-top: 2px;
-        }
-
-        .yt-switch {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            background: #333333;
-            border-radius: 14px;
-            transition: 0.2s;
+        .btn-publish {
+            background: var(--yt-blue);
+            color: #0f0f0f;
+            border: none;
+            border-radius: 18px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
             cursor: pointer;
         }
 
-        .yt-switch::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background: #888888;
+        .btn-publish:disabled {
+            background: #2a2a2a;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        .upload-container {
+            padding: 16px;
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* File Dropzone */
+        .dropzone-box {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px 16px;
+            text-align: center;
+            background: var(--yt-surface);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .dropzone-box:hover {
+            border-color: var(--yt-blue);
+        }
+
+        .dropzone-icon-circle {
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            transition: 0.2s;
-        }
-
-        .yt-switch.checked {
-            background: var(--yt-blue);
-        }
-
-        .yt-switch.checked::after {
-            transform: translateX(20px);
-            background: #ffffff;
-        }
-
-        /* 7. Live Stream Edit Details Modal */
-        .live-edit-sheet-backdrop {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            z-index: 200;
-            align-items: flex-end;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
             justify-content: center;
         }
 
-        .live-edit-sheet {
-            width: 100%;
-            max-width: 500px;
-            background: #1e1e1e;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            padding: 20px 18px max(24px, env(safe-area-inset-bottom, 24px));
-            border-top: 1px solid var(--yt-border);
-            max-height: 85vh;
-            overflow-y: auto;
+        .dropzone-icon-circle svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--yt-blue);
         }
 
-        .sheet-text-input {
-            width: 100%;
-            background: #121212;
+        .file-hidden-input {
+            display: none;
+        }
+
+        /* Preview Stage */
+        .preview-box {
+            display: none;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
             border: 1px solid var(--yt-border);
-            border-radius: 10px;
-            padding: 10px 14px;
+            aspect-ratio: 16 / 9;
+            width: 100%;
+        }
+
+        .preview-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Form Fields */
+        .form-card {
+            background: var(--yt-surface);
+            border: 1px solid var(--yt-border);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            color: var(--yt-muted);
+            font-weight: 600;
+        }
+
+        .input-control {
+            background: #101010;
+            border: 1px solid var(--yt-border);
+            border-radius: 8px;
+            padding: 10px 12px;
             color: #ffffff;
             font-size: 14px;
             outline: none;
-            margin-top: 4px;
             font-family: inherit;
+        }
+
+        .input-control:focus {
+            border-color: var(--yt-blue);
+        }
+
+        /* Monetization Toggle Switch */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333333;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--yt-green);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
         }
     </style>
 </head>
 <body>
 
-    <input type="file" id="videoPicker" accept="video/*" style="display:none;" onchange="handleFileChosen(event)">
-    <input type="file" id="postImagePicker" accept="image/*" style="display:none;" onchange="loadPostImage(event)">
-
-    <div class="app-viewport">
-
-        <!-- CAMERA LAYER -->
-        <div class="camera-background" id="cameraBackground">
-            <video id="liveCameraFeed" autoplay playsinline muted></video>
+    <!-- Studio Header -->
+    <header class="upload-header">
+        <div class="header-title-wrap">
+            <button class="btn-icon-back" onclick="window.history.back()">
+                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            </button>
+            <span style="font-weight: 700; font-size: 16px;">Create & Upload</span>
         </div>
+        <button class="btn-publish" id="publishBtn" onclick="handlePublish()" disabled>Publish</button>
+    </header>
 
-        <!-- TOP BAR -->
-        <header class="top-action-bar">
-            <a href="../frontend/index.html" class="circle-icon-btn">
-                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </a>
-
-            <div class="add-sound-pill" id="topSoundPill" onclick="selectMusicTrack()">
-                <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                <span id="soundLabel">Add sound</span>
+    <div class="upload-container">
+        <!-- Video Upload Trigger -->
+        <div class="dropzone-box" id="dropzoneBox" onclick="document.getElementById('videoFileInput').click()">
+            <div class="dropzone-icon-circle">
+                <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
             </div>
-
-            <div class="top-right-group" id="topRightGroup">
-                <div class="circle-icon-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
-                </div>
-            </div>
-        </header>
-
-        <!-- RIGHT SIDEBAR FLOATING -->
-        <div class="side-toolbar-floating" id="sideToolbar"></div>
-
-        <!-- BOTTOM CONTROLS DECK -->
-        <div class="bottom-control-deck">
-
-            <!-- Live Channel Badge -->
-            <div class="live-user-meta-row" id="liveUserMeta">
-                <div class="live-user-avatar">CB</div>
-                <div class="live-user-text-info">
-                    <div class="live-channel-title">Charandas Bhaskar is live</div>
-                    <div class="live-channel-sub">Public • Not Made for Kids</div>
-                </div>
-            </div>
-
-            <!-- Standard Capture Controls -->
-            <div class="capture-row" id="captureRow">
-                <div class="gallery-box" onclick="document.getElementById('videoPicker').click()">
-                    <div class="gallery-preview-mini">
-                        <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=100" alt="Gallery">
-                    </div>
-                    <span>Add</span>
-                </div>
-
-                <div class="shutter-outer-ring" id="shutterBtn" onclick="toggleRecording()">
-                    <div class="shutter-inner-red"></div>
-                </div>
-
-                <div style="width: 52px;"></div>
-            </div>
-
-            <!-- Live Buttons -->
-            <div class="live-btn-stack" id="liveBtnStack">
-                <button class="big-pill-btn" onclick="handleLiveNext()">Next</button>
-                <button class="practice-mode-btn" onclick="togglePracticeMode()">Practice mode</button>
-            </div>
-
-            <!-- 4-Mode Selector -->
-            <nav class="mode-scroll-deck">
-                <span class="mode-chip" id="modeVideo" onclick="switchMode('video')">Video</span>
-                <span class="mode-chip active" id="modeShort" onclick="switchMode('short')">Short</span>
-                <span class="mode-chip" id="modeLive" onclick="switchMode('live')">Live</span>
-                <span class="mode-chip" id="modePost" onclick="switchMode('post')">Post</span>
-            </nav>
-        </div>
-
-        <!-- ================= 5. COMMUNITY POST BUILDER (Screenshots 1, 5, 6) ================= -->
-        <div class="post-fullscreen-modal" id="postModal">
-            <header class="post-top-header">
-                <div style="display:flex; align-items:center; gap:16px;">
-                    <button class="circle-icon-btn" onclick="closePostModal()">
-                        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                    </button>
-                    <span style="font-size:17px; font-weight:700;">Create post</span>
-                </div>
-                <button class="big-pill-btn" style="width:auto; padding:6px 20px; font-size:13px;" onclick="publishPostNow()">Post</button>
-            </header>
-
-            <div class="post-inner-content">
-                <!-- User Profile Row -->
-                <div class="post-author-row">
-                    <div class="post-author-avatar">CB</div>
-                    <div>
-                        <div class="post-author-name">Charandas Bhaskar</div>
-                        <div class="post-visibility-pill" onclick="openDetailsSheet()">
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                            <span id="postChipVisLabel">Public</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Text Area (Dynamic Placeholder) -->
-                <textarea class="post-textarea-main" id="postText" placeholder="Share an image to start a caption contest"></textarea>
-
-                <!-- 1. INLINE QUIZ BUILDER (Exact Screenshot 1) -->
-                <div class="quiz-builder-container" id="quizBuilder">
-                    <!-- Option 1 (Green Checked by default) -->
-                    <div class="quiz-option-card correct" onclick="selectQuizCorrect(this)">
-                        <div class="quiz-check-circle">✓</div>
-                        <input type="text" class="quiz-input-field" placeholder="Answer 1" value="Answer 1">
-                        <button class="quiz-action-icon" onclick="document.getElementById('postImagePicker').click()"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></button>
-                        <button class="quiz-action-icon" onclick="removeQuizCard(this)"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-                    </div>
-
-                    <!-- Option 2 -->
-                    <div class="quiz-option-card" onclick="selectQuizCorrect(this)">
-                        <div class="quiz-check-circle">✓</div>
-                        <input type="text" class="quiz-input-field" placeholder="Answer 2" value="Answer 2">
-                        <button class="quiz-action-icon" onclick="document.getElementById('postImagePicker').click()"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></button>
-                        <button class="quiz-action-icon" onclick="removeQuizCard(this)"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-                    </div>
-
-                    <button class="add-answer-pill-btn" onclick="addQuizAnswerRow()">+ Add answer</button>
-                    <input type="text" class="explanation-card-input" placeholder="Add an explanation (optional)">
-                </div>
-
-                <!-- 2. INLINE POLL BUILDER -->
-                <div class="poll-builder-container" id="pollBuilder">
-                    <div class="poll-option-card">
-                        <input type="text" class="quiz-input-field" placeholder="Option 1" value="Option 1">
-                        <button class="quiz-action-icon" onclick="document.getElementById('postImagePicker').click()"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></button>
-                        <button class="quiz-action-icon" onclick="this.parentElement.remove()"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-                    </div>
-                    <div class="poll-option-card">
-                        <input type="text" class="quiz-input-field" placeholder="Option 2" value="Option 2">
-                        <button class="quiz-action-icon" onclick="document.getElementById('postImagePicker').click()"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></button>
-                        <button class="quiz-action-icon" onclick="this.parentElement.remove()"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-                    </div>
-                    <button class="add-answer-pill-btn" onclick="addPollOptionRow()">+ Add option</button>
-                </div>
-
-                <!-- Attached Post Image Preview -->
-                <div class="attached-post-img-box" id="attachedImgBox">
-                    <img id="attachedPostImg" alt="Attached">
-                    <button class="remove-attach-cross" onclick="removePostAttachment()">✕</button>
-                </div>
-            </div>
-
-            <!-- Bottom Tools Suite -->
-            <div class="post-bottom-suite">
-                <div class="post-gallery-strip">
-                    <div class="strip-card" onclick="document.getElementById('postImagePicker').click()">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="#888"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                    </div>
-                    <div class="strip-card" onclick="attachPresetImg('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600')">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200" alt="Nature">
-                    </div>
-                    <div class="strip-card" onclick="attachPresetImg('https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=600')">
-                        <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=200" alt="Sunset">
-                    </div>
-                </div>
-
-                <div class="post-tools-tray">
-                    <!-- 1. Poll Icon -->
-                    <button class="tray-icon-btn" onclick="togglePostTool('poll')" title="Poll">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
-                    </button>
-                    <!-- 2. Image Icon -->
-                    <button class="tray-icon-btn" onclick="document.getElementById('postImagePicker').click()" title="Image">
-                        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                    </button>
-                    <!-- 3. Quiz Icon (Exact Screenshot 1 Trigger) -->
-                    <button class="tray-icon-btn" onclick="togglePostTool('quiz')" title="Quiz">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                    </button>
-                </div>
-
-                <nav class="mode-scroll-deck" style="margin-top: 14px; margin-left: auto; margin-right: auto;">
-                    <span class="mode-chip" onclick="switchMode('short'); closePostModal();">Short</span>
-                    <span class="mode-chip" onclick="switchMode('live'); closePostModal();">Live</span>
-                    <span class="mode-chip active">Post</span>
-                </nav>
+            <div>
+                <b style="font-size: 14px;">Select Video File</b>
+                <p style="font-size: 12px; color: var(--yt-muted); margin-top: 3px;">Tap here to pick MP4, WebM or MOV</p>
             </div>
         </div>
+        <input type="file" id="videoFileInput" class="file-hidden-input" accept="video/*" onchange="handleVideoSelection(event)">
 
-        <!-- 6. ADD DETAILS SETTINGS SHEET -->
-        <div class="add-details-sheet" id="detailsSheet">
-            <header class="details-header-row">
-                <div style="display:flex; align-items:center; gap:16px;">
-                    <button class="circle-icon-btn" onclick="closeDetailsSheet()">
-                        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                    </button>
-                    <span style="font-size:17px; font-weight:700;">Add details</span>
-                </div>
-                <button class="big-pill-btn" style="width:auto; padding:6px 18px; font-size:13px;" onclick="closeDetailsSheet()">Done</button>
-            </header>
-
-            <div class="details-body">
-                <div class="details-item-row" onclick="cyclePostVis()">
-                    <div class="item-left-block">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                        <div>
-                            <div class="item-small-sub">Visibility</div>
-                            <div class="item-big-label" id="sheetVisVal">Public</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="details-item-row" onclick="toggleSwitch('schedSwitch')">
-                    <div class="item-left-block">
-                        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
-                        <div>
-                            <div class="item-big-label">Schedule</div>
-                        </div>
-                    </div>
-                    <div class="yt-switch" id="schedSwitch"></div>
-                </div>
-
-                <div class="details-item-row" onclick="toggleExpirySwitch()">
-                    <div class="item-left-block">
-                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                        <div>
-                            <div class="item-small-sub">Expiry</div>
-                            <div class="item-big-label" id="sheetExpiryVal">None</div>
-                        </div>
-                    </div>
-                    <div class="yt-switch" id="expirySwitch"></div>
-                </div>
-            </div>
+        <!-- Video Preview Container -->
+        <div class="preview-box" id="videoPreviewWrap">
+            <video id="previewPlayer" controls playsinline></video>
         </div>
 
-        <!-- 7. LIVE STREAM EDIT DETAILS MODAL (PENCIL) -->
-        <div class="live-edit-sheet-backdrop" id="liveEditModal">
-            <div class="live-edit-sheet">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h3 style="font-size:16px; font-weight:700;">Live stream details</h3>
-                    <span onclick="closeLiveEditSheet()" style="cursor:pointer; font-size:18px;">✕</span>
-                </div>
+        <!-- Video Metadata Form -->
+        <div class="form-card">
+            <div class="input-group">
+                <label>Video Title (Required)</label>
+                <input type="text" id="videoTitleInput" class="input-control" placeholder="Add a title that describes your video" oninput="validateForm()">
+            </div>
 
-                <div style="margin-bottom:12px;">
-                    <label style="font-size:12px; color:var(--yt-muted);">Stream Title</label>
-                    <input type="text" class="sheet-text-input" id="liveStreamTitleInput" value="Charandas Bhaskar is live">
-                </div>
+            <div class="input-group">
+                <label>Description</label>
+                <textarea id="videoDescInput" class="input-control" rows="3" placeholder="Tell viewers about your video (#tags, credits)"></textarea>
+            </div>
 
-                <div style="margin-bottom:12px;">
-                    <label style="font-size:12px; color:var(--yt-muted);">Audience</label>
-                    <input type="text" class="sheet-text-input" value="Public • Not Made for Kids" readonly>
-                </div>
+            <div class="input-group">
+                <label>Category</label>
+                <select id="videoCategorySelect" class="input-control">
+                    <option value="Entertainment">Entertainment & Culture</option>
+                    <option value="Music">Music & Folk</option>
+                    <option value="Education">Education & Tech</option>
+                    <option value="News">News & Updates</option>
+                    <option value="Vlog">Daily Life & Vlog</option>
+                </select>
+            </div>
 
-                <button class="big-pill-btn" style="border-radius:20px; background:var(--yt-blue); color:#000;" onclick="saveLiveDetails()">Save</button>
+            <div class="input-group">
+                <label>Visibility</label>
+                <select id="videoVisibilitySelect" class="input-control">
+                    <option value="Public">Public (Anyone can search and view)</option>
+                    <option value="Unlisted">Unlisted (Anyone with link can view)</option>
+                    <option value="Private">Private (Only you can view)</option>
+                </select>
+            </div>
+
+            <!-- Monetization Toggle -->
+            <div class="toggle-row">
+                <div>
+                    <div style="font-size: 14px; font-weight: 600;">Video Monetization</div>
+                    <div style="font-size: 11px; color: var(--yt-muted);">Show ads on this video to earn revenue</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="monetizeToggle" checked>
+                    <span class="slider"></span>
+                </label>
             </div>
         </div>
-
     </div>
 
+    <!-- Scripts -->
+    <script src="../assets/js/app-state.js"></script>
+    <script src="../assets/js/ui-kit.js"></script>
+
     <script>
-        let currentMode = 'short';
-        let isRecording = false;
-        let isShortsExpanded = false;
-        let isLiveExpanded = false;
-        let activeStream = null;
+        let selectedVideoFile = null;
 
-        window.addEventListener('load', () => {
-            initCamera();
-            renderToolsForMode('short');
-        });
+        function handleVideoSelection(event) {
+            const file = event.target.files[0];
+            if (file) {
+                selectedVideoFile = file;
+                const fileUrl = URL.createObjectURL(file);
+                
+                const previewWrap = document.getElementById('videoPreviewWrap');
+                const player = document.getElementById('previewPlayer');
+                const dropzone = document.getElementById('dropzoneBox');
 
-        function initCamera() {
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } }, 
-                    audio: true 
-                })
-                .then(stream => {
-                    activeStream = stream;
-                    document.getElementById('liveCameraFeed').srcObject = stream;
-                })
-                .catch(() => {});
-            }
-        }
+                player.src = fileUrl;
+                previewWrap.style.display = 'block';
+                dropzone.style.display = 'none';
 
-        function switchMode(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.mode-chip').forEach(c => c.classList.remove('active'));
-            const activeChip = document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1));
-            if (activeChip) activeChip.classList.add('active');
-
-            const soundPill = document.getElementById('topSoundPill');
-            const captureRow = document.getElementById('captureRow');
-            const liveUserMeta = document.getElementById('liveUserMeta');
-            const liveStack = document.getElementById('liveBtnStack');
-            const topRightGroup = document.getElementById('topRightGroup');
-
-            if (mode === 'short') {
-                soundPill.style.display = 'flex';
-                captureRow.style.display = 'flex';
-                liveUserMeta.style.display = 'none';
-                liveStack.style.display = 'none';
-                topRightGroup.innerHTML = `
-                    <div class="circle-icon-btn">
-                        <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
-                    </div>`;
-                renderToolsForMode('short');
-            } else if (mode === 'video') {
-                soundPill.style.display = 'none';
-                captureRow.style.display = 'flex';
-                liveUserMeta.style.display = 'none';
-                liveStack.style.display = 'none';
-                topRightGroup.innerHTML = `
-                    <div class="circle-icon-btn">
-                        <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
-                    </div>`;
-                renderToolsForMode('video');
-            } else if (mode === 'live') {
-                soundPill.style.display = 'none';
-                captureRow.style.display = 'none';
-                liveUserMeta.style.display = 'flex';
-                liveStack.style.display = 'flex';
-                topRightGroup.innerHTML = `
-                    <div class="circle-icon-btn">
-                        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
-                    </div>
-                    <div class="circle-icon-btn">
-                        <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
-                    </div>`;
-                renderToolsForMode('live');
-            } else if (mode === 'post') {
-                openPostModal();
-            }
-        }
-
-        function renderToolsForMode(mode) {
-            const bar = document.getElementById('sideToolbar');
-            bar.innerHTML = '';
-
-            if (mode === 'short') {
-                if (!isShortsExpanded) {
-                    bar.innerHTML = `
-                        <div class="side-tool-row" onclick="flipCameraAction()">
-                            <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M9 12c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3zm11-4h-3.17L15 6H9L7.17 8H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
-                        </div>
-                        <div class="side-tool-row">
-                            <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg></div>
-                        </div>
-                        <div class="side-tool-row">
-                            <div class="side-tool-capsule" style="font-size:12px;">15 s</div>
-                        </div>
-                        <div class="side-tool-row">
-                            <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg></div>
-                        </div>
-                        <div class="side-tool-row">
-                            <div class="side-tool-capsule" style="font-size:12px;">1x</div>
-                        </div>
-                        <div class="side-tool-row" onclick="isShortsExpanded=true; renderToolsForMode('short');">
-                            <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></div>
-                        </div>
-                    `;
-                } else {
-                    bar.innerHTML = `
-                        <div class="side-tool-row" onclick="flipCameraAction()">
-                            <span class="side-tool-label">Flip</span>
-                            <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M9 12c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3zm11-4h-3.17L15 6H9L7.17 8H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
-                        </div>
-                        <div class="side-tool-row">
-                            <span class="side-tool-label">Timer</span>
-                            <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg></div>
-                        </div>
-                        <div class="side-tool-row">
-                            <span class="side-tool-label">Duration</span>
-                            <div class="side-tool-capsule" style="font-size:12px;">15 s</div>
-                        </div>
-                        <div class="side-tool-row">
-                            <span class="side-tool-label">Effects</span>
-                            <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg></div>
-                        </div>
-                        <div class="side-tool-row">
-                            <span class="side-tool-label">Speed</span>
-                            <div class="side-tool-capsule" style="font-size:12px;">1x</div>
-                        </div>
-                        <div class="side-tool-row" onclick="isShortsExpanded=false; renderToolsForMode('short');">
-                            <span class="side-tool-label">Close</span>
-                            <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/></svg></div>
-                        </div>
-                    `;
+                // Auto-fill title from filename
+                const defaultTitle = file.name.replace(/\.[^/.]+$/, "");
+                const titleField = document.getElementById('videoTitleInput');
+                if (!titleField.value) {
+                    titleField.value = defaultTitle;
                 }
-            } else if (mode === 'live') {
-                bar.innerHTML = `
-                    <div class="side-tool-row" onclick="flipCameraAction()">
-                        <span class="side-tool-label">Flip</span>
-                        <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M9 12c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3zm11-4h-3.17L15 6H9L7.17 8H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
-                    </div>
-                    <div class="side-tool-row" onclick="toggleMic()">
-                        <span class="side-tool-label">Mute</span>
-                        <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg></div>
-                    </div>
-                    <div class="side-tool-row" onclick="toggleVideoVisibility()">
-                        <span class="side-tool-label">Hide live video</span>
-                        <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></div>
-                    </div>
-                    <div class="side-tool-row">
-                        <span class="side-tool-label">Orientation</span>
-                        <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>
-                    </div>
-                    <div class="side-tool-row" onclick="openLiveEditSheet()">
-                        <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></div>
-                    </div>
-                `;
-            } else {
-                bar.innerHTML = `
-                    <div class="side-tool-row" onclick="flipCameraAction()">
-                        <div class="side-tool-capsule"><svg viewBox="0 0 24 24"><path d="M9 12c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3zm11-4h-3.17L15 6H9L7.17 8H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
-                    </div>
-                `;
+                validateForm();
             }
         }
 
-        function flipCameraAction() {
-            if (activeStream) activeStream.getTracks().forEach(t => t.stop());
-            initCamera();
+        function validateForm() {
+            const title = document.getElementById('videoTitleInput').value.trim();
+            const publishBtn = document.getElementById('publishBtn');
+            publishBtn.disabled = !(selectedVideoFile && title.length > 0);
         }
 
-        function toggleMic() {
-            if (activeStream) {
-                const audio = activeStream.getAudioTracks()[0];
-                if (audio) audio.enabled = !audio.enabled;
-            }
-        }
+        function handlePublish() {
+            const title = document.getElementById('videoTitleInput').value.trim();
+            const desc = document.getElementById('videoDescInput').value.trim();
+            const category = document.getElementById('videoCategorySelect').value;
+            const visibility = document.getElementById('videoVisibilitySelect').value;
+            const monetizationEnabled = document.getElementById('monetizeToggle').checked;
 
-        function toggleVideoVisibility() {
-            const vid = document.getElementById('liveCameraFeed');
-            vid.style.visibility = vid.style.visibility === 'hidden' ? 'visible' : 'hidden';
-        }
+            const newVideo = {
+                id: 'bt_' + Date.now(),
+                title: title,
+                description: desc,
+                category: category,
+                visibility: visibility,
+                monetized: monetizationEnabled,
+                uploadedAt: new Date().toLocaleDateString(),
+                views: '1 view',
+                channel: 'Charandas Bhaskar'
+            };
 
-        function togglePracticeMode() {
-            const btn = document.querySelector('.practice-mode-btn');
-            btn.textContent = btn.textContent.includes('Active') ? 'Practice mode' : 'Practice mode (Active)';
-        }
+            // Save to LocalStorage video queue
+            let existingVideos = JSON.parse(localStorage.getItem('bt_creator_uploads') || '[]');
+            existingVideos.unshift(newVideo);
+            localStorage.setItem('bt_creator_uploads', JSON.stringify(existingVideos));
 
-        function openLiveEditSheet() {
-            document.getElementById('liveEditModal').style.display = 'flex';
-        }
-
-        function closeLiveEditSheet() {
-            document.getElementById('liveEditModal').style.display = 'none';
-        }
-
-        function saveLiveDetails() {
-            closeLiveEditSheet();
-        }
-
-        function handleLiveNext() {
-            window.location.href = `watch.html?title=Charandas+Bhaskar+is+live&channel=Charandas+Bhaskar&views=🔴+Live`;
-        }
-
-        function toggleRecording() {
-            isRecording = !isRecording;
-            const ring = document.getElementById('shutterBtn');
-            if (isRecording) {
-                ring.classList.add('recording');
-            } else {
-                ring.classList.remove('recording');
-                setTimeout(() => {
-                    window.location.href = currentMode === 'short' ? 'shorts.html' : 'watch.html';
-                }, 400);
-            }
-        }
-
-        function selectMusicTrack() {
-            const track = prompt('Choose Audio Track:\n1. Chhattisgarhi Folk Beats\n2. Vande Mataram', '1');
-            if (track) {
-                document.getElementById('soundLabel').textContent = 'Audio Set 🎵';
-            }
-        }
-
-        function handleFileChosen(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const target = currentMode === 'short' ? 'shorts.html' : 'watch.html';
-            window.location.href = `${target}?title=${encodeURIComponent(file.name)}&channel=Charandas+Bhaskar&views=1+view`;
-        }
-
-        // ================= INLINE COMMUNITY POST TOOLS (Exact Screenshot 1) =================
-        function openPostModal() {
-            document.getElementById('postModal').style.display = 'flex';
-        }
-
-        function closePostModal() {
-            document.getElementById('postModal').style.display = 'none';
-            switchMode('short');
-        }
-
-        function togglePostTool(tool) {
-            const quiz = document.getElementById('quizBuilder');
-            const poll = document.getElementById('pollBuilder');
-            const area = document.getElementById('postText');
-
-            if (tool === 'quiz') {
-                const isShowing = quiz.style.display === 'flex';
-                quiz.style.display = isShowing ? 'none' : 'flex';
-                poll.style.display = 'none';
-                area.placeholder = isShowing ? 'Share an image to start a caption contest' : 'Quiz your community...';
-            } else if (tool === 'poll') {
-                const isShowing = poll.style.display === 'flex';
-                poll.style.display = isShowing ? 'none' : 'flex';
-                quiz.style.display = 'none';
-                area.placeholder = isShowing ? 'Share an image to start a caption contest' : 'Ask your community...';
-            }
-        }
-
-        // Select correct answer in Quiz (Green Highlight)
-        function selectQuizCorrect(card) {
-            document.querySelectorAll('.quiz-option-card').forEach(c => c.classList.remove('correct'));
-            card.classList.add('correct');
-        }
-
-        function removeQuizCard(btn) {
-            const card = btn.closest('.quiz-option-card');
-            if (document.querySelectorAll('.quiz-option-card').length > 2) {
-                card.remove();
-            }
-        }
-
-        function addQuizAnswerRow() {
-            const container = document.getElementById('quizBuilder');
-            const card = document.createElement('div');
-            const count = document.querySelectorAll('.quiz-option-card').length + 1;
-            card.className = 'quiz-option-card';
-            card.onclick = function() { selectQuizCorrect(this); };
-            card.innerHTML = `
-                <div class="quiz-check-circle">✓</div>
-                <input type="text" class="quiz-input-field" placeholder="Answer ${count}" value="Answer ${count}">
-                <button class="quiz-action-icon" onclick="document.getElementById('postImagePicker').click()"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></button>
-                <button class="quiz-action-icon" onclick="removeQuizCard(this)"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-            `;
-            container.insertBefore(card, container.children[container.children.length - 2]);
-        }
-
-        function addPollOptionRow() {
-            const container = document.getElementById('pollBuilder');
-            const card = document.createElement('div');
-            const count = document.querySelectorAll('.poll-option-card').length + 1;
-            card.className = 'poll-option-card';
-            card.innerHTML = `
-                <input type="text" class="quiz-input-field" placeholder="Option ${count}" value="Option ${count}">
-                <button class="quiz-action-icon" onclick="document.getElementById('postImagePicker').click()"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></button>
-                <button class="quiz-action-icon" onclick="this.parentElement.remove()"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-            `;
-            container.insertBefore(card, container.lastElementChild);
-        }
-
-        function attachPresetImg(url) {
-            document.getElementById('attachedPostImg').src = url;
-            document.getElementById('attachedImgBox').style.display = 'block';
-        }
-
-        function removePostAttachment() {
-            document.getElementById('attachedImgBox').style.display = 'none';
-            document.getElementById('attachedPostImg').src = '';
-        }
-
-        function loadPostImage(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const r = new FileReader();
-            r.onload = ev => attachPresetImg(ev.target.result);
-            r.readAsDataURL(file);
-        }
-
-        function openDetailsSheet() {
-            document.getElementById('detailsSheet').style.display = 'flex';
-        }
-
-        function closeDetailsSheet() {
-            document.getElementById('detailsSheet').style.display = 'none';
-        }
-
-        function cyclePostVis() {
-            const val = document.getElementById('sheetVisVal');
-            val.textContent = val.textContent === 'Public' ? 'Members Only' : 'Public';
-            document.getElementById('postChipVisLabel').textContent = val.textContent;
-        }
-
-        function toggleSwitch(id) {
-            document.getElementById(id).classList.toggle('checked');
-        }
-
-        function toggleExpirySwitch() {
-            const el = document.getElementById('expirySwitch');
-            el.classList.toggle('checked');
-            document.getElementById('sheetExpiryVal').textContent = el.classList.contains('checked') ? '24 hours' : 'None';
-        }
-
-        function publishPostNow() {
+            alert('🎉 Video Successfully Uploaded & Published to BharatTube!');
             window.location.href = 'profile.html';
         }
     </script>
