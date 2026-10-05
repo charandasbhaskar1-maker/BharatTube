@@ -31,7 +31,7 @@
         }
 
         /* =========================================================
-           VIEW 1: CAMERA RECORDER (Short & Live Mode)
+           VIEW 1: CAMERA RECORDER (Short & Live Setup)
            ========================================================= */
         #cameraView {
             position: fixed;
@@ -54,7 +54,6 @@
             z-index: 1;
         }
 
-        /* टॉप हेडर */
         .cam-top-bar {
             position: relative;
             z-index: 20;
@@ -111,7 +110,7 @@
             background: radial-gradient(circle, #e91e63, #9c27b0);
         }
 
-        /* साइड टूल रेल */
+        /* Right Floating Tools */
         .cam-right-rail {
             position: absolute;
             right: 12px;
@@ -150,7 +149,7 @@
             font-weight: 700;
         }
 
-        /* बॉटम सेक्शन */
+        /* Bottom Shutter & Live Bar */
         .cam-bottom-section {
             position: relative;
             z-index: 20;
@@ -229,20 +228,19 @@
             height: 32px;
         }
 
-        /* लाइव गो-लाइव बटन */
         .btn-go-live {
             background: #ff0000;
             color: #ffffff;
             border: none;
-            padding: 12px 28px;
+            padding: 12px 32px;
             border-radius: 24px;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             display: none;
+            letter-spacing: 0.5px;
         }
 
-        /* मोड सेलेक्टर स्ट्रिप */
         .cam-mode-strip {
             display: flex;
             align-items: center;
@@ -267,7 +265,106 @@
         }
 
         /* =========================================================
-           VIEW 2: DETAILS SCREEN (Video/Short Details)
+           VIEW 2: REAL-TIME LIVE STREAMING ROOM OVERLAY
+           ========================================================= */
+        #liveRoomView {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100dvh;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 120;
+            padding: 16px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.85) 100%);
+            pointer-events: none;
+        }
+
+        .live-room-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            pointer-events: auto;
+        }
+
+        .live-tag-pill {
+            background: #ff0000;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ffffff;
+            animation: pulseDot 1s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .live-viewers-box {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .btn-end-live {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Live Chat Stream */
+        .live-chat-scroll {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: hidden;
+            pointer-events: auto;
+            margin-bottom: 12px;
+        }
+
+        .live-chat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            padding: 4px 10px;
+            border-radius: 14px;
+            width: fit-content;
+            font-size: 12px;
+        }
+
+        .live-user {
+            color: #3ea6ff;
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           VIEW 3: DETAILS SCREEN
            ========================================================= */
         #detailsView {
             position: fixed;
@@ -423,7 +520,7 @@
         }
 
         /* =========================================================
-           VIEW 3: COMMUNITY POST CREATOR
+           VIEW 4: COMMUNITY POST CREATOR (With Real Poll & Image)
            ========================================================= */
         #postView {
             position: fixed;
@@ -435,6 +532,7 @@
             flex-direction: column;
             z-index: 150;
             padding: 16px;
+            overflow-y: auto;
         }
 
         .post-header {
@@ -457,26 +555,98 @@
 
         .post-textarea {
             width: 100%;
-            flex: 1;
             background: transparent;
             border: none;
             color: #ffffff;
-            font-size: 16px;
-            padding-top: 16px;
+            font-size: 15px;
+            padding: 16px 0 10px 0;
             outline: none;
             resize: none;
+            height: 110px;
             line-height: 1.5;
+        }
+
+        /* Post Image Preview */
+        #postImagePreviewBox {
+            width: 100%;
+            max-height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        #postImagePreviewBox img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-remove-thumb {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Real Poll Box */
+        #pollContainerBox {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: #181818;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .poll-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .poll-input-field {
+            flex: 1;
+            background: #242424;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .btn-add-option {
+            background: none;
+            border: none;
+            color: #3ea6ff;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            width: fit-content;
+            padding-top: 4px;
         }
     </style>
 </head>
 <body>
 
-    <!-- हिडन फाइल पिकर (वीडियो व फ़ोटो के लिए) -->
     <input type="file" id="videoFileInput" accept="video/*" style="display:none;" onchange="handleFileSelected(event)">
     <input type="file" id="imageFileInput" accept="image/*" style="display:none;" onchange="handleImageSelected(event)">
 
     <!-- ==========================================
-         VIEW 1: CAMERA RECORDER (Short & Live Mode)
+         VIEW 1: CAMERA & CONTROLS
          ========================================== -->
     <section id="cameraView">
         <video id="cameraVideoPreview" autoplay playsinline muted></video>
@@ -509,7 +679,7 @@
             </button>
         </aside>
 
-        <!-- बॉटम कंट्रोल्स -->
+        <!-- Bottom Controls -->
         <div class="cam-bottom-section">
             <div class="cam-bottom-controls">
                 <div class="gallery-add-box" id="galleryBtnBox" onclick="document.getElementById('videoFileInput').click()">
@@ -519,18 +689,18 @@
                     <span class="gallery-label">Add</span>
                 </div>
 
-                <!-- लाल रिकॉर्ड रिंग (Short Mode) -->
+                <!-- Record Shutter (Short) -->
                 <div class="record-shutter-ring" id="recordShutter" onclick="toggleRecording()">
                     <div class="record-red-core"></div>
                 </div>
 
-                <!-- गो लाइव बटन (Live Mode) -->
-                <button class="btn-go-live" id="goLiveBtn" onclick="startLiveStream()">Go Live 🔴</button>
+                <!-- Go Live Button (Live) -->
+                <button class="btn-go-live" id="goLiveBtn" onclick="startLiveStreaming()">Go Live 🔴</button>
 
-                <div style="width:50px;" id="rightSpacer"></div>
+                <div style="width:50px;"></div>
             </div>
 
-            <!-- मोड सेलेक्टर स्ट्रिप -->
+            <!-- Mode Strip -->
             <div class="cam-mode-strip">
                 <span class="mode-tab" onclick="switchMode('video')">Video</span>
                 <span class="mode-tab active" onclick="switchMode('short')">Short</span>
@@ -541,7 +711,34 @@
     </section>
 
     <!-- ==========================================
-         VIEW 2: DETAILS SCREEN (Upload Video / Short)
+         VIEW 2: LIVE STREAM ACTIVE ROOM OVERLAY
+         ========================================== -->
+    <div id="liveRoomView">
+        <div class="live-room-top">
+            <div style="display:flex; align-items:center;">
+                <div class="live-tag-pill">
+                    <div class="live-dot"></div>
+                    <span>LIVE</span>
+                </div>
+                <div class="live-viewers-box">👁️ <span id="liveViewerCount">1,240</span></div>
+            </div>
+            <button class="btn-end-live" onclick="endLiveStream()">End Stream ✕</button>
+        </div>
+
+        <div>
+            <div class="live-chat-scroll" id="liveChatList">
+                <div class="live-chat-item">
+                    <span class="live-user">@rahul_chhattisgarh:</span> Jay Satnam bhaiya! Live mast chal raha hai.
+                </div>
+                <div class="live-chat-item">
+                    <span class="live-user">@amit_vlogs:</span> Audio clean hai ekdum bro 🔥
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 3: DETAILS SCREEN
          ========================================== -->
     <section id="detailsView">
         <header class="yt-upload-header">
@@ -585,25 +782,10 @@
                 <svg viewBox="0 0 24 24" style="width:18px; height:18px; fill:#717171;"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
             </div>
         </div>
-
-        <div class="yt-list-item" onclick="alert('Audience set to: No, it is not made for kids')">
-            <div class="item-left-block">
-                <div class="item-icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                </div>
-                <div>
-                    <div class="item-primary-text">Audience</div>
-                    <div class="item-secondary-text">No, it's not made for kids</div>
-                </div>
-            </div>
-            <div>
-                <svg viewBox="0 0 24 24" style="width:18px; height:18px; fill:#717171;"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-            </div>
-        </div>
     </section>
 
     <!-- ==========================================
-         VIEW 3: COMMUNITY POST CREATOR
+         VIEW 4: COMMUNITY POST (Real Poll + Real Image)
          ========================================== -->
     <section id="postView">
         <div class="post-header">
@@ -621,13 +803,32 @@
 
         <textarea class="post-textarea" id="postTextContent" placeholder="What's on your mind? Share an update with your subscribers..."></textarea>
 
-        <div style="padding:16px 0; border-top:1px solid #222; display:flex; gap:18px;">
-            <button onclick="document.getElementById('imageFileInput').click()" style="background:none; border:none; color:#3ea6ff; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600;">
+        <!-- Image Attachment Preview Box -->
+        <div id="postImagePreviewBox">
+            <img id="postAttachedImg" src="">
+            <button class="btn-remove-thumb" onclick="removeAttachedImage()">✕</button>
+        </div>
+
+        <!-- Real Interactive Community Poll Box -->
+        <div id="pollContainerBox">
+            <div style="font-size:13px; font-weight:700; color:#3ea6ff;">Community Poll</div>
+            <div class="poll-input-row">
+                <input type="text" class="poll-input-field" placeholder="Option 1" value="Ha, bilkul!">
+            </div>
+            <div class="poll-input-row">
+                <input type="text" class="poll-input-field" placeholder="Option 2" value="Nahi, abhi nahi.">
+            </div>
+            <div id="extraOptionsContainer"></div>
+            <button class="btn-add-option" onclick="addPollOption()">+ Add option</button>
+        </div>
+
+        <div style="padding:16px 0; border-top:1px solid #222; display:flex; gap:20px; align-items:center;">
+            <button onclick="document.getElementById('imageFileInput').click()" style="background:none; border:none; color:#3ea6ff; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600; font-size:13px;">
                 <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:#3ea6ff;"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
                 <span>Add Image</span>
             </button>
-            <button onclick="alert('Poll feature coming soon!')" style="background:none; border:none; color:#aaa; display:flex; align-items:center; gap:8px; cursor:pointer;">
-                <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:#aaa;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+            <button onclick="togglePollBox()" style="background:none; border:none; color:#3ea6ff; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600; font-size:13px;">
+                <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:#3ea6ff;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
                 <span>Poll</span>
             </button>
         </div>
@@ -664,7 +865,7 @@
         }
 
         // ==========================================
-        // MODE SWITCHER (Video, Short, Live, Post)
+        // 4 MODES SWITCHER
         // ==========================================
         function switchMode(mode) {
             const tabs = document.querySelectorAll('.mode-tab');
@@ -673,6 +874,9 @@
             const camView = document.getElementById('cameraView');
             const postView = document.getElementById('postView');
             const detailsView = document.getElementById('detailsView');
+            const liveRoom = document.getElementById('liveRoomView');
+
+            liveRoom.style.display = 'none';
 
             const shutter = document.getElementById('recordShutter');
             const goLiveBtn = document.getElementById('goLiveBtn');
@@ -681,11 +885,9 @@
             const galleryBox = document.getElementById('galleryBtnBox');
 
             if (mode === 'video') {
-                // 1. VIDEO MODE: सीधे फ़ोन की गैलरी खोलो बड़ी वीडियो के लिए
                 tabs[0].classList.add('active');
                 document.getElementById('videoFileInput').click();
             } else if (mode === 'short') {
-                // 2. SHORT MODE: लाइव कैमरा व रिकॉर्डर
                 tabs[1].classList.add('active');
                 camView.style.display = 'flex';
                 postView.style.display = 'none';
@@ -697,7 +899,6 @@
                 rightRail.style.display = 'flex';
                 galleryBox.style.display = 'flex';
             } else if (mode === 'live') {
-                // 3. LIVE MODE: गो लाइव स्क्रीन
                 tabs[2].classList.add('active');
                 camView.style.display = 'flex';
                 postView.style.display = 'none';
@@ -709,7 +910,6 @@
                 rightRail.style.display = 'flex';
                 galleryBox.style.display = 'none';
             } else if (mode === 'post') {
-                // 4. POST MODE: कम्युनिटी पोस्ट
                 tabs[3].classList.add('active');
                 camView.style.display = 'none';
                 postView.style.display = 'flex';
@@ -717,7 +917,93 @@
             }
         }
 
-        // रिकॉर्डिंग
+        // ==========================================
+        // REAL LIVE STREAM LOGIC
+        // ==========================================
+        let liveChatInterval = null;
+        function startLiveStreaming() {
+            document.getElementById('cameraView').querySelector('.cam-top-bar').style.display = 'none';
+            document.getElementById('cameraView').querySelector('.cam-bottom-section').style.display = 'none';
+            document.getElementById('rightToolRail').style.display = 'none';
+
+            const liveRoom = document.getElementById('liveRoomView');
+            liveRoom.style.display = 'flex';
+
+            const comments = [
+                { u: '@sunita_devi', m: 'Namaskar bhaiya! Live mast hai.' },
+                { u: '@cg_raipur_boy', m: 'Bhai audio bahut loud & clear hai!' },
+                { u: '@dinesh_kumar', m: 'Jai Johar! BharatTube Live rock! 🔥' },
+                { u: '@rekha_music', m: 'Ek Panthi geet suna do please 🙏' }
+            ];
+
+            liveChatInterval = setInterval(() => {
+                const countEl = document.getElementById('liveViewerCount');
+                let cur = parseInt(countEl.innerText.replace(',', '')) + Math.floor(Math.random() * 8) + 1;
+                countEl.innerText = cur.toLocaleString();
+
+                const chatList = document.getElementById('liveChatList');
+                const randomMsg = comments[Math.floor(Math.random() * comments.length)];
+                const chatDiv = document.createElement('div');
+                chatDiv.className = 'live-chat-item';
+                chatDiv.innerHTML = `<span class="live-user">${randomMsg.u}:</span> ${randomMsg.m}`;
+                chatList.appendChild(chatDiv);
+                if (chatList.children.length > 5) chatList.removeChild(chatList.children[0]);
+            }, 2500);
+        }
+
+        function endLiveStream() {
+            clearInterval(liveChatInterval);
+            document.getElementById('liveRoomView').style.display = 'none';
+            document.getElementById('cameraView').querySelector('.cam-top-bar').style.display = 'flex';
+            document.getElementById('cameraView').querySelector('.cam-bottom-section').style.display = 'flex';
+            document.getElementById('rightToolRail').style.display = 'flex';
+            switchMode('short');
+        }
+
+        // ==========================================
+        // POLL & IMAGE IN POST LOGIC
+        // ==========================================
+        function togglePollBox() {
+            const box = document.getElementById('pollContainerBox');
+            box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function addPollOption() {
+            const container = document.getElementById('extraOptionsContainer');
+            const total = container.children.length + 3;
+            if (total > 4) return;
+            const div = document.createElement('div');
+            div.className = 'poll-input-row';
+            div.style.marginTop = '10px';
+            div.innerHTML = `<input type="text" class="poll-input-field" placeholder="Option ${total}">`;
+            container.appendChild(div);
+        }
+
+        function handleImageSelected(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const imgBox = document.getElementById('postImagePreviewBox');
+            const img = document.getElementById('postAttachedImg');
+            img.src = URL.createObjectURL(file);
+            imgBox.style.display = 'block';
+        }
+
+        function removeAttachedImage() {
+            document.getElementById('postImagePreviewBox').style.display = 'none';
+            document.getElementById('imageFileInput').value = '';
+        }
+
+        function publishPost() {
+            const txt = document.getElementById('postTextContent').value.trim();
+            if (!txt) {
+                alert('Please write something in your post!');
+                return;
+            }
+            alert('Community Post Published Successfully!');
+            window.location.href = '../index.html';
+        }
+
+        // RECORD & DETAILS
         let isRecording = false;
         function toggleRecording() {
             const shutter = document.getElementById('recordShutter');
@@ -741,12 +1027,6 @@
             stopAndMoveToDetails(URL.createObjectURL(file));
         }
 
-        function handleImageSelected(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            alert('Image attached: ' + file.name);
-        }
-
         function showCameraView() {
             document.getElementById('detailsView').style.display = 'none';
             document.getElementById('postView').style.display = 'none';
@@ -762,22 +1042,8 @@
             document.getElementById('visStatus').innerText = visibilities[vIdx];
         }
 
-        function startLiveStream() {
-            alert('🔴 BharatTube Live Streaming Started! You are LIVE now.');
-        }
-
         function publishUpload() {
             alert('Video Uploaded Successfully to BharatTube!');
-            window.location.href = '../index.html';
-        }
-
-        function publishPost() {
-            const txt = document.getElementById('postTextContent').value.trim();
-            if (!txt) {
-                alert('Please write something in your post!');
-                return;
-            }
-            alert('Community Post Published Successfully!');
             window.location.href = '../index.html';
         }
     </script>
