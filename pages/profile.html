@@ -5,87 +5,222 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f0f">
-    <title>Profile - BharatTube</title>
+    <title>You - BharatTube</title>
     <link rel="stylesheet" href="../assets/css/global.css">
     <style>
-        body { padding-bottom: 80px; }
+        body {
+            padding-bottom: calc(var(--bottom-bar-height) + 24px);
+        }
 
-        .profile-hero {
-            padding: 16px 16px 14px;
+        /* Top Bar */
+        .profile-top-bar {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            background: var(--yt-black);
+            z-index: 100;
+        }
+
+        .profile-top-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .profile-top-actions a, .profile-top-actions button {
+            background: none;
+            border: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .profile-top-actions svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        /* Creator Hero Header */
+        .creator-hero {
+            padding: 12px 16px 14px;
             display: flex;
             flex-direction: column;
             gap: 14px;
         }
 
-        .profile-meta-row {
+        .creator-main-row {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
-        .creator-avatar-wrap {
-            width: 68px;
-            height: 68px;
+        .creator-avatar {
+            width: 66px;
+            height: 66px;
             border-radius: 50%;
             background: linear-gradient(135deg, #e50914, #ff5252);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             color: #ffffff;
             flex-shrink: 0;
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.12);
         }
 
-        .creator-title-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .creator-title-row h1 {
+        .creator-meta h1 {
             font-size: 19px;
             font-weight: 700;
+            line-height: 1.25;
         }
 
-        .verified-badge-svg {
-            display: none;
-            width: 17px;
-            height: 17px;
-            fill: var(--yt-blue);
-        }
-
-        .creator-handle {
+        .creator-meta p {
             font-size: 13px;
             color: var(--yt-muted);
-            margin: 3px 0 6px;
+            margin: 3px 0 5px;
         }
 
-        .profile-actions-pills {
+        .channel-link {
+            font-size: 12px;
+            color: var(--yt-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Quick Action Pills */
+        .creator-pills-row {
             display: flex;
             gap: 8px;
-            width: 100%;
+            overflow-x: auto;
+            scrollbar-width: none;
         }
 
-        .pill-btn {
-            flex: 1;
-            background: #202020;
+        .creator-pills-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .action-pill {
+            background: #222222;
             border: 1px solid var(--yt-border);
             color: #ffffff;
-            padding: 8px 4px;
-            border-radius: 20px;
+            padding: 7px 14px;
+            border-radius: 18px;
             font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 6px;
             text-decoration: none;
+            white-space: nowrap;
         }
 
-        .pill-btn svg { width: 15px; height: 15px; fill: #ffffff; }
+        .action-pill svg {
+            width: 15px;
+            height: 15px;
+            fill: #ffffff;
+            flex-shrink: 0;
+        }
 
+        /* Section Headings */
+        .shelf-section {
+            padding: 14px 16px 0;
+        }
+
+        .shelf-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .shelf-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .shelf-action-btn {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--yt-blue);
+            text-decoration: none;
+            border: 1px solid rgba(62, 166, 255, 0.3);
+            padding: 4px 10px;
+            border-radius: 14px;
+        }
+
+        /* Horizontal Video Cards Deck (History & Playlists) */
+        .shelf-cards-deck {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+        }
+
+        .shelf-cards-deck::-webkit-scrollbar {
+            display: none;
+        }
+
+        .shelf-video-card {
+            width: 140px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .shelf-thumb-wrap {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #202020;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shelf-thumb-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .time-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.85);
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .shelf-video-title {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .shelf-video-sub {
+            font-size: 11px;
+            color: var(--yt-muted);
+        }
+
+        /* Menu Groups (Policies & Account) */
         .settings-menu-group {
             margin: 16px 16px 0;
             background: var(--yt-surface);
@@ -95,8 +230,8 @@
         }
 
         .group-label-header {
-            padding: 14px 16px 8px;
-            font-size: 12px;
+            padding: 12px 16px 6px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--yt-muted);
             text-transform: uppercase;
@@ -107,33 +242,45 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 16px;
+            padding: 13px 16px;
             text-decoration: none;
             color: #ffffff;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .menu-row-item:last-child { border-bottom: none; }
+        .menu-row-item:last-child {
+            border-bottom: none;
+        }
 
         .menu-left-block {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
+            min-width: 0;
         }
 
         .menu-icon-wrap {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
-        .menu-icon-wrap svg { width: 22px; height: 22px; fill: #ffffff; }
+        .menu-icon-wrap svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
+        }
 
         .menu-title-text {
             font-size: 14px;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
         }
 
         .menu-tag-pill {
@@ -141,68 +288,145 @@
             font-weight: 700;
             padding: 3px 8px;
             border-radius: 12px;
-            margin-left: 8px;
+            white-space: nowrap !important;
+            display: inline-block;
+            flex-shrink: 0;
         }
 
-        .tag-green { background: rgba(46, 204, 113, 0.15); color: var(--yt-green); }
-        .tag-blue { background: rgba(62, 166, 255, 0.15); color: var(--yt-blue); }
+        .tag-green {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--yt-green);
+        }
+
+        .tag-blue {
+            background: rgba(62, 166, 255, 0.15);
+            color: var(--yt-blue);
+        }
 
         .menu-arrow-icon {
             width: 18px;
             height: 18px;
             fill: var(--yt-muted);
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="bt-header">
+    <!-- Top Header -->
+    <header class="profile-top-bar">
         <a href="../frontend/index.html" class="bt-logo-wrap">
             <div class="bt-logo-badge">
                 <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
             </div>
             <div class="bt-brand-name">Bharat<span>Tube</span></div>
         </a>
-        <div style="display:flex; gap:16px;">
-            <a href="contact.html" style="color:#fff; text-decoration:none;">
-                <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:#fff;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <div class="profile-top-actions">
+            <a href="contact.html">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </a>
+            <a href="admin.html">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
             </a>
         </div>
     </header>
 
     <!-- Creator Hero -->
-    <section class="profile-hero">
-        <div class="profile-meta-row">
-            <div class="creator-avatar-wrap">CB</div>
-            <div class="creator-text-details">
-                <div class="creator-title-row">
-                    <h1>Charandas Bhaskar</h1>
-                    <svg class="verified-badge-svg" id="partnerVerifiedBadge" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                </div>
-                <div class="creator-handle">@charandas_creator • 245 subs</div>
+    <section class="creator-hero">
+        <div class="creator-main-row">
+            <div class="creator-avatar">CB</div>
+            <div class="creator-meta">
+                <h1>Charandas Bhaskar</h1>
+                <p>@charandas_creator • 245 subs</p>
+                <a href="channel.html" class="channel-link">View channel ></a>
             </div>
         </div>
 
-        <div class="profile-actions-pills">
-            <a href="upload.html" class="pill-btn">
+        <!-- Quick Action Pills -->
+        <div class="creator-pills-row">
+            <a href="upload.html" class="action-pill">
                 <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
                 <span>Upload</span>
             </a>
-            <a href="contact.html" class="pill-btn">
+            <a href="contact.html" class="action-pill">
                 <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                 <span>Support</span>
+            </a>
+            <a href="admin.html" class="action-pill">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                <span>AI Console</span>
             </a>
         </div>
     </section>
 
-    <!-- Partner Program & Policies (Direct Page Links) -->
+    <!-- History Shelf (YouTube Mobile Style) -->
+    <section class="shelf-section">
+        <div class="shelf-header">
+            <h2>History</h2>
+            <a href="#" class="shelf-action-btn">View all</a>
+        </div>
+        <div class="shelf-cards-deck">
+            <a href="watch.html?title=Chhattisgarhi+Panthi+Song+Special&channel=Charandas+Bhaskar&views=210K+views" class="shelf-video-card">
+                <div class="shelf-thumb-wrap">
+                    <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=400" alt="Video 1">
+                    <span class="time-badge">05:42</span>
+                </div>
+                <div class="shelf-video-title">Chhattisgarhi Panthi Song • Special Video</div>
+                <div class="shelf-video-sub">Charandas Bhaskar</div>
+            </a>
+
+            <a href="watch.html?title=Learn+Computer+Basics+Full+Course&channel=Education+India&views=85K+views" class="shelf-video-card">
+                <div class="shelf-thumb-wrap">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400" alt="Video 2">
+                    <span class="time-badge">12:48</span>
+                </div>
+                <div class="shelf-video-title">Learn Computer Basics Full Course 2026</div>
+                <div class="shelf-video-sub">Education India</div>
+            </a>
+
+            <a href="watch.html?title=India+Today+News+Headlines&channel=Bharat+News&views=120K+views" class="shelf-video-card">
+                <div class="shelf-thumb-wrap">
+                    <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=400" alt="Video 3">
+                    <span class="time-badge">08:15</span>
+                </div>
+                <div class="shelf-video-title">India Today News Headlines Special</div>
+                <div class="shelf-video-sub">Bharat News</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Playlists Shelf -->
+    <section class="shelf-section">
+        <div class="shelf-header">
+            <h2>Playlists</h2>
+            <a href="#" class="shelf-action-btn">+ New playlist</a>
+        </div>
+        <div class="shelf-cards-deck">
+            <div class="shelf-video-card">
+                <div class="shelf-thumb-wrap" style="display:flex; align-items:center; justify-content:center; background:#262626;">
+                    <span style="font-size:24px;">👍</span>
+                    <span class="time-badge">24 videos</span>
+                </div>
+                <div class="shelf-video-title">Liked Videos</div>
+                <div class="shelf-video-sub">Auto playlist</div>
+            </div>
+
+            <div class="shelf-video-card">
+                <div class="shelf-thumb-wrap" style="display:flex; align-items:center; justify-content:center; background:#262626;">
+                    <span style="font-size:24px;">⏱️</span>
+                    <span class="time-badge">12 videos</span>
+                </div>
+                <div class="shelf-video-title">Watch Later</div>
+                <div class="shelf-video-sub">Private</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner Program & Policies (Standalone Pages) -->
     <section class="settings-menu-group">
         <div class="group-label-header">Partner Program & Policies</div>
 
-        <!-- 1. Monetization Policy Page Link -->
+        <!-- Monetization Policy -->
         <a href="monetization-policy.html" class="menu-row-item">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-green);">
@@ -216,7 +440,7 @@
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </a>
 
-        <!-- 2. Community Guidelines Page Link -->
+        <!-- Community Guidelines -->
         <a href="community-guidelines.html" class="menu-row-item">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-blue);">
@@ -227,7 +451,7 @@
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </a>
 
-        <!-- 3. Copyright Page Link -->
+        <!-- Copyright -->
         <a href="copyright.html" class="menu-row-item">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-gold);">
@@ -241,7 +465,7 @@
             <svg class="menu-arrow-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </a>
 
-        <!-- 4. Contact & Support Page Link -->
+        <!-- Contact Support -->
         <a href="contact.html" class="menu-row-item">
             <div class="menu-left-block">
                 <div class="menu-icon-wrap" style="color:var(--yt-blue);">
@@ -253,7 +477,7 @@
         </a>
     </section>
 
-    <!-- Central UI Scripts -->
+    <!-- Global App Engine Scripts -->
     <script src="../assets/js/app-state.js"></script>
     <script src="../assets/js/ui-kit.js"></script>
 </body>
