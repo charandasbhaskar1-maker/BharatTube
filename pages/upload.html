@@ -26,12 +26,13 @@
             color: #ffffff;
         }
 
-        /* किसी भी ऑटो-इंजेक्ट बॉटम बार को कैमरा स्क्रीन से पूरी तरह छुपाएं */
         .bottom-nav-fixed, .bt-bottom-bar, nav.bottom-nav {
             display: none !important;
         }
 
-        /* कैमरा व्यू - 100% फुल स्क्रीन */
+        /* =========================================================
+           VIEW 1: CAMERA RECORDER (Short & Live Mode)
+           ========================================================= */
         #cameraView {
             position: fixed;
             inset: 0;
@@ -53,7 +54,7 @@
             z-index: 1;
         }
 
-        /* टॉप बार */
+        /* टॉप हेडर */
         .cam-top-bar {
             position: relative;
             z-index: 20;
@@ -149,7 +150,7 @@
             font-weight: 700;
         }
 
-        /* बॉटम सेक्शन - बिल्कुल नीचे फिट */
+        /* बॉटम सेक्शन */
         .cam-bottom-section {
             position: relative;
             z-index: 20;
@@ -228,7 +229,20 @@
             height: 32px;
         }
 
-        /* मोड सेलेक्टर (Video, Short, Live, Post) */
+        /* लाइव गो-लाइव बटन */
+        .btn-go-live {
+            background: #ff0000;
+            color: #ffffff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* मोड सेलेक्टर स्ट्रिप */
         .cam-mode-strip {
             display: flex;
             align-items: center;
@@ -241,17 +255,20 @@
             font-weight: 600;
             color: #aaaaaa;
             cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
         }
 
         .mode-tab.active {
             background: rgba(255,255,255,0.22);
             color: #ffffff;
-            padding: 5px 16px;
-            border-radius: 20px;
             backdrop-filter: blur(6px);
         }
 
-        /* व्यू 2: डिटेल्स स्क्रीन */
+        /* =========================================================
+           VIEW 2: DETAILS SCREEN (Video/Short Details)
+           ========================================================= */
         #detailsView {
             position: fixed;
             inset: 0;
@@ -404,13 +421,63 @@
             font-size: 12px;
             color: #aaaaaa;
         }
+
+        /* =========================================================
+           VIEW 3: COMMUNITY POST CREATOR
+           ========================================================= */
+        #postView {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100dvh;
+            background: #0f0f0f;
+            display: none;
+            flex-direction: column;
+            z-index: 150;
+            padding: 16px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #222;
+        }
+
+        .btn-post-publish {
+            background: #3ea6ff;
+            color: #000;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .post-textarea {
+            width: 100%;
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            padding-top: 16px;
+            outline: none;
+            resize: none;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
 
-    <input type="file" id="galleryFileInput" accept="video/*" style="display:none;" onchange="handleFileSelected(event)">
+    <!-- हिडन फाइल पिकर (वीडियो व फ़ोटो के लिए) -->
+    <input type="file" id="videoFileInput" accept="video/*" style="display:none;" onchange="handleFileSelected(event)">
+    <input type="file" id="imageFileInput" accept="image/*" style="display:none;" onchange="handleImageSelected(event)">
 
-    <!-- कैमरा व्यू -->
+    <!-- ==========================================
+         VIEW 1: CAMERA RECORDER (Short & Live Mode)
+         ========================================== -->
     <section id="cameraView">
         <video id="cameraVideoPreview" autoplay playsinline muted></video>
 
@@ -418,7 +485,7 @@
             <a href="../index.html" class="cam-btn-circle">
                 <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </a>
-            <button class="cam-sound-pill" onclick="alert('साउंड चुनें')">
+            <button class="cam-sound-pill" id="soundBtn" onclick="alert('साउंड लाइब्रेरी: छत्तीसगढ़ी पंथी, लोकगीत व ट्रेंडिंग बीट्स!')">
                 <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
                 <span>Add sound</span>
             </button>
@@ -427,11 +494,11 @@
             </div>
         </header>
 
-        <aside class="cam-right-rail">
+        <aside class="cam-right-rail" id="rightToolRail">
             <button class="tool-btn" onclick="toggleCameraFacing()">
                 <svg viewBox="0 0 24 24"><path d="M9 12c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3zm12-4h-3.17l-1.86-2H8.03l-1.86 2H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg>
             </button>
-            <button class="tool-btn" onclick="alert('टाइमर 3s')">
+            <button class="tool-btn" onclick="alert('टाइमर 3s सेट हो गया')">
                 <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
             </button>
             <button class="tool-btn" onclick="toggleDuration()">
@@ -445,30 +512,37 @@
         <!-- बॉटम कंट्रोल्स -->
         <div class="cam-bottom-section">
             <div class="cam-bottom-controls">
-                <div class="gallery-add-box" onclick="document.getElementById('galleryFileInput').click()">
+                <div class="gallery-add-box" id="galleryBtnBox" onclick="document.getElementById('videoFileInput').click()">
                     <div class="gallery-thumb-slot">
                         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                     </div>
                     <span class="gallery-label">Add</span>
                 </div>
 
+                <!-- लाल रिकॉर्ड रिंग (Short Mode) -->
                 <div class="record-shutter-ring" id="recordShutter" onclick="toggleRecording()">
                     <div class="record-red-core"></div>
                 </div>
 
-                <div style="width:50px;"></div>
+                <!-- गो लाइव बटन (Live Mode) -->
+                <button class="btn-go-live" id="goLiveBtn" onclick="startLiveStream()">Go Live 🔴</button>
+
+                <div style="width:50px;" id="rightSpacer"></div>
             </div>
 
+            <!-- मोड सेलेक्टर स्ट्रिप -->
             <div class="cam-mode-strip">
-                <span class="mode-tab">Video</span>
-                <span class="mode-tab active">Short</span>
-                <span class="mode-tab">Live</span>
-                <span class="mode-tab">Post</span>
+                <span class="mode-tab" onclick="switchMode('video')">Video</span>
+                <span class="mode-tab active" onclick="switchMode('short')">Short</span>
+                <span class="mode-tab" onclick="switchMode('live')">Live</span>
+                <span class="mode-tab" onclick="switchMode('post')">Post</span>
             </div>
         </div>
     </section>
 
-    <!-- डिटेल्स व्यू -->
+    <!-- ==========================================
+         VIEW 2: DETAILS SCREEN (Upload Video / Short)
+         ========================================== -->
     <section id="detailsView">
         <header class="yt-upload-header">
             <div style="display:flex; align-items:center; gap:16px;">
@@ -489,29 +563,77 @@
                     <div class="channel-avatar-sm">CB</div>
                     <span class="channel-name-sm">Charandas Bhaskar</span>
                 </div>
-                <textarea class="input-title-area" id="detailTitleInput" placeholder="Create a title"></textarea>
+                <textarea class="input-title-area" id="detailTitleInput" placeholder="Create a title (type '@' to mention)"></textarea>
             </div>
         </div>
 
         <div class="desc-box-wrapper">
-            <textarea class="desc-textarea" placeholder="Add description"></textarea>
+            <textarea class="desc-textarea" placeholder="Add description (#tags, credits)"></textarea>
         </div>
 
-        <div class="yt-list-item">
+        <div class="yt-list-item" onclick="toggleVisibility()">
             <div class="item-left-block">
                 <div class="item-icon-box">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 </div>
                 <div>
                     <div class="item-primary-text">Visibility</div>
-                    <div class="item-secondary-text">Public</div>
+                    <div class="item-secondary-text" id="visStatus">Public</div>
                 </div>
+            </div>
+            <div>
+                <svg viewBox="0 0 24 24" style="width:18px; height:18px; fill:#717171;"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </div>
+        </div>
+
+        <div class="yt-list-item" onclick="alert('Audience set to: No, it is not made for kids')">
+            <div class="item-left-block">
+                <div class="item-icon-box">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <div>
+                    <div class="item-primary-text">Audience</div>
+                    <div class="item-secondary-text">No, it's not made for kids</div>
+                </div>
+            </div>
+            <div>
+                <svg viewBox="0 0 24 24" style="width:18px; height:18px; fill:#717171;"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
             </div>
         </div>
     </section>
 
+    <!-- ==========================================
+         VIEW 3: COMMUNITY POST CREATOR
+         ========================================== -->
+    <section id="postView">
+        <div class="post-header">
+            <button onclick="switchMode('short')" style="background:none; border:none; color:#fff; cursor:pointer;">
+                <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:#fff;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+            <span style="font-weight:700; font-size:16px;">Create post</span>
+            <button class="btn-post-publish" onclick="publishPost()">Post</button>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin-top:16px;">
+            <div style="width:34px; height:34px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;">CB</div>
+            <span style="font-size:14px; font-weight:600;">Charandas Bhaskar</span>
+        </div>
+
+        <textarea class="post-textarea" id="postTextContent" placeholder="What's on your mind? Share an update with your subscribers..."></textarea>
+
+        <div style="padding:16px 0; border-top:1px solid #222; display:flex; gap:18px;">
+            <button onclick="document.getElementById('imageFileInput').click()" style="background:none; border:none; color:#3ea6ff; display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600;">
+                <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:#3ea6ff;"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                <span>Add Image</span>
+            </button>
+            <button onclick="alert('Poll feature coming soon!')" style="background:none; border:none; color:#aaa; display:flex; align-items:center; gap:8px; cursor:pointer;">
+                <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:#aaa;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                <span>Poll</span>
+            </button>
+        </div>
+    </section>
+
     <script>
-        // कैमरा लोड करना
         let stream = null;
         let isFront = false;
 
@@ -519,7 +641,7 @@
             try {
                 if (stream) stream.getTracks().forEach(t => t.stop());
                 stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: isFront ? 'user' : 'environment' },
+                    video: { facingMode: isFront ? 'user' : 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
                     audio: false
                 });
                 document.getElementById('cameraVideoPreview').srcObject = stream;
@@ -541,6 +663,61 @@
             label.innerText = label.innerText === '15 s' ? '60 s' : '15 s';
         }
 
+        // ==========================================
+        // MODE SWITCHER (Video, Short, Live, Post)
+        // ==========================================
+        function switchMode(mode) {
+            const tabs = document.querySelectorAll('.mode-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+
+            const camView = document.getElementById('cameraView');
+            const postView = document.getElementById('postView');
+            const detailsView = document.getElementById('detailsView');
+
+            const shutter = document.getElementById('recordShutter');
+            const goLiveBtn = document.getElementById('goLiveBtn');
+            const soundBtn = document.getElementById('soundBtn');
+            const rightRail = document.getElementById('rightToolRail');
+            const galleryBox = document.getElementById('galleryBtnBox');
+
+            if (mode === 'video') {
+                // 1. VIDEO MODE: सीधे फ़ोन की गैलरी खोलो बड़ी वीडियो के लिए
+                tabs[0].classList.add('active');
+                document.getElementById('videoFileInput').click();
+            } else if (mode === 'short') {
+                // 2. SHORT MODE: लाइव कैमरा व रिकॉर्डर
+                tabs[1].classList.add('active');
+                camView.style.display = 'flex';
+                postView.style.display = 'none';
+                detailsView.style.display = 'none';
+
+                shutter.style.display = 'flex';
+                goLiveBtn.style.display = 'none';
+                soundBtn.style.display = 'flex';
+                rightRail.style.display = 'flex';
+                galleryBox.style.display = 'flex';
+            } else if (mode === 'live') {
+                // 3. LIVE MODE: गो लाइव स्क्रीन
+                tabs[2].classList.add('active');
+                camView.style.display = 'flex';
+                postView.style.display = 'none';
+                detailsView.style.display = 'none';
+
+                shutter.style.display = 'none';
+                goLiveBtn.style.display = 'block';
+                soundBtn.style.display = 'none';
+                rightRail.style.display = 'flex';
+                galleryBox.style.display = 'none';
+            } else if (mode === 'post') {
+                // 4. POST MODE: कम्युनिटी पोस्ट
+                tabs[3].classList.add('active');
+                camView.style.display = 'none';
+                postView.style.display = 'flex';
+                detailsView.style.display = 'none';
+            }
+        }
+
+        // रिकॉर्डिंग
         let isRecording = false;
         function toggleRecording() {
             const shutter = document.getElementById('recordShutter');
@@ -555,7 +732,7 @@
             document.getElementById('cameraView').style.display = 'none';
             document.getElementById('detailsView').style.display = 'flex';
             document.getElementById('finalDetailsPreview').src = srcUrl || "https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4";
-            document.getElementById('detailTitleInput').value = "BharatTube Shorts #" + Math.floor(Math.random()*1000);
+            document.getElementById('detailTitleInput').value = "BharatTube Video #" + Math.floor(Math.random()*1000);
         }
 
         function handleFileSelected(e) {
@@ -564,15 +741,43 @@
             stopAndMoveToDetails(URL.createObjectURL(file));
         }
 
+        function handleImageSelected(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            alert('Image attached: ' + file.name);
+        }
+
         function showCameraView() {
             document.getElementById('detailsView').style.display = 'none';
+            document.getElementById('postView').style.display = 'none';
             document.getElementById('cameraView').style.display = 'flex';
             document.getElementById('recordShutter').classList.remove('recording');
             isRecording = false;
         }
 
+        let visibilities = ['Public', 'Unlisted', 'Private'];
+        let vIdx = 0;
+        function toggleVisibility() {
+            vIdx = (vIdx + 1) % 3;
+            document.getElementById('visStatus').innerText = visibilities[vIdx];
+        }
+
+        function startLiveStream() {
+            alert('🔴 BharatTube Live Streaming Started! You are LIVE now.');
+        }
+
         function publishUpload() {
-            alert('Video Uploaded Successfully!');
+            alert('Video Uploaded Successfully to BharatTube!');
+            window.location.href = '../index.html';
+        }
+
+        function publishPost() {
+            const txt = document.getElementById('postTextContent').value.trim();
+            if (!txt) {
+                alert('Please write something in your post!');
+                return;
+            }
+            alert('Community Post Published Successfully!');
             window.location.href = '../index.html';
         }
     </script>
