@@ -20,15 +20,18 @@
         html, body {
             width: 100%;
             height: 100%;
-            height: 100dvh; /* Sabhi modern mobile screens ke liye perfect height */
+            height: 100dvh;
             overflow: hidden;
             background: #000000;
             color: #ffffff;
         }
 
-        /* =========================================================
-           VIEW 1: CAMERA RECORDER (Har screen par auto fit)
-           ========================================================= */
+        /* किसी भी ऑटो-इंजेक्ट बॉटम बार को कैमरा स्क्रीन से पूरी तरह छुपाएं */
+        .bottom-nav-fixed, .bt-bottom-bar, nav.bottom-nav {
+            display: none !important;
+        }
+
+        /* कैमरा व्यू - 100% फुल स्क्रीन */
         #cameraView {
             position: fixed;
             inset: 0;
@@ -38,7 +41,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            z-index: 10;
+            z-index: 100;
         }
 
         #cameraVideoPreview {
@@ -50,15 +53,15 @@
             z-index: 1;
         }
 
-        /* Top Bar */
+        /* टॉप बार */
         .cam-top-bar {
             position: relative;
             z-index: 20;
-            padding: calc(env(safe-area-inset-top, 12px) + 8px) 16px 12px;
+            padding: calc(env(safe-area-inset-top, 14px) + 6px) 16px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
         }
 
         .cam-btn-circle {
@@ -107,7 +110,7 @@
             background: radial-gradient(circle, #e91e63, #9c27b0);
         }
 
-        /* Right Floating Tool Rail */
+        /* साइड टूल रेल */
         .cam-right-rail {
             position: absolute;
             right: 12px;
@@ -146,14 +149,14 @@
             font-weight: 700;
         }
 
-        /* Bottom Section */
+        /* बॉटम सेक्शन - बिल्कुल नीचे फिट */
         .cam-bottom-section {
             position: relative;
             z-index: 20;
             display: flex;
             flex-direction: column;
             gap: 14px;
-            padding-bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
+            padding-bottom: calc(env(safe-area-inset-bottom, 14px) + 10px);
             background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
         }
 
@@ -195,7 +198,6 @@
             font-weight: 600;
         }
 
-        /* Red Recording Ring */
         .record-shutter-ring {
             width: 76px;
             height: 76px;
@@ -226,7 +228,7 @@
             height: 32px;
         }
 
-        /* Mode Selector Strip */
+        /* मोड सेलेक्टर (Video, Short, Live, Post) */
         .cam-mode-strip {
             display: flex;
             align-items: center;
@@ -249,10 +251,7 @@
             backdrop-filter: blur(6px);
         }
 
-
-        /* =========================================================
-           VIEW 2: ADD DETAILS (YouTube Studio View)
-           ========================================================= */
+        /* व्यू 2: डिटेल्स स्क्रीन */
         #detailsView {
             position: fixed;
             inset: 0;
@@ -261,7 +260,7 @@
             background: #0f0f0f;
             display: none;
             flex-direction: column;
-            z-index: 50;
+            z-index: 150;
             overflow-y: auto;
         }
 
@@ -313,25 +312,6 @@
             object-fit: cover;
         }
 
-        .thumb-overlay-btn {
-            position: absolute;
-            top: 6px;
-            left: 6px;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.65);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .thumb-overlay-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: #ffffff;
-        }
-
         .hero-title-side {
             flex: 1;
             display: flex;
@@ -376,10 +356,6 @@
             line-height: 1.4;
         }
 
-        .input-title-area::placeholder {
-            color: #717171;
-        }
-
         .desc-box-wrapper {
             padding: 14px 16px;
             border-bottom: 1px solid #1f1f1f;
@@ -419,12 +395,6 @@
             fill: #ffffff;
         }
 
-        .item-text-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
         .item-primary-text {
             font-size: 14px;
             font-weight: 500;
@@ -434,59 +404,45 @@
             font-size: 12px;
             color: #aaaaaa;
         }
-
-        .item-arrow-right svg {
-            width: 18px;
-            height: 18px;
-            fill: #717171;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Hidden Native File Picker -->
     <input type="file" id="galleryFileInput" accept="video/*" style="display:none;" onchange="handleFileSelected(event)">
 
-    <!-- ==========================================
-         VIEW 1: YOUTUBE SHORTS CAMERA
-         ========================================== -->
+    <!-- कैमरा व्यू -->
     <section id="cameraView">
         <video id="cameraVideoPreview" autoplay playsinline muted></video>
 
-        <!-- Top Bar -->
         <header class="cam-top-bar">
             <a href="../index.html" class="cam-btn-circle">
                 <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </a>
-            <button class="cam-sound-pill" onclick="alert('Choose Audio: Folk Songs, Trending Beats')">
+            <button class="cam-sound-pill" onclick="alert('साउंड चुनें')">
                 <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
                 <span>Add sound</span>
             </button>
-            <div class="cam-btn-circle cam-magic-btn" onclick="alert('Magic filters enabled')">
+            <div class="cam-btn-circle cam-magic-btn">
                 <svg viewBox="0 0 24 24"><path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.71a.996.996 0 0 0-1.41 0L14.7 8.88l1.42 1.42 4.59-4.59c.39-.39.39-1.02 0-1.42z"/></svg>
             </div>
         </header>
 
-        <!-- Right Tool Rail -->
         <aside class="cam-right-rail">
             <button class="tool-btn" onclick="toggleCameraFacing()">
                 <svg viewBox="0 0 24 24"><path d="M9 12c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3zm12-4h-3.17l-1.86-2H8.03l-1.86 2H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg>
             </button>
-            <button class="tool-btn" onclick="alert('Timer set to 3s')">
+            <button class="tool-btn" onclick="alert('टाइमर 3s')">
                 <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
             </button>
             <button class="tool-btn" onclick="toggleDuration()">
                 <span class="tool-label" id="durationLabel">15 s</span>
             </button>
-            <button class="tool-btn" onclick="alert('Effects on')">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v-9l6 4.5-6 4.5z"/></svg>
-            </button>
-            <button class="tool-btn" onclick="alert('Speed set to 1x')">
+            <button class="tool-btn">
                 <span class="tool-label">1x</span>
             </button>
         </aside>
 
-        <!-- Bottom Controls & Modes -->
+        <!-- बॉटम कंट्रोल्स -->
         <div class="cam-bottom-section">
             <div class="cam-bottom-controls">
                 <div class="gallery-add-box" onclick="document.getElementById('galleryFileInput').click()">
@@ -503,7 +459,6 @@
                 <div style="width:50px;"></div>
             </div>
 
-            <!-- YouTube Video Modes -->
             <div class="cam-mode-strip">
                 <span class="mode-tab">Video</span>
                 <span class="mode-tab active">Short</span>
@@ -513,9 +468,7 @@
         </div>
     </section>
 
-    <!-- ==========================================
-         VIEW 2: ADD DETAILS (Next Step)
-         ========================================== -->
+    <!-- डिटेल्स व्यू -->
     <section id="detailsView">
         <header class="yt-upload-header">
             <div style="display:flex; align-items:center; gap:16px;">
@@ -530,71 +483,35 @@
         <div class="yt-hero-section">
             <div class="media-preview-box">
                 <video id="finalDetailsPreview" playsinline loop muted autoplay></video>
-                <div class="thumb-overlay-btn" onclick="document.getElementById('galleryFileInput').click()">
-                    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                </div>
             </div>
-
             <div class="hero-title-side">
                 <div class="channel-chip-row">
                     <div class="channel-avatar-sm">CB</div>
                     <span class="channel-name-sm">Charandas Bhaskar</span>
                 </div>
-                <textarea class="input-title-area" id="detailTitleInput" placeholder="Create a title (type '@' to mention a channel)"></textarea>
+                <textarea class="input-title-area" id="detailTitleInput" placeholder="Create a title"></textarea>
             </div>
         </div>
 
         <div class="desc-box-wrapper">
-            <textarea class="desc-textarea" placeholder="Add description (#tags, credits)"></textarea>
+            <textarea class="desc-textarea" placeholder="Add description"></textarea>
         </div>
 
-        <div class="yt-list-item" onclick="toggleVisibility()">
+        <div class="yt-list-item">
             <div class="item-left-block">
                 <div class="item-icon-box">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 </div>
-                <div class="item-text-wrap">
-                    <span class="item-primary-text">Visibility</span>
-                    <span class="item-secondary-text" id="visStatus">Public</span>
+                <div>
+                    <div class="item-primary-text">Visibility</div>
+                    <div class="item-secondary-text">Public</div>
                 </div>
-            </div>
-            <div class="item-arrow-right">
-                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-            </div>
-        </div>
-
-        <div class="yt-list-item" onclick="alert('Audience: Not made for kids')">
-            <div class="item-left-block">
-                <div class="item-icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                </div>
-                <div class="item-text-wrap">
-                    <span class="item-primary-text">Audience</span>
-                    <span class="item-secondary-text">No, it's not made for kids</span>
-                </div>
-            </div>
-            <div class="item-arrow-right">
-                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-            </div>
-        </div>
-
-        <div class="yt-list-item" onclick="alert('Shorts Remixing Allowed')">
-            <div class="item-left-block">
-                <div class="item-icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
-                </div>
-                <div class="item-text-wrap">
-                    <span class="item-primary-text">Shorts remixing</span>
-                    <span class="item-secondary-text">Allow video and audio remixing</span>
-                </div>
-            </div>
-            <div class="item-arrow-right">
-                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
             </div>
         </div>
     </section>
 
     <script>
+        // कैमरा लोड करना
         let stream = null;
         let isFront = false;
 
@@ -602,12 +519,11 @@
             try {
                 if (stream) stream.getTracks().forEach(t => t.stop());
                 stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: isFront ? 'user' : 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
+                    video: { facingMode: isFront ? 'user' : 'environment' },
                     audio: false
                 });
                 document.getElementById('cameraVideoPreview').srcObject = stream;
             } catch (err) {
-                console.log('Camera permission fallback');
                 const v = document.getElementById('cameraVideoPreview');
                 v.src = "https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4";
                 v.loop = true;
@@ -631,9 +547,7 @@
             if (!isRecording) {
                 isRecording = true;
                 shutter.classList.add('recording');
-                setTimeout(() => {
-                    stopAndMoveToDetails();
-                }, 3500);
+                setTimeout(() => stopAndMoveToDetails(), 3500);
             }
         }
 
@@ -647,8 +561,7 @@
         function handleFileSelected(e) {
             const file = e.target.files[0];
             if (!file) return;
-            const url = URL.createObjectURL(file);
-            stopAndMoveToDetails(url);
+            stopAndMoveToDetails(URL.createObjectURL(file));
         }
 
         function showCameraView() {
@@ -658,15 +571,8 @@
             isRecording = false;
         }
 
-        let visibilities = ['Public', 'Unlisted', 'Private'];
-        let vIdx = 0;
-        function toggleVisibility() {
-            vIdx = (vIdx + 1) % 3;
-            document.getElementById('visStatus').innerText = visibilities[vIdx];
-        }
-
         function publishUpload() {
-            alert('Video Uploaded Successfully to BharatTube!');
+            alert('Video Uploaded Successfully!');
             window.location.href = '../index.html';
         }
     </script>
