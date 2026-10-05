@@ -24,7 +24,7 @@
             background: #000000;
         }
 
-        /* Top Overlay Header */
+        /* टॉप हेडर */
         .yt-shorts-header {
             position: fixed;
             top: 0;
@@ -71,7 +71,7 @@
             fill: #ffffff;
         }
 
-        /* Reel Viewport (Swipe Deck) */
+        /* मुख्य फ़ीड कंटेनर */
         .shorts-feed-viewport {
             width: 100vw;
             height: calc(100vh - 56px);
@@ -87,7 +87,6 @@
             display: none;
         }
 
-        /* Individual Short Slide */
         .short-slide {
             width: 100vw;
             height: calc(100vh - 56px);
@@ -98,7 +97,6 @@
             overflow: hidden;
         }
 
-        /* Pure Vertical Video Coverage */
         .short-video-layer {
             position: absolute;
             top: 0;
@@ -109,7 +107,6 @@
             z-index: 1;
         }
 
-        /* Real YouTube Gradient Vignette */
         .short-overlay-gradient {
             position: absolute;
             inset: 0;
@@ -122,15 +119,15 @@
             pointer-events: none;
         }
 
-        /* Right Floating YouTube Action Rail */
+        /* साइड वाले एक्शन बटन (अब 75px ऊपर) */
         .yt-side-rail {
             position: absolute;
             right: 8px;
-            bottom: 24px;
+            bottom: 75px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             z-index: 50;
         }
 
@@ -174,10 +171,9 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
-        /* Rotating Audio Disc */
         .sound-disc-art {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
             background: #111;
             border: 2px solid #ffffff;
@@ -185,7 +181,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 4px;
+            margin-top: 2px;
             animation: spinDisc 6s linear infinite;
         }
 
@@ -199,10 +195,10 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Bottom Creator Profile Info */
+        /* नीचे चैनल जानकारी और कैप्शन (अब 75px ऊपर) */
         .yt-meta-card {
             position: absolute;
-            bottom: 22px;
+            bottom: 75px;
             left: 14px;
             right: 76px;
             display: flex;
@@ -290,7 +286,7 @@
             flex-shrink: 0;
         }
 
-        /* YouTube Thin Red Scrub Bar */
+        /* लाल प्रोग्रेस लाइन */
         .yt-progress-line {
             position: absolute;
             bottom: 0;
@@ -307,7 +303,7 @@
             background: #ff0000;
         }
 
-        /* Double Tap Heart Pop */
+        /* डबल टैप हार्ट */
         .heart-bubble {
             position: absolute;
             top: 50%;
@@ -327,7 +323,7 @@
             opacity: 1;
         }
 
-        /* YouTube Comments Bottom Sheet */
+        /* कमेंट शीट */
         .comment-sheet-backdrop {
             position: fixed;
             inset: 0;
@@ -480,7 +476,7 @@
             fill: #0f0f0f;
         }
 
-        /* Bottom Navigation Bar */
+        /* बॉटम नेविगेशन बार */
         .bottom-nav-fixed {
             position: fixed;
             bottom: 0;
@@ -536,11 +532,11 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- हेडर -->
     <header class="yt-shorts-header">
         <span class="yt-shorts-title">Shorts</span>
         <div class="yt-head-right">
-            <button class="yt-head-btn" onclick="alert('Search feature ready!')">
+            <button class="yt-head-btn" onclick="alert('खोज सुविधा चालू!')">
                 <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             </button>
             <a href="upload.html" class="yt-head-btn">
@@ -549,12 +545,10 @@
         </div>
     </header>
 
-    <!-- Fullscreen Snap Feed -->
+    <!-- शॉर्ट्स स्क्रीन -->
     <main class="shorts-feed-viewport" id="shortsViewport">
 
-        <!-- Short 1 -->
         <article class="short-slide">
-            <!-- 9:16 Vertical Video Stream -->
             <video class="short-video-layer" playsinline loop autoplay muted poster="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800">
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4">
             </video>
@@ -562,7 +556,7 @@
 
             <svg class="heart-bubble" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 
-            <!-- Bottom Left Creator Details -->
+            <!-- नीचे विवरण -->
             <div class="yt-meta-card">
                 <div class="creator-info-line">
                     <a href="channel.html" class="creator-profile-pic">CB</a>
@@ -578,7 +572,7 @@
                 </div>
             </div>
 
-            <!-- Right YouTube Action Bar -->
+            <!-- साइड एक्शन बटन -->
             <aside class="yt-side-rail">
                 <button class="rail-btn-group" onclick="handleLike(this)">
                     <div class="rail-circle">
@@ -608,7 +602,7 @@
                     <span class="rail-label">Share</span>
                 </button>
 
-                <button class="rail-btn-group" onclick="alert('Remix Sound enabled!')">
+                <button class="rail-btn-group" onclick="alert('Remix Sound चालू!')">
                     <div class="rail-circle">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
                     </div>
@@ -625,7 +619,7 @@
 
     </main>
 
-    <!-- Bottom Sheet Comments -->
+    <!-- कमेंट बॉक्स (बॉटम शीट) -->
     <div class="comment-sheet-backdrop" id="commentBackdrop" onclick="closeCommentSheet()"></div>
     <div class="comment-sheet-container" id="commentSheet">
         <div class="comment-header">
@@ -660,7 +654,7 @@
         </div>
     </div>
 
-    <!-- Bottom Nav -->
+    <!-- नेविगेशन बार -->
     <nav class="bottom-nav-fixed">
         <a href="../index.html" class="nav-link-btn">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -721,7 +715,7 @@
 
         function handleSubscribe(btn) {
             const isSub = btn.classList.toggle('subscribed');
-            btn.textContent = isSub ? 'Subscribed' : 'Subscribe';
+            btn.textContent = isSub ? 'Subscribed ✓' : 'Subscribe';
         }
 
         function openCommentSheet() {
