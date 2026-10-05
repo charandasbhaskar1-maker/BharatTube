@@ -12,8 +12,9 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: "YouTube Sans", Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         html, body {
@@ -23,8 +24,8 @@
             background: #000000;
         }
 
-        /* Top Overlay */
-        .shorts-top-bar {
+        /* Top YouTube Shorts Bar */
+        .yt-shorts-header {
             position: fixed;
             top: 0;
             left: 0;
@@ -34,76 +35,131 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
-            z-index: 100;
+            z-index: 200;
             background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+            pointer-events: none;
         }
 
-        .shorts-brand-title {
-            font-size: 19px;
+        .yt-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: auto;
+        }
+
+        .yt-shorts-title {
+            font-size: 20px;
             font-weight: 800;
+            letter-spacing: -0.5px;
             color: #ffffff;
         }
 
-        /* Fullscreen Viewport */
-        .shorts-feed-container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .yt-header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            pointer-events: auto;
+        }
+
+        .yt-head-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .yt-head-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        /* Fullscreen Snap Reel Container */
+        .shorts-feed-viewport {
             width: 100vw;
             height: calc(100vh - 56px);
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
             scrollbar-width: none;
-            z-index: 10;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
-        .shorts-feed-container::-webkit-scrollbar {
+        .shorts-feed-viewport::-webkit-scrollbar {
             display: none;
         }
 
-        .short-card-item {
-            position: relative;
+        /* Single Short Screen */
+        .short-slide {
             width: 100vw;
             height: calc(100vh - 56px);
             scroll-snap-align: start;
             scroll-snap-stop: always;
-            background: #111111;
+            position: relative;
+            background: #000000;
             overflow: hidden;
         }
 
-        /* Full Coverage Video */
-        .short-video-player {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .short-video-layer {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
             z-index: 1;
         }
 
-        /* Gradient Shade */
-        .video-shade {
+        /* Top & Bottom Cinematic Gradient */
+        .short-overlay-gradient {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 30%, transparent 65%, rgba(0,0,0,0.85) 100%);
+            background: linear-gradient(180deg, 
+                rgba(0,0,0,0.4) 0%, 
+                transparent 25%, 
+                transparent 60%, 
+                rgba(0,0,0,0.85) 100%);
             z-index: 2;
             pointer-events: none;
         }
 
-        /* Right Rail */
-        .shorts-action-rail {
+        /* Double Tap Heart Pop */
+        .heart-bubble {
             position: absolute;
-            right: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 90px;
+            height: 90px;
+            fill: #ff0000;
+            z-index: 150;
+            pointer-events: none;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+        }
+
+        .heart-bubble.animate {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 1;
+        }
+
+        /* Right YouTube Floating Side Rail */
+        .yt-side-rail {
+            position: absolute;
+            right: 10px;
             bottom: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 16px;
-            z-index: 30;
+            z-index: 50;
         }
 
-        .rail-action-btn {
+        .rail-btn-group {
             background: none;
             border: none;
             color: #ffffff;
@@ -114,31 +170,62 @@
             cursor: pointer;
         }
 
-        .rail-icon-circle {
+        .rail-circle {
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.15s ease;
         }
 
-        .rail-icon-circle svg {
-            width: 22px;
-            height: 22px;
+        .rail-circle:active {
+            transform: scale(0.88);
+        }
+
+        .rail-circle svg {
+            width: 24px;
+            height: 24px;
             fill: #ffffff;
         }
 
-        .rail-btn-text {
+        .rail-label {
             font-size: 11px;
             font-weight: 600;
+            letter-spacing: 0.2px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
-        /* Bottom Creator Meta */
-        .shorts-meta-overlay {
+        /* Sound Album Rotating Disc */
+        .sound-disc-art {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #202020;
+            border: 2px solid #ffffff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 4px;
+            animation: spinDisc 6s linear infinite;
+        }
+
+        .sound-disc-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes spinDisc {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Bottom Creator Profile & Metadata */
+        .yt-meta-card {
             position: absolute;
             bottom: 20px;
             left: 14px;
@@ -146,16 +233,16 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            z-index: 30;
+            z-index: 50;
         }
 
-        .creator-row {
+        .creator-info-line {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .creator-thumb {
+        .creator-profile-pic {
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -163,32 +250,44 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
             color: #ffffff;
-            border: 1.5px solid #ffffff;
-        }
-
-        .creator-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: #ffffff;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+            border: 1.5px solid rgba(255, 255, 255, 0.8);
+            flex-shrink: 0;
             text-decoration: none;
         }
 
-        .btn-shorts-subscribe {
+        .creator-handle-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .yt-sub-button {
             background: #ffffff;
             color: #0f0f0f;
             border: none;
-            padding: 5px 12px;
-            border-radius: 16px;
+            padding: 6px 14px;
+            border-radius: 18px;
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .short-caption-text {
+        .yt-sub-button.subscribed {
+            background: rgba(255,255,255,0.25);
+            color: #ffffff;
+            backdrop-filter: blur(4px);
+        }
+
+        .short-caption {
             font-size: 13px;
             line-height: 1.4;
             color: #ffffff;
@@ -199,22 +298,41 @@
             overflow: hidden;
         }
 
-        .short-sound-track {
+        .audio-ticker-row {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+            color: #ffffff;
+            opacity: 0.9;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
-        .short-sound-track svg {
-            width: 13px;
-            height: 13px;
+        .audio-ticker-row svg {
+            width: 14px;
+            height: 14px;
             fill: #ffffff;
+            flex-shrink: 0;
         }
 
-        /* Fixed Bottom Nav */
+        /* Scrubbing Mini Red Progress Bar */
+        .yt-progress-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 60;
+        }
+
+        .yt-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #ff0000;
+        }
+
+        /* Bottom App Navigation Bar */
         .bottom-nav-fixed {
             position: fixed;
             bottom: 0;
@@ -270,73 +388,156 @@
 </head>
 <body>
 
-    <!-- Top Bar -->
-    <header class="shorts-top-bar">
-        <div class="shorts-brand-title">Shorts</div>
-        <a href="upload.html" style="color:#ffffff; text-decoration:none;">
-            <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:#fff;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-        </a>
+    <!-- Top Overlay Bar -->
+    <header class="yt-shorts-header">
+        <div class="yt-header-left">
+            <span class="yt-shorts-title">Shorts</span>
+        </div>
+        <div class="yt-header-right">
+            <button class="yt-head-btn" onclick="alert('Search feature coming!')">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
+            <a href="upload.html" class="yt-head-btn">
+                <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            </a>
+        </div>
     </header>
 
-    <!-- Shorts Deck -->
-    <div class="shorts-feed-container" id="shortsContainer">
+    <!-- Fullscreen Scrollable Shorts Feed -->
+    <main class="shorts-feed-viewport" id="shortsViewport">
 
-        <!-- Slide 1 -->
-        <section class="short-card-item">
-            <video class="short-video-player" playsinline loop muted autoplay poster="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" onclick="togglePlay(this)">
+        <!-- Short 1 -->
+        <article class="short-slide" data-index="0">
+            <video class="short-video-layer" playsinline loop autoplay muted poster="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800">
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4">
             </video>
-            <div class="video-shade"></div>
+            <div class="short-overlay-gradient"></div>
 
-            <div class="shorts-meta-overlay">
-                <div class="creator-row">
-                    <div class="creator-thumb">CB</div>
-                    <a href="channel.html" class="creator-name">@charandas_creator</a>
-                    <button class="btn-shorts-subscribe" onclick="toggleSub(this)">Subscribe</button>
+            <!-- Double Tap Heart -->
+            <svg class="heart-bubble" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+
+            <!-- Bottom Metadata -->
+            <div class="yt-meta-card">
+                <div class="creator-info-line">
+                    <a href="channel.html" class="creator-profile-pic">CB</a>
+                    <a href="channel.html" class="creator-handle-name">@charandas_creator</a>
+                    <button class="yt-sub-button" onclick="handleSubscribe(this)">Subscribe</button>
                 </div>
-                <div class="short-caption-text">
-                    BharatTube special culture & rural lifestyle shorts #Chhattisgarh #Folk #Shorts
+                <div class="short-caption">
+                    Beautiful morning village nature stream sound #Shorts #Vlog #Chhattisgarh
                 </div>
-                <div class="short-sound-track">
+                <div class="audio-ticker-row">
                     <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                    <span>Original Audio • Charandas Bhaskar</span>
+                    <span>Original Sound • Charandas Bhaskar</span>
                 </div>
             </div>
 
-            <div class="shorts-action-rail">
-                <button class="rail-action-btn" onclick="toggleLike(this)">
-                    <div class="rail-icon-circle">
+            <!-- Right YouTube Action Bar -->
+            <aside class="yt-side-rail">
+                <button class="rail-btn-group" onclick="handleLike(this)">
+                    <div class="rail-circle">
                         <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
                     </div>
-                    <span class="rail-btn-text">128K</span>
+                    <span class="rail-label count-like">142K</span>
                 </button>
 
-                <button class="rail-action-btn" onclick="alert('Comments: Super reel!')">
-                    <div class="rail-icon-circle">
+                <button class="rail-btn-group" onclick="handleDislike(this)">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                    </div>
+                    <span class="rail-label">Dislike</span>
+                </button>
+
+                <button class="rail-btn-group" onclick="alert('Comments: BharatTube Shorts working!')">
+                    <div class="rail-circle">
                         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
                     </div>
-                    <span class="rail-btn-text">2,410</span>
+                    <span class="rail-label">1,890</span>
                 </button>
 
-                <button class="rail-action-btn" onclick="shareShort()">
-                    <div class="rail-icon-circle">
+                <button class="rail-btn-group" onclick="handleShare()">
+                    <div class="rail-circle">
                         <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
                     </div>
-                    <span class="rail-btn-text">Share</span>
+                    <span class="rail-label">Share</span>
                 </button>
 
-                <button class="rail-action-btn" onclick="alert('Remix Sound feature enabled!')">
-                    <div class="rail-icon-circle">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+                <button class="rail-btn-group" onclick="alert('Sound used in 420 videos')">
+                    <div class="sound-disc-art">
+                        <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=100" alt="Audio Art">
                     </div>
-                    <span class="rail-btn-text">Remix</span>
                 </button>
+            </aside>
+
+            <div class="yt-progress-line"><div class="yt-progress-fill"></div></div>
+        </article>
+
+        <!-- Short 2 (Swipe Next) -->
+        <article class="short-slide" data-index="1">
+            <video class="short-video-layer" playsinline loop muted poster="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-playing-an-acoustic-guitar-42214-large.mp4" type="video/mp4">
+            </video>
+            <div class="short-overlay-gradient"></div>
+
+            <svg class="heart-bubble" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+
+            <div class="yt-meta-card">
+                <div class="creator-info-line">
+                    <a href="channel.html" class="creator-profile-pic" style="background:#3ea6ff;">DH</a>
+                    <a href="channel.html" class="creator-handle-name">@dhun_ai_studio</a>
+                    <button class="yt-sub-button" onclick="handleSubscribe(this)">Subscribe</button>
+                </div>
+                <div class="short-caption">
+                    Creating folk acoustic tunes using electronic Banjo pickups #Music #Studio
+                </div>
+                <div class="audio-ticker-row">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <span>Folk Banjo Instrumental • Dhun AI</span>
+                </div>
             </div>
-        </section>
 
-    </div>
+            <aside class="yt-side-rail">
+                <button class="rail-btn-group" onclick="handleLike(this)">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                    </div>
+                    <span class="rail-label count-like">88K</span>
+                </button>
 
-    <!-- Bottom Nav -->
+                <button class="rail-btn-group" onclick="handleDislike(this)">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                    </div>
+                    <span class="rail-label">Dislike</span>
+                </button>
+
+                <button class="rail-btn-group" onclick="alert('Comments: Super Banjo!')">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                    </div>
+                    <span class="rail-label">950</span>
+                </button>
+
+                <button class="rail-btn-group" onclick="handleShare()">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+                    </div>
+                    <span class="rail-label">Share</span>
+                </button>
+
+                <button class="rail-btn-group">
+                    <div class="sound-disc-art">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100" alt="Audio Art">
+                    </div>
+                </button>
+            </aside>
+
+            <div class="yt-progress-line"><div class="yt-progress-fill"></div></div>
+        </article>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav-fixed">
         <a href="../index.html" class="nav-link-btn">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -360,33 +561,86 @@
     </nav>
 
     <script>
-        function togglePlay(video) {
-            if (video.paused) {
-                video.play();
-            } else {
-                video.pause();
-            }
+        // Tap to Pause/Play + Double Tap to Like
+        let lastTap = 0;
+        document.querySelectorAll('.short-slide').forEach(slide => {
+            const video = slide.querySelector('video');
+            const progress = slide.querySelector('.yt-progress-fill');
+            const heart = slide.querySelector('.heart-bubble');
+
+            slide.addEventListener('click', function(e) {
+                if (e.target.closest('aside') || e.target.closest('.yt-meta-card')) return;
+                
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                
+                if (tapLength < 300 && tapLength > 0) {
+                    // Double Tap Like
+                    heart.classList.add('animate');
+                    setTimeout(() => heart.classList.remove('animate'), 700);
+                    const likeBtn = slide.querySelector('.rail-btn-group');
+                    if (likeBtn) likeBtn.querySelector('svg').style.fill = '#ff0000';
+                } else {
+                    // Single Tap Toggle Play
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                }
+                lastTap = currentTime;
+            });
+
+            // Progress bar update
+            video.addEventListener('timeupdate', () => {
+                if (video.duration) {
+                    const pct = (video.currentTime / video.duration) * 100;
+                    progress.style.width = pct + '%';
+                }
+            });
+        });
+
+        // Swipe Auto-play Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+            });
+        }, { threshold: 0.6 });
+
+        document.querySelectorAll('.short-slide').forEach(slide => observer.observe(slide));
+
+        // Like Button
+        function handleLike(btn) {
+            const svg = btn.querySelector('svg');
+            const isLiked = svg.style.fill === 'rgb(255, 0, 0)';
+            svg.style.fill = isLiked ? '#ffffff' : '#ff0000';
         }
 
-        function toggleLike(btn) {
-            const icon = btn.querySelector('svg');
-            const isLiked = icon.style.fill === 'rgb(255, 0, 0)';
-            icon.style.fill = isLiked ? '#ffffff' : '#ff0000';
+        // Dislike Button
+        function handleDislike(btn) {
+            const svg = btn.querySelector('svg');
+            svg.style.fill = svg.style.fill === 'rgb(255, 255, 255)' ? '#3ea6ff' : '#ffffff';
         }
 
-        function toggleSub(btn) {
-            const active = btn.classList.toggle('active');
-            btn.textContent = active ? 'Subscribed' : 'Subscribe';
-            btn.style.background = active ? 'rgba(255,255,255,0.2)' : '#ffffff';
-            btn.style.color = active ? '#ffffff' : '#0f0f0f';
+        // Subscribe Toggle
+        function handleSubscribe(btn) {
+            const isSub = btn.classList.toggle('subscribed');
+            btn.textContent = isSub ? 'Subscribed ✓' : 'Subscribe';
         }
 
-        function shareShort() {
+        // Native Web Share
+        function handleShare() {
             if (navigator.share) {
                 navigator.share({ title: 'BharatTube Shorts', url: window.location.href }).catch(() => {});
             } else {
                 navigator.clipboard.writeText(window.location.href);
-                alert('Short link copied!');
+                alert('Shorts Link Copied!');
             }
         }
     </script>
