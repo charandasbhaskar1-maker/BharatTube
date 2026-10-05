@@ -2,717 +2,264 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f0f">
     <title>BharatTube</title>
+
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            --yt-black: #0f0f0f;
-            --yt-card: #181818;
-            --yt-chip: rgba(255, 255, 255, 0.1);
-            --yt-chip-active: #ffffff;
-            --yt-text: #f1f1f1;
-            --yt-muted: #aaaaaa;
-            --yt-red: #ff0000;
-            --border: rgba(255, 255, 255, 0.1);
-        }
-
         body {
-            font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background-color: var(--yt-black);
-            color: var(--yt-text);
-            padding-bottom: 65px;
-            user-select: none;
+            padding-bottom: calc(var(--bottom-bar-height) + 20px);
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* 1. YouTube Top Bar */
-        .yt-topbar {
-            position: sticky;
-            top: 0;
-            height: 48px;
-            background: rgba(15, 15, 15, 0.98);
-            backdrop-filter: blur(8px);
+        /* Top Bar */
+        .home-top-bar {
+            height: 52px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
-            z-index: 500;
+            position: sticky;
+            top: 0;
+            background: var(--yt-black);
+            z-index: 1000;
         }
 
-        .yt-brand {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .yt-brand-icon {
-            width: 28px;
-            height: 20px;
-            background: var(--yt-red);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .yt-brand-icon::after {
-            content: '';
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
-            border-left: 7px solid #ffffff;
-            margin-left: 2px;
-        }
-
-        .yt-brand-name {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        .yt-topbar-actions {
+        .home-top-icons {
             display: flex;
             align-items: center;
             gap: 16px;
         }
 
-        .yt-icon-btn {
+        .home-icon-btn {
             background: none;
             border: none;
-            color: var(--yt-text);
+            color: #ffffff;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            text-decoration: none;
         }
 
-        .yt-icon-btn svg {
+        .home-icon-btn svg {
             width: 22px;
             height: 22px;
-            fill: currentColor;
+            fill: #ffffff;
         }
 
-        .user-avatar-btn {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff0000, #ff5e62);
-            color: white;
-            font-weight: 700;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Home Shorts Mini Shelf */
+        .home-shorts-section {
+            padding: 14px 0 16px;
+            border-top: 4px solid #1c1c1c;
+            border-bottom: 4px solid #1c1c1c;
+            margin-bottom: 16px;
         }
 
-        /* 2. YouTube Category Chips Bar */
-        .chips-container {
-            position: sticky;
-            top: 48px;
-            background: var(--yt-black);
-            padding: 8px 14px;
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            z-index: 450;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .chips-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .chip {
-            background: var(--yt-chip);
-            color: var(--yt-text);
-            border: none;
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 13px;
-            font-weight: 500;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: 0.15s;
-        }
-
-        .chip.active {
-            background: var(--yt-chip-active);
-            color: #0f0f0f;
-            font-weight: 600;
-        }
-
-        /* 3. Full-Bleed YouTube Video Feed */
-        .video-feed {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 6px;
-        }
-
-        .feed-video-card {
-            display: block;
-            background: transparent;
-            cursor: pointer;
-        }
-
-        .feed-thumb-wrapper {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            position: relative;
-            background: #1e1e1e;
-            overflow: hidden;
-        }
-
-        .feed-thumb-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .duration-badge {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: rgba(0, 0, 0, 0.85);
-            font-size: 11px;
-            font-weight: 600;
-            padding: 2px 6px;
-            border-radius: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        .feed-video-details {
-            display: flex;
-            gap: 12px;
-            padding: 12px 14px 4px;
-        }
-
-        .feed-channel-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 15px;
-            flex-shrink: 0;
-            color: white;
-        }
-
-        .feed-text-content {
-            flex: 1;
-        }
-
-        .feed-title {
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1.35;
-            margin-bottom: 4px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            color: #ffffff;
-        }
-
-        .feed-meta {
-            font-size: 12px;
-            color: var(--yt-muted);
-            line-height: 1.3;
-        }
-
-        .feed-options-btn {
-            background: none;
-            border: none;
-            color: var(--yt-text);
-            cursor: pointer;
-            padding: 2px 4px;
-            align-self: flex-start;
-        }
-
-        .feed-options-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--yt-muted);
-        }
-
-        /* 4. YouTube Shorts Shelf */
-        .shorts-shelf {
-            padding: 16px 0;
-            border-top: 4px solid #202020;
-            border-bottom: 4px solid #202020;
-            margin: 8px 0;
-        }
-
-        .shorts-shelf-header {
+        .home-shorts-header {
             display: flex;
             align-items: center;
             gap: 8px;
             padding: 0 16px 12px;
-        }
-
-        .shorts-icon-svg {
-            width: 22px;
-            height: 22px;
-            fill: var(--yt-red);
-        }
-
-        .shorts-shelf-title {
             font-size: 16px;
             font-weight: 700;
-            letter-spacing: -0.2px;
         }
 
-        .shorts-carousel {
+        .home-shorts-header svg {
+            width: 20px;
+            height: 20px;
+            fill: #ff0000;
+        }
+
+        .home-shorts-carousel {
             display: flex;
-            gap: 12px;
-            padding: 0 16px;
+            gap: 10px;
             overflow-x: auto;
+            padding: 0 16px;
             scrollbar-width: none;
         }
 
-        .shorts-carousel::-webkit-scrollbar {
+        .home-shorts-carousel::-webkit-scrollbar {
             display: none;
         }
 
-        .shorts-card {
-            width: 145px;
-            height: 250px;
+        .home-short-card {
+            width: 140px;
+            height: 230px;
+            background: #1e1e1e;
             border-radius: 12px;
             position: relative;
-            flex-shrink: 0;
             overflow: hidden;
+            flex-shrink: 0;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .home-short-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .home-short-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.85) 100%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 10px;
-            background-size: cover;
-            background-position: center;
         }
 
-        .shorts-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
-            z-index: 1;
-        }
-
-        .shorts-card-info {
-            position: relative;
-            z-index: 2;
-        }
-
-        .shorts-card-title {
+        .home-short-title {
             font-size: 12px;
             font-weight: 600;
             line-height: 1.3;
-            margin-bottom: 4px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .shorts-card-views {
-            font-size: 11px;
-            color: #d1d5db;
-        }
-
-        /* 5. YouTube Bottom Navigation Bar */
-        .yt-bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-            background: #0f0f0f;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            z-index: 1000;
-        }
-
-        .bottom-nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            color: var(--yt-muted);
-            width: 20%;
-            height: 100%;
-        }
-
-        .bottom-nav-link.active {
-            color: #ffffff;
-        }
-
-        .bottom-nav-link svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-
-        .bottom-nav-link span {
+        .home-short-views {
             font-size: 10px;
-            font-weight: 500;
-        }
-
-        .create-icon-pill {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1.5px solid #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: 300;
-            color: #ffffff;
-        }
-
-        /* Search Overlay */
-        .search-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #0f0f0f;
-            z-index: 2000;
-            padding: 10px 14px;
-        }
-
-        .search-modal.open {
-            display: block;
-        }
-
-        .search-input-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .search-field {
-            flex: 1;
-            background: #222222;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 8px 16px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .close-search-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            left: 50%;
-            bottom: 60px;
-            transform: translate(-50%, 20px);
-            background: #ffffff;
-            color: #0f0f0f;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.25s ease;
-            z-index: 3000;
-            white-space: nowrap;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
+            color: #ccc;
+            margin-top: 3px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. YouTube Top Bar -->
-    <header class="yt-topbar">
-        <a href="index.html" class="yt-brand">
-            <div class="yt-brand-icon"></div>
-            <span class="yt-brand-name">BharatTube</span>
+    <!-- Main Navigation Top Bar -->
+    <header class="home-top-bar">
+        <a href="index.html" class="bt-logo-wrap">
+            <div class="bt-logo-badge">
+                <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <div class="bt-brand-name">Bharat<span>Tube</span></div>
         </a>
-
-        <div class="yt-topbar-actions">
-            <!-- Cast Icon -->
-            <button class="yt-icon-btn" onclick="showToast('Searching for TV Cast devices...')" title="Cast">
-                <svg viewBox="0 0 24 24"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+        <div class="home-top-icons">
+            <button class="home-icon-btn" onclick="alert('Search feature opening soon!')">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             </button>
-
-            <!-- Notification Bell -->
-            <button class="yt-icon-btn" onclick="showToast('No new notifications 🔔')" title="Notifications">
+            <a href="../pages/contact.html" class="home-icon-btn">
                 <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-            </button>
-
-            <!-- Search Lens -->
-            <button class="yt-icon-btn" onclick="openSearchModal()" title="Search">
-                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            </button>
-
-            <!-- Profile Avatar -->
-            <a href="../pages/profile.html" class="user-avatar-btn">B</a>
+            </a>
+            <a href="../pages/profile.html" class="home-icon-btn">
+                <div style="width:26px; height:26px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800;">CB</div>
+            </a>
         </div>
     </header>
 
-    <!-- 2. Category Chips Bar -->
-    <nav class="chips-container" id="chipsBar">
-        <button class="chip active" onclick="filterCategory(this, 'all')">All</button>
-        <button class="chip" onclick="filterCategory(this, 'music')">Music</button>
-        <button class="chip" onclick="filterCategory(this, 'news')">News</button>
-        <button class="chip" onclick="filterCategory(this, 'education')">Education</button>
-        <button class="chip" onclick="filterCategory(this, 'gaming')">Gaming</button>
-        <button class="chip" onclick="filterCategory(this, 'chhattisgarh')">Chhattisgarhi</button>
-        <button class="chip" onclick="filterCategory(this, 'devotional')">Devotional</button>
-        <button class="chip" onclick="filterCategory(this, 'vlogs')">Vlogs</button>
-    </nav>
+    <!-- Category Filter Chips -->
+    <div class="bt-chips-bar">
+        <button class="bt-chip active">All</button>
+        <button class="bt-chip">Trending</button>
+        <button class="bt-chip">Chhattisgarh Special</button>
+        <button class="bt-chip">Folk & Music</button>
+        <button class="bt-chip">Education</button>
+        <button class="bt-chip">Vlogs</button>
+        <button class="bt-chip">Tech & Coding</button>
+    </div>
 
-    <!-- 3. Full-Bleed YouTube Video Feed -->
-    <main class="video-feed" id="videoFeed">
+    <!-- Video Feed List -->
+    <main style="padding: 10px 0;">
 
-        <!-- VIDEO 1 -->
-        <a href="../pages/watch.html?title=India+Today+News+Headlines&channel=Bharat+News&views=342K+views" class="feed-video-card" data-cat="news">
-            <div class="feed-thumb-wrapper" style="background: linear-gradient(135deg, #1e3c72, #2a5298);">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; color:rgba(255,255,255,0.85); letter-spacing:1px;">
-                    🇮🇳 BHARAT NEWS LIVE
-                </div>
-                <span class="duration-badge">08:15</span>
+        <!-- Video 1 -->
+        <a href="../pages/watch.html?title=Chhattisgarhi+Panthi+Song+Special&channel=Charandas+Bhaskar&views=210K+views" class="bt-video-card">
+            <div class="bt-card-thumb-wrap">
+                <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" alt="Video">
+                <span class="bt-card-duration-badge">05:42</span>
             </div>
-            <div class="feed-video-details">
-                <div class="feed-channel-avatar" style="background:#e67e22;">N</div>
-                <div class="feed-text-content">
-                    <h3 class="feed-title">India Today News Headlines - Big National Updates & Developments</h3>
-                    <div class="feed-meta">Bharat News • 342K views • 1 day ago</div>
+            <div class="bt-card-meta-row">
+                <div class="bt-card-avatar" style="background:#e50914;">CB</div>
+                <div class="bt-card-info">
+                    <h3 class="bt-card-title">Chhattisgarhi Panthi Song • Special Cultural Video</h3>
+                    <p class="bt-card-subtext">Charandas Bhaskar • 210K views • 2 weeks ago</p>
                 </div>
-                <button class="feed-options-btn" onclick="event.preventDefault(); showToast('Video options')">
-                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                </button>
             </div>
         </a>
 
-        <!-- 4. SHORTS SHELF (YouTube Style) -->
-        <section class="shorts-shelf">
-            <div class="shorts-shelf-header">
-                <svg class="shorts-icon-svg" viewBox="0 0 24 24">
-                    <path d="M17.77 10.32l-1.2-.5L18 9.06c1.84-.8 2.63-3 .17-4.83-1.63-1.22-3.83-.8-4.83.17l-6 7.4c-.6.74-.7 1.76-.27 2.6.43.84 1.3 1.37 2.27 1.37h1.4l-1.43.8c-1.84.8-2.63 3-.17 4.83 1.63 1.22 3.83.8 4.83-.17l6-7.4c.6-.74.7-1.76.27-2.6-.43-.84-1.3-1.37-2.27-1.37h-1.4z"/>
-                </svg>
-                <span class="shorts-shelf-title">Shorts</span>
+        <!-- Video 2 -->
+        <a href="../pages/watch.html?title=Learn+Computer+Basics+Full+Course&channel=Education+India&views=85K+views" class="bt-video-card">
+            <div class="bt-card-thumb-wrap">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800" alt="Video">
+                <span class="bt-card-duration-badge">12:48</span>
             </div>
+            <div class="bt-card-meta-row">
+                <div class="bt-card-avatar" style="background:#3ea6ff;">EI</div>
+                <div class="bt-card-info">
+                    <h3 class="bt-card-title">Learn Computer Basics Full Course 2026 for Beginners</h3>
+                    <p class="bt-card-subtext">Education India • 85K views • 3 days ago</p>
+                </div>
+            </div>
+        </a>
 
-            <div class="shorts-carousel">
-                <!-- Short 1 -->
-                <a href="../pages/shorts.html" class="shorts-card" style="background: linear-gradient(135deg, #f12711, #f5af19);">
-                    <div class="shorts-card-info">
-                        <div class="shorts-card-title">Incredible Indian Nature & Ocean Waves 🇮🇳</div>
-                        <div class="shorts-card-views">2.4M views</div>
+        <!-- Shorts Shelf Inside Home Feed -->
+        <section class="home-shorts-section">
+            <div class="home-shorts-header">
+                <svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5-1.1-.46 1.05-.53c1.78-.9 2.5-3.08 1.6-4.86-.9-1.78-3.08-2.5-4.86-1.6L6.5 5.67c-1.78.9-2.5 3.08-1.6 4.86.32.64.83 1.13 1.44 1.43l1.2.5 1.1.46-1.05.53c-1.78.9-2.5 3.08-1.6 4.86.63 1.25 1.88 1.99 3.23 1.99.55 0 1.11-.13 1.63-.39l6.76-3.3c1.78-.9 2.5-3.08 1.6-4.86-.32-.64-.83-1.13-1.44-1.43zM10 14.5v-5l4.5 2.5-4.5 2.5z"/></svg>
+                <span>Shorts</span>
+            </div>
+            <div class="home-shorts-carousel">
+                <a href="../pages/shorts.html" class="home-short-card">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" alt="Short 1">
+                    <div class="home-short-overlay">
+                        <div class="home-short-title">Village morning life routine #Vlog</div>
+                        <div class="home-short-views">128K views</div>
                     </div>
                 </a>
 
-                <!-- Short 2 -->
-                <a href="../pages/shorts.html" class="shorts-card" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
-                    <div class="shorts-card-info">
-                        <div class="shorts-card-title">Chhattisgarhi Culture & Traditional Beats ❤️</div>
-                        <div class="shorts-card-views">856K views</div>
+                <a href="../pages/shorts.html" class="home-short-card">
+                    <img src="https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?w=400" alt="Short 2">
+                    <div class="home-short-overlay">
+                        <div class="home-short-title">JavaScript secret tips in 30s #Coding</div>
+                        <div class="home-short-views">94K views</div>
                     </div>
                 </a>
 
-                <!-- Short 3 -->
-                <a href="../pages/shorts.html" class="shorts-card" style="background: linear-gradient(135deg, #8a2387, #e94057, #f27121);">
-                    <div class="shorts-card-info">
-                        <div class="shorts-card-title">Street Food in India • Delicious Bites!</div>
-                        <div class="shorts-card-views">1.2M views</div>
-                    </div>
-                </a>
-
-                <!-- Short 4 -->
-                <a href="../pages/shorts.html" class="shorts-card" style="background: linear-gradient(135deg, #2b5876, #4e4376);">
-                    <div class="shorts-card-info">
-                        <div class="shorts-card-title">Chhattisgarh Historical Forts & Stories</div>
-                        <div class="shorts-card-views">740K views</div>
+                <a href="../pages/shorts.html" class="home-short-card">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400" alt="Short 3">
+                    <div class="home-short-overlay">
+                        <div class="home-short-title">Dhun AI beat making live setup #Music</div>
+                        <div class="home-short-views">45K views</div>
                     </div>
                 </a>
             </div>
         </section>
 
-        <!-- VIDEO 2 -->
-        <a href="../pages/watch.html?title=Chhattisgarhi+Panthi+Geet+2026&channel=A+One+Music&views=125K+views" class="feed-video-card" data-cat="music chhattisgarh">
-            <div class="feed-thumb-wrapper" style="background: linear-gradient(135deg, #4b1248, #f0c27b);">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; color:rgba(255,255,255,0.9); text-shadow:0 2px 4px rgba(0,0,0,0.5);">
-                    🎵 पंथी गीत • MOR CHHATTISGARH
-                </div>
-                <span class="duration-badge">04:32</span>
+        <!-- Video 3 -->
+        <a href="../pages/watch.html?title=India+Today+News+Headlines+Special&channel=Bharat+News&views=120K+views" class="bt-video-card">
+            <div class="bt-card-thumb-wrap">
+                <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800" alt="Video">
+                <span class="bt-card-duration-badge">08:15</span>
             </div>
-            <div class="feed-video-details">
-                <div class="feed-channel-avatar" style="background:#8e44ad;">A</div>
-                <div class="feed-text-content">
-                    <h3 class="feed-title">Chhattisgarhi Panthi Geet 2026 - Official Music Track</h3>
-                    <div class="feed-meta">A One Music • 125K views • 2 days ago</div>
+            <div class="bt-card-meta-row">
+                <div class="bt-card-avatar" style="background:#2ecc71;">BN</div>
+                <div class="bt-card-info">
+                    <h3 class="bt-card-title">India Today News Headlines Special Report</h3>
+                    <p class="bt-card-subtext">Bharat News • 120K views • 5 hours ago</p>
                 </div>
-                <button class="feed-options-btn" onclick="event.preventDefault(); showToast('Video options')">
-                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                </button>
-            </div>
-        </a>
-
-        <!-- VIDEO 3 -->
-        <a href="../pages/watch.html?title=Learn+Computer+Basics+Course&channel=Education+India&views=84K+views" class="feed-video-card" data-cat="education">
-            <div class="feed-thumb-wrapper" style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; color:#3ea6ff; letter-spacing:1px;">
-                    💻 COMPUTER BASICS FULL COURSE
-                </div>
-                <span class="duration-badge">12:48</span>
-            </div>
-            <div class="feed-video-details">
-                <div class="feed-channel-avatar" style="background:#27ae60;">E</div>
-                <div class="feed-text-content">
-                    <h3 class="feed-title">Learn Computer Basics in Hindi - Step by Step Beginner Guide</h3>
-                    <div class="feed-meta">Education India • 84K views • 5 days ago</div>
-                </div>
-                <button class="feed-options-btn" onclick="event.preventDefault(); showToast('Video options')">
-                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                </button>
-            </div>
-        </a>
-
-        <!-- VIDEO 4 -->
-        <a href="../pages/watch.html?title=Indian+Gaming+Tournament&channel=Bharat+Gamer&views=96K+views" class="feed-video-card" data-cat="gaming">
-            <div class="feed-thumb-wrapper" style="background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);">
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; color:#ffffff;">
-                    🎮 PRO GAMING CHALLENGE 🇮🇳
-                </div>
-                <span class="duration-badge">18:42</span>
-            </div>
-            <div class="feed-video-details">
-                <div class="feed-channel-avatar" style="background:#d35400;">G</div>
-                <div class="feed-text-content">
-                    <h3 class="feed-title">Indian Gaming Tournament Final Showdown - Live Highlights</h3>
-                    <div class="feed-meta">Bharat Gamer • 96K views • 4 days ago</div>
-                </div>
-                <button class="feed-options-btn" onclick="event.preventDefault(); showToast('Video options')">
-                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                </button>
             </div>
         </a>
 
     </main>
 
-    <!-- 5. YouTube Bottom Navigation Bar -->
-    <nav class="yt-bottom-bar">
-        <a href="index.html" class="bottom-nav-link active">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span>Home</span>
-        </a>
-
-        <a href="../pages/shorts.html" class="bottom-nav-link">
-            <svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5L18 9.06c1.84-.8 2.63-3 .17-4.83-1.63-1.22-3.83-.8-4.83.17l-6 7.4c-.6.74-.7 1.76-.27 2.6.43.84 1.3 1.37 2.27 1.37h1.4l-1.43.8c-1.84.8-2.63 3-.17 4.83 1.63 1.22 3.83.8 4.83-.17l6-7.4c.6-.74.7-1.76.27-2.6-.43-.84-1.3-1.37-2.27-1.37h-1.4z"/></svg>
-            <span>Shorts</span>
-        </a>
-
-        <a href="../pages/upload.html" class="bottom-nav-link">
-            <div class="create-icon-pill">＋</div>
-        </a>
-
-        <button class="bottom-nav-link" style="background:none; border:none;" onclick="showToast('Subscriptions up to date')">
-            <svg viewBox="0 0 24 24"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4l-6-3.27v6.53L16 16z"/></svg>
-            <span>Subscriptions</span>
-        </button>
-
-        <a href="../pages/profile.html" class="bottom-nav-link">
-            <div style="width:22px; height:22px; border-radius:50%; background:#ff0000; color:white; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;">B</div>
-            <span>You</span>
-        </a>
-    </nav>
-
-    <!-- Search Modal -->
-    <div class="search-modal" id="searchModal">
-        <div class="search-input-row">
-            <button class="close-search-btn" onclick="closeSearchModal()">←</button>
-            <input type="text" class="search-field" id="searchInput" placeholder="Search BharatTube..." oninput="handleSearch(this.value)">
-        </div>
-    </div>
-
-    <div id="toast" class="toast"></div>
+    <!-- Global Scripts -->
+    <script src="../assets/js/app-state.js"></script>
+    <script src="../assets/js/ui-kit.js"></script>
 
     <script>
-        const toast = document.getElementById('toast');
-        let toastTimer;
-
-        function showToast(msg) {
-            if (!toast) return;
-            toast.textContent = msg;
-            toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 1800);
-        }
-
-        // Category Filter
-        function filterCategory(btn, cat) {
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            btn.classList.add('active');
-
-            const cards = document.querySelectorAll('.feed-video-card');
-            cards.forEach(card => {
-                const cardCat = card.getAttribute('data-cat') || '';
-                if (cat === 'all' || cardCat.includes(cat)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+        // Chip Click Highlight
+        document.querySelectorAll('.bt-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.bt-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
             });
-        }
-
-        // Search Handlers
-        function openSearchModal() {
-            document.getElementById('searchModal').classList.add('open');
-            document.getElementById('searchInput').focus();
-        }
-
-        function closeSearchModal() {
-            document.getElementById('searchModal').classList.remove('open');
-        }
-
-        function handleSearch(val) {
-            const query = val.toLowerCase().trim();
-            const cards = document.querySelectorAll('.feed-video-card');
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                if (!query || text.includes(query)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+        });
     </script>
 </body>
 </html>
