@@ -2,16 +2,19 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f0f">
     <title>Monetization Niyam - BharatTube</title>
     <link rel="stylesheet" href="../assets/css/global.css">
     <style>
+        body {
+            padding-bottom: calc(var(--bottom-bar-height) + 40px);
+        }
         .policy-container {
             padding: 16px;
             max-width: 680px;
             margin: 0 auto;
-            padding-bottom: 90px;
         }
         .policy-header {
             display: flex;
@@ -33,7 +36,7 @@
         .rule-card {
             background: var(--yt-surface);
             border: 1px solid var(--yt-border);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 16px;
             margin-bottom: 16px;
         }
@@ -54,81 +57,239 @@
             padding-left: 20px;
             margin-top: 8px;
         }
-        .criteria-box {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 12px 0;
-        }
-        .criteria-item {
-            background: #101010;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
+
+        /* YouTube Studio Style Criteria Section */
+        .criteria-studio-box {
+            background: #141414;
             border: 1px solid var(--yt-border);
+            border-radius: 16px;
+            padding: 20px 16px;
+            margin-top: 24px;
         }
-        .criteria-num {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--yt-blue);
+        .criteria-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 18px;
         }
-        .criteria-label {
+        .criteria-header h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .criteria-header p {
             font-size: 12px;
             color: var(--yt-muted);
-            margin-top: 4px;
+        }
+
+        .metric-progress-card {
+            background: #1c1c1c;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .metric-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .metric-bar-bg {
+            width: 100%;
+            height: 7px;
+            background: #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .metric-bar-fill {
+            height: 100%;
+            background: var(--yt-green);
+            border-radius: 4px;
+        }
+        .or-divider {
+            text-align: center;
+            position: relative;
+            margin: 14px 0;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--yt-muted);
+            text-transform: uppercase;
+        }
+        .or-divider::before, .or-divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 42%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .or-divider::before { left: 0; }
+        .or-divider::after { right: 0; }
+
+        .apply-btn-wrapper {
+            margin-top: 20px;
+        }
+        .btn-apply-monetize {
+            width: 100%;
+            background: var(--yt-blue);
+            color: #0f0f0f;
+            border: none;
+            border-radius: 24px;
+            padding: 14px 0;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(62, 166, 255, 0.35);
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .btn-apply-monetize:active {
+            transform: scale(0.98);
+        }
+        .btn-apply-monetize.disabled {
+            background: #2a2a2a;
+            color: #717171;
+            cursor: not-allowed;
+            box-shadow: none;
         }
     </style>
 </head>
 <body>
     <div class="policy-container">
+        <!-- Top Navigation -->
         <div class="policy-header">
             <button class="back-btn" onclick="window.history.back()">
                 <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
             </button>
-            <h1 style="font-size: 18px; font-weight:700;">BharatTube Partner Program (Monetization Niyam)</h1>
+            <h1 style="font-size: 18px; font-weight:700;">Monetization Policy & Creator Kamai</h1>
         </div>
 
+        <!-- Info Card 1 -->
         <div class="rule-card">
             <h3>💰 BharatTube Kamai Niyamavali</h3>
-            <p>BharatTube apne Bharatiya creators ko unke original content se kamai karne ka poora adhikar deta hai. Agar aap hamare niyam aur sharto ka palan karte hain, toh aap seedhe apne bank khate ya UPI ke madhyam se paise kama sakte hain.</p>
+            <p>BharatTube apne Bharatiya creators ko unke original content se kamai karne ka poora adhikar deta hai. Jab aapka channel yogyata shart poori kar leta hai, toh aap direct videos par ad chalakar aur ₹ Super Thanks ke zariye paise kama sakte hain.</p>
         </div>
 
+        <!-- Info Card 2 -->
         <div class="rule-card">
-            <h3 style="color:var(--yt-blue);">🎯 Yogyata Shartein (Eligibility Criteria)</h3>
-            <p>BharatTube ke prathmik daur (Initial Phase) mein kamai shuru karne ke liye creator ko yeh do target poore karne honge:</p>
-            <div class="criteria-box">
-                <div class="criteria-item">
-                    <div class="criteria-num">200</div>
-                    <div class="criteria-label">Subscribers Zaroori</div>
+            <h3 style="color:var(--yt-blue);">📈 55% Creator / 45% Platform Share</h3>
+            <ul>
+                <li><b>55% Kamai Creator ko:</b> Video views aur ads par banne wali aamdani ka seedha 55% hissa creator ke verified UPI ya bank khate me transfer hota hai.</li>
+                <li><b>45% BharatTube Infrastructure:</b> Fast video hosting, server maintenance aur customer support ke liye.</li>
+            </ul>
+        </div>
+
+        <!-- STUDIO STYLE ELIGIBILITY DASHBOARD -->
+        <div class="criteria-studio-box">
+            <div class="criteria-header">
+                <h2>🎯 Channel Yogyata Dashboard (Eligibility)</h2>
+                <p>BharatTube Partner Program me judne ke liye criteria pura karein:</p>
+            </div>
+
+            <!-- Metric 1: Subscribers (Anivarya) -->
+            <div class="metric-progress-card">
+                <div class="metric-title-row">
+                    <span>1. Subscribers</span>
+                    <span style="color:var(--yt-green);" id="subsText">245 / 200 (Completed ✓)</span>
                 </div>
-                <div class="criteria-item">
-                    <div class="criteria-num">100 Ghante</div>
-                    <div class="criteria-label">Public Watch Time</div>
+                <div class="metric-bar-bg">
+                    <div class="metric-bar-fill" id="subsBar" style="width: 100%;"></div>
                 </div>
             </div>
-            <ul>
-                <li>Aapke channel par <b>0 Active Copyright Strikes</b> hone chahiye.</li>
-                <li>Channel ne <b>Community Guidelines</b> ka koi ghanaghor ullanghan na kiya ho.</li>
-                <li>Watch time keval public videos ka hi gina jayega (private ya unlisted ka nahi).</li>
-            </ul>
-        </div>
 
-        <div class="rule-card">
-            <h3>📈 Revenue Share (Kamai ka Batwara)</h3>
-            <p>BharatTube par kamai ka hissa YouTube ki tarah transparent hai:</p>
-            <ul>
-                <li><b>55% Kamai Creator ko:</b> Video par chalne wale ads aur Super Thanks ka 55% hissa seedhe creator ko milta hai.</li>
-                <li><b>45% Platform Maintenance:</b> Servers, video streaming infrastructure aur payment gateway ke liye.</li>
-            </ul>
-        </div>
+            <div style="font-size:12px; color:var(--yt-muted); margin: 10px 0 6px 4px; font-weight:600;">
+                2. Niche diye gaye dono me se koi ek shart poori karein:
+            </div>
 
-        <div class="rule-card">
-            <h3 style="color:var(--yt-gold);">⚡ Payouts aur Payment Gateways</h3>
-            <p>Aapki har mahine ki kamai direct UPI (PhonePe, Google Pay, Paytm) ya NEFT/Bank Account ke madhyam se har mahine ki 21 se 26 tarikh ke beech bhej di jati hai.</p>
+            <!-- Metric 2A: Public Watch Hours (365 Din) -->
+            <div class="metric-progress-card">
+                <div class="metric-title-row">
+                    <span>Public Watch Hours (Pichle 365 Din)</span>
+                    <span style="color:var(--yt-green);" id="hoursText">210 / 200 hrs (Completed ✓)</span>
+                </div>
+                <div class="metric-bar-bg">
+                    <div class="metric-bar-fill" id="hoursBar" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <div class="or-divider">Ya Phir</div>
+
+            <!-- Metric 2B: Shorts Feed Views (90 Din) -->
+            <div class="metric-progress-card">
+                <div class="metric-title-row">
+                    <span>Shorts Feed Views (Pichle 90 Din)</span>
+                    <span style="color:var(--yt-muted);" id="shortsText">3.5 Lakh / 10 Lakh (1M)</span>
+                </div>
+                <div class="metric-bar-bg">
+                    <div class="metric-bar-fill" id="shortsBar" style="width: 35%; background:var(--yt-blue);"></div>
+                </div>
+            </div>
+
+            <!-- Strike Check -->
+            <div style="display:flex; align-items:center; gap:8px; padding:10px 4px; font-size:12px; color:var(--yt-green); font-weight:600;">
+                <svg viewBox="0 0 24 24" style="width:18px; height:18px; fill:var(--yt-green);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                <span>0 Active Copyright Strikes (Good Standing)</span>
+            </div>
+
+            <!-- Apply Now Button (Appears when criteria is met) -->
+            <div class="apply-btn-wrapper" id="applyButtonWrap">
+                <button class="btn-apply-monetize" id="applyMonetizeBtn" onclick="submitPartnerApplication()">
+                    🎉 Apply Now (Partner Program)
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- Central UI & State Engine -->
     <script src="../assets/js/app-state.js"></script>
     <script src="../assets/js/ui-kit.js"></script>
+
+    <script>
+        // Check current channel state from app-state.js
+        window.addEventListener('load', () => {
+            const state = window.BharatTubeState ? window.BharatTubeState.getState() : {
+                subscribersCount: 245,
+                watchHours: 210,
+                monetizationStage: 'eligible'
+            };
+
+            const btn = document.getElementById('applyMonetizeBtn');
+
+            if (state.monetizationStage === 'under_review') {
+                btn.className = 'btn-apply-monetize disabled';
+                btn.innerHTML = '⏳ Application Under Review (In Process)';
+                btn.onclick = null;
+            } else if (state.monetizationStage === 'approved') {
+                btn.className = 'btn-apply-monetize';
+                btn.style.background = 'var(--yt-green)';
+                btn.innerHTML = '✓ Partner Program Active (Monetized)';
+                btn.onclick = () => alert('Aapka channel pehle se live monetize hai!');
+            }
+        });
+
+        function submitPartnerApplication() {
+            if (window.BharatTubeState) {
+                window.BharatTubeState.saveState({
+                    monetizationStage: 'under_review',
+                    hasApplied: true,
+                    appliedAt: new Date().toLocaleDateString()
+                });
+            } else {
+                let saved = JSON.parse(localStorage.getItem('bt_creator_state') || '{}');
+                saved.monetizationStage = 'under_review';
+                saved.hasApplied = true;
+                localStorage.setItem('bt_creator_state', JSON.stringify(saved));
+            }
+
+            alert('🎉 Badhai Ho!\nAapki application review ke liye bhej di gayi hai. BharatTube AI Console par channel review queue me chala gaya hai.');
+            location.reload();
+        }
+    </script>
 </body>
 </html>
