@@ -3,20 +3,24 @@
    ========================================================= */
 
 const BharatTubeState = {
-    // Default initial data
+    // Dynamic Growth Criteria (Starting Phase)
+    criteria: {
+        requiredSubscribers: 200,   // Initial Phase Target
+        requiredWatchHours: 100     // Initial Phase Target
+    },
+
     defaultData: {
         creatorName: 'Charandas Bhaskar',
         channelHandle: '@charandas_creator',
-        subscribersCount: 45200,
-        watchHours: 4820,
+        subscribersCount: 245,       // Creator crosses 200 target
+        watchHours: 112,            // Creator crosses 100 hours target
         monetizationStage: 'eligible', // 'eligible' | 'under_review' | 'approved' | 'rejected'
         hasApplied: false,
         strikesCount: 0,
         payoutUpi: 'bhaskar@okaxis',
-        estimatedRevenue: 42850.00
+        estimatedRevenue: 0.00
     },
 
-    // Load current state
     getState() {
         const stored = localStorage.getItem('bt_creator_state');
         if (stored) {
@@ -29,7 +33,6 @@ const BharatTubeState = {
         return this.defaultData;
     },
 
-    // Save updated state
     saveState(updates) {
         const current = this.getState();
         const merged = { ...current, ...updates };
@@ -37,7 +40,16 @@ const BharatTubeState = {
         return merged;
     },
 
-    // Check if channel is monetized
+    // Check Eligibility dynamically
+    checkEligibility() {
+        const state = this.getState();
+        return (
+            state.subscribersCount >= this.criteria.requiredSubscribers &&
+            state.watchHours >= this.criteria.requiredWatchHours &&
+            state.strikesCount === 0
+        );
+    },
+
     isPartnerActive() {
         const state = this.getState();
         return state.monetizationStage === 'approved' && state.strikesCount === 0;
