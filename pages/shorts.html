@@ -71,7 +71,7 @@
             fill: #ffffff;
         }
 
-        /* मुख्य फ़ीड कंटेनर */
+        /* स्वाइप कंटेनर (Scroll Snap) */
         .shorts-feed-viewport {
             width: 100vw;
             height: calc(100vh - 56px);
@@ -87,6 +87,7 @@
             display: none;
         }
 
+        /* सिंगल शॉर्ट स्लाइड */
         .short-slide {
             width: 100vw;
             height: calc(100vh - 56px);
@@ -97,6 +98,7 @@
             overflow: hidden;
         }
 
+        /* फुल स्क्रीन वीडियो */
         .short-video-layer {
             position: absolute;
             top: 0;
@@ -119,7 +121,7 @@
             pointer-events: none;
         }
 
-        /* साइड वाले एक्शन बटन (अब 75px ऊपर) */
+        /* साइड एक्शन रेल */
         .yt-side-rail {
             position: absolute;
             right: 8px;
@@ -195,7 +197,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* नीचे चैनल जानकारी और कैप्शन (अब 75px ऊपर) */
+        /* नीचे क्रिएटर मेटा */
         .yt-meta-card {
             position: absolute;
             bottom: 75px;
@@ -217,7 +219,6 @@
             width: 34px;
             height: 34px;
             border-radius: 50%;
-            background: #e50914;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -476,7 +477,7 @@
             fill: #0f0f0f;
         }
 
-        /* बॉटम नेविगेशन बार */
+        /* बॉटम बार */
         .bottom-nav-fixed {
             position: fixed;
             bottom: 0;
@@ -536,7 +537,7 @@
     <header class="yt-shorts-header">
         <span class="yt-shorts-title">Shorts</span>
         <div class="yt-head-right">
-            <button class="yt-head-btn" onclick="alert('खोज सुविधा चालू!')">
+            <button class="yt-head-btn" onclick="alert('सर्च सुविधा चालू!')">
                 <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             </button>
             <a href="upload.html" class="yt-head-btn">
@@ -545,26 +546,25 @@
         </div>
     </header>
 
-    <!-- शॉर्ट्स स्क्रीन -->
+    <!-- शॉर्ट्स स्वाइप व्यू (Vertical Snap Deck) -->
     <main class="shorts-feed-viewport" id="shortsViewport">
 
-        <article class="short-slide">
+        <!-- =================== VIDEO 1 =================== -->
+        <article class="short-slide" data-index="0">
             <video class="short-video-layer" playsinline loop autoplay muted poster="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800">
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4">
             </video>
             <div class="short-overlay-gradient"></div>
-
             <svg class="heart-bubble" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 
-            <!-- नीचे विवरण -->
             <div class="yt-meta-card">
                 <div class="creator-info-line">
-                    <a href="channel.html" class="creator-profile-pic">CB</a>
+                    <a href="channel.html" class="creator-profile-pic" style="background:#e50914;">CB</a>
                     <a href="channel.html" class="creator-handle-name">@charandas_creator</a>
                     <button class="yt-sub-button" onclick="handleSubscribe(this)">Subscribe</button>
                 </div>
                 <div class="short-caption">
-                    Morning village nature forest stream vibes #Shorts #Chhattisgarh #Nature
+                    Morning village nature stream vibes #Shorts #Chhattisgarh #Nature
                 </div>
                 <div class="audio-ticker-row">
                     <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
@@ -572,7 +572,6 @@
                 </div>
             </div>
 
-            <!-- साइड एक्शन बटन -->
             <aside class="yt-side-rail">
                 <button class="rail-btn-group" onclick="handleLike(this)">
                     <div class="rail-circle">
@@ -580,46 +579,144 @@
                     </div>
                     <span class="rail-label">142K</span>
                 </button>
-
                 <button class="rail-btn-group" onclick="handleDislike(this)">
                     <div class="rail-circle">
                         <svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
                     </div>
                     <span class="rail-label">Dislike</span>
                 </button>
-
                 <button class="rail-btn-group" onclick="openCommentSheet()">
                     <div class="rail-circle">
                         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
                     </div>
                     <span class="rail-label">1,890</span>
                 </button>
-
                 <button class="rail-btn-group" onclick="handleShare()">
                     <div class="rail-circle">
                         <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
                     </div>
                     <span class="rail-label">Share</span>
                 </button>
-
-                <button class="rail-btn-group" onclick="alert('Remix Sound चालू!')">
-                    <div class="rail-circle">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
-                    </div>
-                    <span class="rail-label">Remix</span>
-                </button>
-
                 <div class="sound-disc-art">
                     <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=100" alt="Audio Disc">
                 </div>
             </aside>
+            <div class="yt-progress-line"><div class="yt-progress-fill"></div></div>
+        </article>
 
+        <!-- =================== VIDEO 2 (स्वाइप करने पर आएगा) =================== -->
+        <article class="short-slide" data-index="1">
+            <video class="short-video-layer" playsinline loop muted poster="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-playing-an-acoustic-guitar-42214-large.mp4" type="video/mp4">
+            </video>
+            <div class="short-overlay-gradient"></div>
+            <svg class="heart-bubble" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+
+            <div class="yt-meta-card">
+                <div class="creator-info-line">
+                    <a href="channel.html" class="creator-profile-pic" style="background:#3ea6ff;">DH</a>
+                    <a href="channel.html" class="creator-handle-name">@dhun_ai_studio</a>
+                    <button class="yt-sub-button" onclick="handleSubscribe(this)">Subscribe</button>
+                </div>
+                <div class="short-caption">
+                    Acoustic Folk Banjo Melodies • Pure Cultural Beats #Music #Folk #Shorts
+                </div>
+                <div class="audio-ticker-row">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <span>Folk Banjo Instrumental • Dhun AI</span>
+                </div>
+            </div>
+
+            <aside class="yt-side-rail">
+                <button class="rail-btn-group" onclick="handleLike(this)">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                    </div>
+                    <span class="rail-label">98K</span>
+                </button>
+                <button class="rail-btn-group" onclick="handleDislike(this)">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                    </div>
+                    <span class="rail-label">Dislike</span>
+                </button>
+                <button class="rail-btn-group" onclick="openCommentSheet()">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                    </div>
+                    <span class="rail-label">740</span>
+                </button>
+                <button class="rail-btn-group" onclick="handleShare()">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+                    </div>
+                    <span class="rail-label">Share</span>
+                </button>
+                <div class="sound-disc-art">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100" alt="Audio Disc">
+                </div>
+            </aside>
+            <div class="yt-progress-line"><div class="yt-progress-fill"></div></div>
+        </article>
+
+        <!-- =================== VIDEO 3 (और नीचे करने पर आएगा) =================== -->
+        <article class="short-slide" data-index="2">
+            <video class="short-video-layer" playsinline loop muted poster="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-over-a-calm-lake-43093-large.mp4" type="video/mp4">
+            </video>
+            <div class="short-overlay-gradient"></div>
+            <svg class="heart-bubble" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+
+            <div class="yt-meta-card">
+                <div class="creator-info-line">
+                    <a href="channel.html" class="creator-profile-pic" style="background:#2ecc71;">BV</a>
+                    <a href="channel.html" class="creator-handle-name">@the_bhaskar_vlog</a>
+                    <button class="yt-sub-button" onclick="handleSubscribe(this)">Subscribe</button>
+                </div>
+                <div class="short-caption">
+                    Calm village nights under starry skies • Nature peace ✨ #Vlog #DailyReels
+                </div>
+                <div class="audio-ticker-row">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <span>Night Ambient Sound • Bharat Records</span>
+                </div>
+            </div>
+
+            <aside class="yt-side-rail">
+                <button class="rail-btn-group" onclick="handleLike(this)">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                    </div>
+                    <span class="rail-label">210K</span>
+                </button>
+                <button class="rail-btn-group" onclick="handleDislike(this)">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                    </div>
+                    <span class="rail-label">Dislike</span>
+                </button>
+                <button class="rail-btn-group" onclick="openCommentSheet()">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                    </div>
+                    <span class="rail-label">3,120</span>
+                </button>
+                <button class="rail-btn-group" onclick="handleShare()">
+                    <div class="rail-circle">
+                        <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+                    </div>
+                    <span class="rail-label">Share</span>
+                </button>
+                <div class="sound-disc-art">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=100" alt="Audio Disc">
+                </div>
+            </aside>
             <div class="yt-progress-line"><div class="yt-progress-fill"></div></div>
         </article>
 
     </main>
 
-    <!-- कमेंट बॉक्स (बॉटम शीट) -->
+    <!-- कमेंट शीट बॉटम मॉडल -->
     <div class="comment-sheet-backdrop" id="commentBackdrop" onclick="closeCommentSheet()"></div>
     <div class="comment-sheet-container" id="commentSheet">
         <div class="comment-header">
@@ -654,7 +751,7 @@
         </div>
     </div>
 
-    <!-- नेविगेशन बार -->
+    <!-- बॉटम नेविगेशन बार -->
     <nav class="bottom-nav-fixed">
         <a href="../index.html" class="nav-link-btn">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -678,30 +775,49 @@
     </nav>
 
     <script>
+        // सभी स्लाइड्स पर क्लिक, डबल टैप और प्रोग्रेस बार लॉजिक
         let lastTap = 0;
-        const slide = document.querySelector('.short-slide');
-        const video = slide.querySelector('video');
-        const progress = slide.querySelector('.yt-progress-fill');
-        const heart = slide.querySelector('.heart-bubble');
+        const slides = document.querySelectorAll('.short-slide');
 
-        slide.addEventListener('click', function(e) {
-            if (e.target.closest('aside') || e.target.closest('.yt-meta-card')) return;
-            const now = new Date().getTime();
-            if (now - lastTap < 300) {
-                heart.classList.add('animate');
-                setTimeout(() => heart.classList.remove('animate'), 700);
-                slide.querySelector('.rail-btn-group svg').style.fill = '#ff0000';
-            } else {
-                video.paused ? video.play() : video.pause();
-            }
-            lastTap = now;
+        slides.forEach(slide => {
+            const video = slide.querySelector('video');
+            const progress = slide.querySelector('.yt-progress-fill');
+            const heart = slide.querySelector('.heart-bubble');
+
+            slide.addEventListener('click', function(e) {
+                if (e.target.closest('aside') || e.target.closest('.yt-meta-card')) return;
+                const now = new Date().getTime();
+                if (now - lastTap < 300) {
+                    heart.classList.add('animate');
+                    setTimeout(() => heart.classList.remove('animate'), 700);
+                    slide.querySelector('.rail-btn-group svg').style.fill = '#ff0000';
+                } else {
+                    video.paused ? video.play() : video.pause();
+                }
+                lastTap = now;
+            });
+
+            video.addEventListener('timeupdate', () => {
+                if (video.duration) {
+                    progress.style.width = (video.currentTime / video.duration * 100) + '%';
+                }
+            });
         });
 
-        video.addEventListener('timeupdate', () => {
-            if (video.duration) {
-                progress.style.width = (video.currentTime / video.duration * 100) + '%';
-            }
-        });
+        // स्वाइप ऑटोप्ले ऑब्जर्वर (जैसे ही अगला वीडियो स्क्रीन पर आएगा, चालू हो जाएगा)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+            });
+        }, { threshold: 0.65 });
+
+        slides.forEach(slide => observer.observe(slide));
 
         function handleLike(btn) {
             const svg = btn.querySelector('svg');
