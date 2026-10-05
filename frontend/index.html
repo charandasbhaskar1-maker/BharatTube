@@ -7,22 +7,14 @@
     <meta name="theme-color" content="#0f0f0f">
     <title>BharatTube</title>
 
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
-            background-color: #0f0f0f;
-            color: #ffffff;
-            padding-bottom: 70px;
+            padding-bottom: calc(var(--bottom-bar-height) + 20px);
         }
 
-        /* Top Header */
         .home-header {
             height: 52px;
             display: flex;
@@ -31,44 +23,9 @@
             padding: 0 16px;
             position: sticky;
             top: 0;
-            background: #0f0f0f;
+            background: var(--yt-black);
             z-index: 1000;
-            border-bottom: 1px solid #272727;
-        }
-
-        .bt-logo-wrap {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            color: #ffffff;
-        }
-
-        .bt-logo-icon {
-            width: 30px;
-            height: 22px;
-            background: #ff0000;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .bt-logo-icon svg {
-            width: 12px;
-            height: 12px;
-            fill: #ffffff;
-            margin-left: 2px;
-        }
-
-        .bt-brand-name {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .bt-brand-name span {
-            color: #ff0000;
+            border-bottom: 1px solid var(--yt-border);
         }
 
         .header-actions {
@@ -77,11 +34,26 @@
             gap: 16px;
         }
 
-        /* Video Feed */
+        .header-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .header-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
         .feed-container {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
             padding-top: 10px;
         }
 
@@ -156,60 +128,7 @@
 
         .video-sub-line {
             font-size: 12px;
-            color: #aaaaaa;
-        }
-
-        /* Fixed Bottom Nav Bar */
-        .bottom-nav-fixed {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 56px;
-            background: #0f0f0f;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            border-top: 1px solid #272727;
-            z-index: 99999;
-        }
-
-        .nav-link-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 10px;
-            color: #aaaaaa;
-            text-decoration: none;
-            gap: 3px;
-        }
-
-        .nav-link-btn.active {
-            color: #ffffff;
-        }
-
-        .nav-link-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-
-        .nav-btn-plus {
-            background: #272727;
-            border-radius: 50%;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            text-decoration: none;
-        }
-
-        .nav-btn-plus svg {
-            width: 22px;
-            height: 22px;
-            fill: #ffffff;
+            color: var(--yt-muted);
         }
     </style>
 </head>
@@ -218,24 +137,25 @@
     <!-- Header -->
     <header class="home-header">
         <a href="index.html" class="bt-logo-wrap">
-            <div class="bt-logo-icon">
+            <div class="bt-logo-badge">
                 <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
             </div>
             <div class="bt-brand-name">Bharat<span>Tube</span></div>
         </a>
         <div class="header-actions">
-            <a href="pages/contact.html" style="color:#fff; text-decoration:none; display:flex;">
-                <svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:#fff;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <a href="pages/contact.html" class="header-btn">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
             </a>
-            <a href="pages/profile.html" style="text-decoration:none; display:flex;">
-                <div style="width:28px; height:28px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff;">CB</div>
+            <a href="pages/profile.html" class="header-btn">
+                <div style="width:26px; height:26px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff;">CB</div>
             </a>
         </div>
     </header>
 
     <!-- Main Feed -->
     <main class="feed-container">
-        <!-- Video 1 -->
+
+        <!-- Card 1 -->
         <a href="pages/watch.html?title=Chhattisgarhi+Panthi+Song+Special&channel=Charandas+Bhaskar&views=210K+views" class="video-card">
             <div class="thumb-box">
                 <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" alt="Song">
@@ -250,7 +170,7 @@
             </div>
         </a>
 
-        <!-- Video 2 -->
+        <!-- Card 2 -->
         <a href="pages/watch.html?title=Learn+Computer+Basics+Full+Course&channel=Education+India&views=85K+views" class="video-card">
             <div class="thumb-box">
                 <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800" alt="Tech">
@@ -265,7 +185,7 @@
             </div>
         </a>
 
-        <!-- Video 3 -->
+        <!-- Card 3 -->
         <a href="pages/watch.html?title=India+Today+News+Headlines+Special&channel=Bharat+News&views=120K+views" class="video-card">
             <div class="thumb-box">
                 <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800" alt="News">
@@ -279,30 +199,11 @@
                 </div>
             </div>
         </a>
+
     </main>
 
-    <!-- Bottom Nav Bar -->
-    <nav class="bottom-nav-fixed">
-        <a href="index.html" class="nav-link-btn active">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span>Home</span>
-        </a>
-        <a href="pages/shorts.html" class="nav-link-btn">
-            <svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5-1.1-.46 1.05-.53c1.78-.9 2.5-3.08 1.6-4.86-.9-1.78-3.08-2.5-4.86-1.6L6.5 5.67c-1.78.9-2.5 3.08-1.6 4.86.32.64.83 1.13 1.44 1.43l1.2.5 1.1.46-1.05.53c-1.78.9-2.5 3.08-1.6 4.86.63 1.25 1.88 1.99 3.23 1.99.55 0 1.11-.13 1.63-.39l6.76-3.3c1.78-.9 2.5-3.08 1.6-4.86-.32-.64-.83-1.13-1.44-1.43zM10 14.5v-5l4.5 2.5-4.5 2.5z"/></svg>
-            <span>Shorts</span>
-        </a>
-        <a href="pages/upload.html" class="nav-btn-plus">
-            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-        </a>
-        <a href="pages/channel.html" class="nav-link-btn">
-            <svg viewBox="0 0 24 24"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4l-6-3.27v6.53L16 16z"/></svg>
-            <span>Subscriptions</span>
-        </a>
-        <a href="pages/profile.html" class="nav-link-btn">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-            <span>You</span>
-        </a>
-    </nav>
-
+    <!-- Global App Engine Scripts -->
+    <script src="assets/js/app-state.js"></script>
+    <script src="assets/js/ui-kit.js"></script>
 </body>
 </html>
