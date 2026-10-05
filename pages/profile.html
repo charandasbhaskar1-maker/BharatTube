@@ -669,7 +669,7 @@
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
                 </div>
-                <div class="creator-handle">@charandas_creator • 45.2K subs</div>
+                <div class="creator-handle">@charandas_creator • 245 subs</div>
                 <a href="channel.html" class="view-channel-link">View channel ></a>
             </div>
         </div>
@@ -697,15 +697,15 @@
             <span style="font-size:12px; color:var(--yt-muted);">ESTIMATED REVENUE (THIS MONTH)</span>
             <span class="rev-tag-badge">● Partner Active</span>
         </div>
-        <div class="rev-big-number">₹ 42,850.00</div>
+        <div class="rev-big-number">₹ 4,850.00</div>
         <div class="rev-stats-grid">
             <div class="rev-stat-item">
                 <div>Playback RPM</div>
-                <div>₹ 74.20</div>
+                <div>₹ 65.40</div>
             </div>
             <div class="rev-stat-item">
                 <div>Ad Impressions</div>
-                <div>582.4K</div>
+                <div>74.2K</div>
             </div>
         </div>
     </section>
@@ -839,7 +839,15 @@
     </div>
 
     <script>
+        // BharatTube Growth Criteria: 200 Subs & 100 Watch Hours
+        const criteriaConfig = {
+            requiredSubs: 200,
+            requiredHours: 100
+        };
+
         let creatorState = {
+            subscribers: 245,
+            watchHours: 112,
             monetizationStage: 'eligible', // 'eligible' | 'under_review' | 'approved' | 'rejected'
             hasApplied: false,
             strikesCount: 0,
@@ -850,7 +858,9 @@
         window.addEventListener('load', () => {
             const savedState = localStorage.getItem('bt_creator_state');
             if (savedState) {
-                try { creatorState = JSON.parse(savedState); } catch(e){}
+                try { 
+                    creatorState = { ...creatorState, ...JSON.parse(savedState) }; 
+                } catch(e){}
             }
             refreshCreatorUI();
         });
@@ -883,7 +893,7 @@
             }
         }
 
-        // Apply Step 1 & 2 -> Submit to Review (Direct Sync with admin.html)
+        // Apply Step 1, 2, 3 -> Direct Sync with admin.html queue
         function showApplicationFlow() {
             const heading = document.getElementById('modalSheetHeading');
             const body = document.getElementById('modalSheetBody');
@@ -897,14 +907,14 @@
                 </div>
 
                 <div class="metric-card" style="margin-bottom:12px;">
-                    <div style="font-weight:700; font-size:14px; margin-bottom:4px;">Step 2: Payout Gateway Link (AdSense / Bank)</div>
+                    <div style="font-weight:700; font-size:14px; margin-bottom:4px;">Step 2: Payout Gateway Link (UPI / Bank)</div>
                     <input type="text" id="payoutInput" style="width:100%; background:#1c1c1c; border:1px solid var(--yt-border); border-radius:8px; padding:10px 12px; color:#fff; font-size:13px; margin-top:4px; outline:none;" value="${creatorState.payoutUpi || 'bhaskar@okaxis'}">
                 </div>
 
                 <div class="metric-card" style="margin-bottom:12px;">
                     <div style="font-weight:700; font-size:14px; margin-bottom:4px;">Step 3: Submit for Channel Audit</div>
                     <div style="font-size:12px; color:var(--yt-muted); line-height:1.45;">
-                        Aapke submit karne ke baad BharatTube AI Review team aapke watch hours, copyright clean record, aur community guidelines ka audit karegi.
+                        Criteria verified (200+ Subscribers & 100+ Watch Hours). Submit karne par AI moderation system channel audit karega.
                     </div>
                 </div>
 
@@ -919,7 +929,7 @@
             creatorState.payoutUpi = payoutVal;
             saveCreatorState();
 
-            alert('🎉 Application Submitted Successfully!\nChannel review queue me bhej diya gaya hai.');
+            alert('🎉 Application Submitted Successfully!\nChannel review queue me chala gaya hai.');
             closePolicyModal();
         }
 
@@ -935,7 +945,7 @@
                     <div class="notif-row-card">
                         <div class="notif-avatar" style="background:#2ecc71;">🎉</div>
                         <div class="notif-content">
-                            <b>Partner Program:</b> Aapka channel 1,000 subscribers aur 4,000 watch hours ke milestone par pahunch chuka hai. Abhi apply karein!
+                            <b>Partner Program:</b> Badhai ho! Aapka channel 200 subscribers aur 100 watch hours ka initial target cross kar chuka hai.
                             <div class="notif-time">2 hours ago</div>
                         </div>
                     </div>
@@ -972,7 +982,7 @@
                     <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Close Settings</button>
                 `;
             } 
-            // 3. MONETIZATION
+            // 3. MONETIZATION (200 SUBS & 100 HOURS CRITERIA)
             else if (type === 'monetization') {
                 heading.textContent = 'BharatTube Partner Program';
 
@@ -993,19 +1003,19 @@
                     body.innerHTML = `
                         <div style="background:rgba(46,204,113,0.15); border:1px solid var(--yt-green); border-radius:12px; padding:14px; margin-bottom:14px;">
                             <div style="font-size:15px; font-weight:700; color:var(--yt-green);">✓ Partner Program Active</div>
-                            <div style="font-size:12px; color:var(--yt-text); margin-top:4px;">Aapka channel live monetize ho chuka hai.</div>
+                            <div style="font-size:12px; color:var(--yt-text); margin-top:4px;">Aapka channel live monetize ho chuka hai. Earning active hai.</div>
                         </div>
                         <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Done</button>
                     `;
                 } else {
                     body.innerHTML = `
                         <p style="font-size:13px; color:var(--yt-muted); margin-bottom:14px;">
-                            Aapne BharatTube Partner Program ke sabhi criteria pure kar liye hain. Earn karne ke liye apply karein:
+                            BharatTube creator program criteria (Initial Phase: 200 Subs & 100 Watch Hours) pura ho chuka hai:
                         </p>
                         <div class="metric-card">
                             <div class="metric-top-row">
                                 <span>Subscribers</span>
-                                <span style="color:var(--yt-green);">45,200 / 1,000 (Completed ✓)</span>
+                                <span style="color:var(--yt-green);">${creatorState.subscribers} / ${criteriaConfig.requiredSubs} (Target Completed ✓)</span>
                             </div>
                             <div class="metric-progress-bar">
                                 <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
@@ -1014,7 +1024,7 @@
                         <div class="metric-card">
                             <div class="metric-top-row">
                                 <span>Public Watch Hours</span>
-                                <span style="color:var(--yt-green);">4,820 / 4,000 hrs (Completed ✓)</span>
+                                <span style="color:var(--yt-green);">${creatorState.watchHours} / ${criteriaConfig.requiredHours} hrs (Target Completed ✓)</span>
                             </div>
                             <div class="metric-progress-bar">
                                 <div class="metric-fill" style="width:100%; background:var(--yt-green);"></div>
@@ -1033,7 +1043,7 @@
                             <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                             Channel Status: 0 Copyright Strikes
                         </div>
-                        <p style="padding-left:0;">Channel good standing me hai. Sabhi video original hain.</p>
+                        <p style="padding-left:0;">Channel clean status me hai. Sabhi video original hain.</p>
                     </div>
                     <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Got It</button>
                 `;
@@ -1047,7 +1057,7 @@
                             <svg class="policy-svg-mini" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
                             Community Health: 100% Clean
                         </div>
-                        <p style="padding-left:0;">Your channel follows all creator safety standards. Zero community warnings.</p>
+                        <p style="padding-left:0;">Aapka channel platform safety standards follow karta hai. 0 warnings.</p>
                     </div>
                     <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Got It</button>
                 `;
@@ -1058,7 +1068,7 @@
                 body.innerHTML = `
                     <div style="background:#101010; border:1px solid var(--yt-border); border-radius:10px; padding:12px; margin-bottom:12px;">
                         <b>Charandas Bhaskar (Primary Channel)</b><br>
-                        <span style="font-size:12px; color:var(--yt-muted);">@charandas_creator • 45.2K Subscribers</span>
+                        <span style="font-size:12px; color:var(--yt-muted);">@charandas_creator • 245 Subscribers</span>
                     </div>
                     <button class="sheet-primary-action-btn" onclick="closePolicyModal()">Done</button>
                 `;
