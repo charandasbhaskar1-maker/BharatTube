@@ -2,35 +2,24 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
-    <title>BharatTube - Bharat Shorts</title>
+    <title>Shorts - BharatTube</title>
+
+    <!-- Global Assets -->
+    <link rel="stylesheet" href="../assets/css/global.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            --red: #ff0000;
-            --yt-dark: #0f0f0f;
-            --yt-icon-bg: rgba(30, 30, 30, 0.6);
-            --border: rgba(255, 255, 255, 0.15);
-        }
-
-        body {
-            font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background-color: #000000;
-            color: #ffffff;
-            height: 100vh;
+        body, html {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            user-select: none;
+            background: #000000;
         }
 
-        /* Top Bar */
-        .shorts-topbar {
+        /* Top Header Overlay */
+        .shorts-top-bar {
             position: fixed;
             top: 0;
             left: 0;
@@ -41,34 +30,273 @@
             justify-content: space-between;
             padding: 0 16px;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
         }
 
-        .back-btn {
+        .shorts-brand-title {
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
             color: #ffffff;
-            text-decoration: none;
+        }
+
+        .shorts-top-icons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .shorts-top-icons svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+            cursor: pointer;
+        }
+
+        /* Vertical Snap Scroll Feed */
+        .shorts-feed-container {
+            width: 100%;
+            height: calc(100vh - var(--bottom-bar-height));
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            position: relative;
+        }
+
+        .shorts-feed-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Single Short Card (Full Viewport) */
+        .short-card-item {
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            position: relative;
+            background: #0a0a0a;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            overflow: hidden;
         }
 
-        .back-btn svg {
-            width: 24px;
-            height: 24px;
+        .short-video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Right Floating Action Rail */
+        .shorts-action-rail {
+            position: absolute;
+            right: 12px;
+            bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            z-index: 50;
+        }
+
+        .rail-action-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .rail-icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s;
+        }
+
+        .rail-action-btn:active .rail-icon-circle {
+            transform: scale(0.85);
+        }
+
+        .rail-icon-circle svg {
+            width: 22px;
+            height: 22px;
             fill: #ffffff;
         }
 
-        .shorts-title {
-            font-size: 17px;
-            font-weight: 700;
-            letter-spacing: 0.2px;
+        .rail-btn-text {
+            font-size: 11px;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* Scroll Container */
-        .shorts-container {
+        .vinyl-disc-spin {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #111;
+            border: 4px solid #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: discSpin 4s linear infinite;
+        }
+
+        @keyframes discSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Bottom Creator Meta Overlay */
+        .shorts-meta-overlay {
+            position: absolute;
+            bottom: 18px;
+            left: 14px;
+            right: 76px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 50;
+        }
+
+        .creator-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .creator-thumb {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e50914, #ff5252);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .creator-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            text-decoration: none;
+        }
+
+        .btn-shorts-subscribe {
+            background: #ffffff;
+            color: #0f0f0f;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-shorts-subscribe.subscribed {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .short-caption-text {
+            font-size: 13px;
+            line-height: 1.35;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .short-sound-track {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .short-sound-track svg {
+            width: 13px;
+            height: 13px;
+            fill: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Overlay Header -->
+    <header class="shorts-top-bar">
+        <div class="shorts-brand-title">Shorts</div>
+        <div class="shorts-top-icons">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 Ab humara agla pramukh component hai **`pages/shorts.html`** (Vertical Fullscreen Reels Feed).
+
+Is screen par YouTube Shorts jaisa immersive view milega:
+1. **Vertical 9:16 Feed**: Poori screen par vertical swipe experience.
+2. **Right-side Action Rail**: Like counter, comments button, share, aur remix audio option.
+3. **Bottom Overlay**: Creator channel handle, video caption, hashtags, aur subscription toggle.
+4. **Touch & Tap Controls**: Screen tap karne par video pause/play toggle.
+
+---
+
+### Step-by-Step GitHub Guide:
+
+1. GitHub par `BharatTube` repo kholein.
+2. `pages/` folder mein jayein.
+3. **Add file** -> **Create new file** par tap karein.
+4. File name likhein: `pages/shorts.html`
+5. Neeche diya gaya code paste karein aur **Commit changes...** dabakar save kar lein.
+
+---
+
+### Pura `pages/shorts.html` Code:
+
+```html
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <title>Shorts - BharatTube</title>
+
+    <link rel="stylesheet" href="../assets/css/global.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #000000;
+            overflow: hidden;
             height: 100vh;
+            width: 100vw;
+        }
+
+        /* Fullscreen Vertical Scroll Deck */
+        .shorts-container {
+            height: calc(100vh - var(--bottom-bar-height));
+            width: 100%;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
             scrollbar-width: none;
@@ -78,703 +306,353 @@
             display: none;
         }
 
-        /* Individual Short Slide */
         .short-slide {
-            height: 100vh;
-            width: 100%;
             position: relative;
+            height: 100%;
+            width: 100%;
             scroll-snap-align: start;
             scroll-snap-stop: always;
-            background: #000000;
+            background: #050505;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
-        .short-video {
+        .short-slide video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            background: #000000;
         }
 
-        /* Play/Pause Center Indicator */
-        .play-pause-indicator {
+        /* Top Action Overlay */
+        .shorts-header {
             position: absolute;
-            font-size: 32px;
-            opacity: 0;
-            transform: scale(0.6);
-            transition: 0.2s ease;
-            pointer-events: none;
-            z-index: 50;
-            background: rgba(0,0,0,0.7);
-            width: 68px;
-            height: 68px;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 20;
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+        }
+
+        .shorts-title-badge {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        /* Right Floating Action Rail */
+        .actions-rail {
+            position: absolute;
+            right: 12px;
+            bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            z-index: 25;
+        }
+
+        .action-rail-btn {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .action-icon-circle {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .play-pause-indicator.show {
-            opacity: 1;
-            transform: scale(1);
+        .action-icon-circle svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
         }
 
-        /* Overlay Info */
-        .short-overlay {
+        .action-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Bottom Creator Meta Overlay */
+        .creator-info-overlay {
             position: absolute;
-            bottom: 24px;
             left: 14px;
-            right: 76px;
-            z-index: 60;
-            pointer-events: auto;
+            bottom: 20px;
+            right: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 20;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.85);
         }
 
-        .creator-row {
+        .channel-profile-row {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
         }
 
-        .creator-avatar {
+        .channel-avatar {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: #ff0000;
+            background: linear-gradient(135deg, #e50914, #ff5252);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 15px;
-            flex-shrink: 0;
-        }
-
-        .creator-name {
             font-size: 14px;
-            font-weight: 600;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+            font-weight: 800;
+            color: #ffffff;
+            border: 1.5px solid #ffffff;
         }
 
-        /* YouTube Style Subscribe Button */
-        .sub-btn {
+        .channel-tag {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .btn-subscribe-mini {
             background: #ffffff;
-            color: #0f0f0f;
-            border: 0;
-            padding: 6px 14px;
-            border-radius: 18px;
+            color: #000000;
+            border: none;
+            border-radius: 14px;
+            padding: 5px 12px;
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
-        .sub-btn.subscribed {
-            background: rgba(255,255,255,0.2);
+        .btn-subscribe-mini.active {
+            background: rgba(255, 255, 255, 0.2);
             color: #ffffff;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(6px);
         }
 
         .short-caption {
             font-size: 13px;
             line-height: 1.4;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
-            margin-bottom: 8px;
+            color: #ffffff;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .short-audio {
-            font-size: 12px;
-            color: #f1f1f1;
+        .sound-tag {
             display: flex;
             align-items: center;
             gap: 6px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 2px;
         }
 
-        /* Right Action Bar (YouTube Shorts Exact) */
-        .side-actions {
-            position: absolute;
-            right: 10px;
-            bottom: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            align-items: center;
-            z-index: 60;
-        }
-
-        .action-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            background: transparent;
-            border: 0;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        .icon-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--yt-icon-bg);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.15s;
-        }
-
-        .icon-btn:active {
-            transform: scale(0.88);
-        }
-
-        .icon-btn svg {
-            width: 22px;
-            height: 22px;
+        .sound-tag svg {
+            width: 14px;
+            height: 14px;
             fill: #ffffff;
-            pointer-events: none;
-        }
-
-        .action-label {
-            font-size: 11px;
-            font-weight: 500;
-            color: #ffffff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-            pointer-events: none;
-        }
-
-        /* Active Like / Dislike State */
-        .action-item.active-like .icon-btn svg {
-            fill: #3ea6ff;
-        }
-
-        .action-item.active-dislike .icon-btn svg {
-            fill: #ff4e45;
-        }
-
-        /* Bottom Sheet Comments Modal */
-        .comments-modal {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 65vh;
-            background: #0f0f0f;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            transform: translateY(100%);
-            transition: transform 0.28s cubic-bezier(0, 0, 0.2, 1);
-            box-shadow: 0 -4px 25px rgba(0,0,0,0.8);
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .comments-modal.open {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .modal-header h3 {
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .close-modal-btn {
-            background: none;
-            border: none;
-            color: #ffffff;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        .modal-comments-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 14px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .c-row {
-            display: flex;
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        .c-pic {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #272727;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .c-meta {
-            font-size: 11px;
-            color: #aaaaaa;
-            margin-bottom: 2px;
-        }
-
-        .c-text {
-            color: #f1f1f1;
-            line-height: 1.35;
-        }
-
-        .modal-input-row {
-            padding: 10px 14px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            gap: 10px;
-            background: #181818;
-        }
-
-        .modal-input {
-            flex: 1;
-            background: #272727;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 8px 16px;
-            color: #ffffff;
-            font-size: 13px;
-            outline: none;
-        }
-
-        .modal-post-btn {
-            background: #ffffff;
-            color: #0f0f0f;
-            border: 0;
-            border-radius: 20px;
-            padding: 0 16px;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            left: 50%;
-            top: 60px;
-            transform: translate(-50%, -10px);
-            background: rgba(255, 255, 255, 0.95);
-            color: #000000;
-            padding: 8px 16px;
-            border-radius: 18px;
-            font-size: 12px;
-            font-weight: 700;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.25s ease;
-            z-index: 300;
-            white-space: nowrap;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translate(-50%, 0);
         }
     </style>
 </head>
 <body>
 
-    <header class="shorts-topbar">
-        <a href="../frontend/index.html" class="back-btn" aria-label="Back">
-            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        </a>
-        <div class="shorts-title">Shorts</div>
-        <div style="width: 40px;"></div>
-    </header>
+    <!-- Top Overlay -->
+    <div class="shorts-header">
+        <span class="shorts-title-badge">Shorts</span>
+        <button style="background:none; border:none; color:#fff;" onclick="window.location.href='upload.html'">
+            <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:#fff;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </button>
+    </div>
 
-    <main class="shorts-container" id="shortsContainer">
+    <!-- Vertical Video Deck -->
+    <div class="shorts-container" id="shortsContainer">
 
-        <!-- SHORT 1 -->
-        <section class="short-slide" onclick="togglePlayPause(0, event)">
-            <div class="play-pause-indicator" id="ind-0">▶</div>
-            <video class="short-video" id="vid-0" loop playsinline autoplay muted preload="auto">
-                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+        <!-- Slide 1 -->
+        <section class="short-slide">
+            <video playsinline loop muted autoplay onclick="togglePlay(this)">
+                <source src="[https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4](https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4)" type="video/mp4">
             </video>
 
-            <div class="short-overlay">
-                <div class="creator-row">
-                    <div class="creator-avatar">B</div>
-                    <span class="creator-name">@bhartiya_vlog</span>
-                    <button class="sub-btn" onclick="toggleSubscribe(event, this)">Subscribe</button>
+            <!-- Bottom Metadata -->
+            <div class="creator-info-overlay">
+                <div class="channel-profile-row">
+                    <div class="channel-avatar">CB</div>
+                    <a href="channel.html" class="channel-tag">@charandas_creator</a>
+                    <button class="btn-subscribe-mini" onclick="toggleSub(this)">Subscribe</button>
                 </div>
-                <p class="short-caption">Incredible Indian Culture & Sunset Vibes 🇮🇳 #BharatTube #Shorts</p>
-                <div class="short-audio">🎵 Original Audio - Bharat Vibes</div>
+                <div class="short-caption">
+                    BharatTube special culture & rural lifestyle shorts #Chhattisgarh #Folk #Shorts
+                </div>
+                <div class="sound-tag">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <span>Original Audio • Charandas Bhaskar</span>
+                </div>
             </div>
 
-            <!-- YouTube Exact Action Bar -->
-            <div class="side-actions">
-                <!-- LIKE (Thumbs Up) -->
-                <button class="action-item" id="likeBtn-0" onclick="handleShortLike(event, 0)">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
-                        </svg>
+            <!-- Right Actions Rail -->
+            <div class="actions-rail">
+                <button class="action-rail-btn" onclick="toggleLike(this)">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
                     </div>
-                    <span class="action-label" id="likeCount-0">245K</span>
+                    <span class="action-label">128K</span>
                 </button>
 
-                <!-- DISLIKE (Thumbs Down) -->
-                <button class="action-item" id="dislikeBtn-0" onclick="handleShortDislike(event, 0)">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
-                        </svg>
+                <button class="action-rail-btn" onclick="alert('Comments: Shandar reel bhaiya! Super')">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
                     </div>
-                    <span class="action-label">Dislike</span>
+                    <span class="action-label">2,410</span>
                 </button>
 
-                <!-- COMMENTS -->
-                <button class="action-item" onclick="openCommentsModal(event)">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
-                        </svg>
-                    </div>
-                    <span class="action-label" id="modalCommentCount">1.2K</span>
-                </button>
-
-                <!-- SHARE -->
-                <button class="action-item" onclick="shareShort(event, 'Incredible Indian Culture')">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/>
-                        </svg>
+                <button class="action-rail-btn" onclick="shareCurrentShort()">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
                     </div>
                     <span class="action-label">Share</span>
                 </button>
 
-                <!-- SOUND -->
-                <button class="action-item" onclick="toggleAudio(event, 0, this)">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24" id="audioIcon-0">
-                            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                        </svg>
+                <button class="action-rail-btn" onclick="alert('Remix Sound feature enabled!')">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
                     </div>
-                    <span class="action-label">Mute</span>
+                    <span class="action-label">Remix</span>
                 </button>
             </div>
         </section>
 
-        <!-- SHORT 2 -->
-        <section class="short-slide" onclick="togglePlayPause(1, event)">
-            <div class="play-pause-indicator" id="ind-1">▶</div>
-            <video class="short-video" id="vid-1" loop playsinline muted preload="auto">
-                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4">
+        <!-- Slide 2 -->
+        <section class="short-slide">
+            <video playsinline loop muted onclick="togglePlay(this)">
+                <source src="[https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4](https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4)" type="video/mp4">
             </video>
 
-            <div class="short-overlay">
-                <div class="creator-row">
-                    <div class="creator-avatar">C</div>
-                    <span class="creator-name">@chhattisgarh_tales</span>
-                    <button class="sub-btn" onclick="toggleSubscribe(event, this)">Subscribe</button>
+            <div class="creator-info-overlay">
+                <div class="channel-profile-row">
+                    <div class="channel-avatar" style="background:#3ea6ff;">EI</div>
+                    <a href="channel.html" class="channel-tag">@EducationIndia</a>
+                    <button class="btn-subscribe-mini" onclick="toggleSub(this)">Subscribe</button>
                 </div>
-                <p class="short-caption">Chhattisgarhi Folk Beats & Road Trip ❤️ #Culture #BharatTube</p>
-                <div class="short-audio">🎵 Folk Music • Traditional Vibes</div>
+                <div class="short-caption">
+                    Top 3 coding shortcuts you must know in 2026 #WebDev #TechTips
+                </div>
+                <div class="sound-tag">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <span>Tech Sound • Education India</span>
+                </div>
             </div>
 
-            <!-- YouTube Exact Action Bar -->
-            <div class="side-actions">
-                <button class="action-item" id="likeBtn-1" onclick="handleShortLike(event, 1)">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
-                        </svg>
+            <div class="actions-rail">
+                <button class="action-rail-btn" onclick="toggleLike(this)">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
                     </div>
-                    <span class="action-label" id="likeCount-1">189K</span>
+                    <span class="action-label">94K</span>
                 </button>
 
-                <button class="action-item" id="dislikeBtn-1" onclick="handleShortDislike(event, 1)">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
-                        </svg>
-                    </div>
-                    <span class="action-label">Dislike</span>
-                </button>
-
-                <button class="action-item" onclick="openCommentsModal(event)">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
-                        </svg>
+                <button class="action-rail-btn" onclick="alert('Comments: Very helpful tips!')">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
                     </div>
                     <span class="action-label">850</span>
                 </button>
 
-                <button class="action-item" onclick="shareShort(event, 'Chhattisgarhi Folk Beats')">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/>
-                        </svg>
+                <button class="action-rail-btn" onclick="shareCurrentShort()">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
                     </div>
                     <span class="action-label">Share</span>
                 </button>
 
-                <button class="action-item" onclick="toggleAudio(event, 1, this)">
-                    <div class="icon-btn">
-                        <svg viewBox="0 0 24 24" id="audioIcon-1">
-                            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                        </svg>
+                <button class="action-rail-btn" onclick="alert('Remix Sound feature enabled!')">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
                     </div>
-                    <span class="action-label">Mute</span>
+                    <span class="action-label">Remix</span>
                 </button>
             </div>
         </section>
 
-    </main>
-
-    <!-- YouTube Style Comments Bottom Sheet -->
-    <div class="comments-modal" id="commentsModal">
-        <div class="modal-header">
-            <h3>Comments (1.2K)</h3>
-            <button class="close-modal-btn" onclick="closeCommentsModal()">✕</button>
-        </div>
-        <div class="modal-comments-list" id="modalCommentsList">
-            <div class="c-row">
-                <div class="c-pic">R</div>
-                <div>
-                    <div class="c-meta">@rohit_vlogs • 1h ago</div>
-                    <div class="c-text">Superb quality short bhai! BharatTube rocks 🇮🇳</div>
-                </div>
-            </div>
-            <div class="c-row">
-                <div class="c-pic">M</div>
-                <div>
-                    <div class="c-meta">@manoj_cg • 3h ago</div>
-                    <div class="c-text">Bahut badhiya scene hai! Keep it up.</div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-input-row">
-            <input type="text" class="modal-input" id="modalCommentInput" placeholder="Add a comment...">
-            <button class="modal-post-btn" onclick="postModalComment()">Comment</button>
-        </div>
     </div>
 
-    <div id="toast" class="toast"></div>
+    <!-- Global App Engine Scripts -->
+    <script src="../assets/js/app-state.js"></script>
+    <script src="../assets/js/ui-kit.js"></script>
 
     <script>
-        const toast = document.getElementById('toast');
-        let toastTimer;
-
-        function showToast(msg) {
-            if (!toast) return;
-            toast.textContent = msg;
-            toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
-        }
-
-        const videos = [document.getElementById('vid-0'), document.getElementById('vid-1')];
-        const indicators = [document.getElementById('ind-0'), document.getElementById('ind-1')];
-
-        // Ensure auto-play on initial load
-        window.addEventListener('load', () => {
-            if (videos[0]) {
-                videos[0].play().catch(() => {});
-            }
-        });
-
-        // Tap screen to Play/Pause
-        function togglePlayPause(idx, e) {
-            if (e.target.closest('.side-actions') || e.target.closest('.short-overlay') || e.target.closest('.shorts-topbar')) {
-                return;
-            }
-            const vid = videos[idx];
-            const ind = indicators[idx];
-
-            if (!vid) return;
-
-            if (vid.paused) {
-                vid.play();
-                ind.textContent = '▶';
+        // Tap to pause/play
+        function togglePlay(video) {
+            if (video.paused) {
+                video.play();
             } else {
-                vid.pause();
-                ind.textContent = '⏸';
-            }
-
-            ind.classList.add('show');
-            setTimeout(() => ind.classList.remove('show'), 500);
-        }
-
-        // Like Click (Thumbs Up)
-        const likedStates = [false, false];
-        const dislikedStates = [false, false];
-
-        function handleShortLike(e, idx) {
-            e.stopPropagation();
-            const likeBtn = document.getElementById(`likeBtn-${idx}`);
-            const dislikeBtn = document.getElementById(`dislikeBtn-${idx}`);
-            const countLabel = document.getElementById(`likeCount-${idx}`);
-
-            likedStates[idx] = !likedStates[idx];
-
-            if (likedStates[idx]) {
-                likeBtn.classList.add('active-like');
-                countLabel.textContent = idx === 0 ? '245.1K' : '189.1K';
-                if (dislikedStates[idx]) {
-                    dislikedStates[idx] = false;
-                    dislikeBtn.classList.remove('active-dislike');
-                }
-                showToast('Liked 👍');
-            } else {
-                likeBtn.classList.remove('active-like');
-                countLabel.textContent = idx === 0 ? '245K' : '189K';
+                video.pause();
             }
         }
 
-        // Dislike Click (Thumbs Down)
-        function handleShortDislike(e, idx) {
-            e.stopPropagation();
-            const likeBtn = document.getElementById(`likeBtn-${idx}`);
-            const dislikeBtn = document.getElementById(`dislikeBtn-${idx}`);
-            const countLabel = document.getElementById(`likeCount-${idx}`);
-
-            dislikedStates[idx] = !dislikedStates[idx];
-
-            if (dislikedStates[idx]) {
-                dislikeBtn.classList.add('active-dislike');
-                if (likedStates[idx]) {
-                    likedStates[idx] = false;
-                    likeBtn.classList.remove('active-like');
-                    countLabel.textContent = idx === 0 ? '245K' : '189K';
-                }
-                showToast('Disliked 👎');
-            } else {
-                dislikeBtn.classList.remove('active-dislike');
-            }
+        // Like Toggle
+        function toggleLike(btn) {
+            const icon = btn.querySelector('svg');
+            const isLiked = icon.style.fill === 'rgb(255, 0, 0)';
+            icon.style.fill = isLiked ? '#ffffff' : '#ff0000';
         }
 
-        // Subscribe / Subscribed Toggle
-        function toggleSubscribe(e, btn) {
-            e.stopPropagation();
-            if (btn.classList.contains('subscribed')) {
-                btn.classList.remove('subscribed');
-                btn.innerHTML = 'Subscribe';
-                showToast('Unsubscribed');
-            } else {
-                btn.classList.add('subscribed');
-                btn.innerHTML = 'Subscribed 🔔';
-                showToast('Subscribed! 🔔');
-            }
+        // Subscribe Toggle
+        function toggleSub(btn) {
+            const active = btn.classList.toggle('active');
+            btn.textContent = active ? 'Subscribed' : 'Subscribe';
         }
 
-        // Sound Toggle
-        function toggleAudio(e, idx, btn) {
-            e.stopPropagation();
-            const vid = videos[idx];
-            const label = btn.querySelector('.action-label');
-            const icon = document.getElementById(`audioIcon-${idx}`);
-
-            if (!vid) return;
-
-            if (vid.muted) {
-                vid.muted = false;
-                label.textContent = 'Sound';
-                icon.innerHTML = `<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>`;
-                showToast('Sound On 🔊');
-            } else {
-                vid.muted = true;
-                label.textContent = 'Mute';
-                icon.innerHTML = `<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>`;
-                showToast('Sound Muted 🔇');
-            }
-        }
-
-        // Share Short
-        function shareShort(e, title) {
-            e.stopPropagation();
+        // Share
+        function shareCurrentShort() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'Bharat Shorts: ' + title,
+                    title: 'BharatTube Shorts',
                     url: window.location.href
                 }).catch(() => {});
             } else {
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                    showToast('Shorts Link Copied! ↗');
-                }).catch(() => {
-                    showToast('Link ready to share');
-                });
+                navigator.clipboard.writeText(window.location.href);
+                alert('Short link copied to clipboard!');
             }
         }
 
-        // Comments Bottom Sheet
-        const commentsModal = document.getElementById('commentsModal');
-        function openCommentsModal(e) {
-            e.stopPropagation();
-            commentsModal.classList.add('open');
-        }
-
-        function closeCommentsModal() {
-            commentsModal.classList.remove('open');
-        }
-
-        function postModalComment() {
-            const input = document.getElementById('modalCommentInput');
-            const list = document.getElementById('modalCommentsList');
-            const text = input.value.trim();
-
-            if (!text) {
-                showToast('Please type a comment');
-                return;
-            }
-
-            const row = document.createElement('div');
-            row.className = 'c-row';
-            row.innerHTML = `
-                <div class="c-pic" style="background:#ff0000; color:#fff;">U</div>
-                <div>
-                    <div class="c-meta">@you • Just now</div>
-                    <div class="c-text">${text}</div>
-                </div>
-            `;
-
-            list.insertBefore(row, list.firstChild);
-            input.value = '';
-            showToast('Comment posted! 💬');
-        }
-
-        // Auto Play/Pause on vertical scroll
+        // Auto play on scroll
         const container = document.getElementById('shortsContainer');
-        container.addEventListener('scroll', () => {
-            const activeIndex = Math.round(container.scrollTop / window.innerHeight);
-            videos.forEach((vid, i) => {
-                if (i === activeIndex) {
-                    vid.play().catch(() => {});
+        const videos = container.querySelectorAll('video');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {});
                 } else {
-                    vid.pause();
+                    video.pause();
                 }
             });
-        });
+        }, { threshold: 0.6 });
+
+        document.querySelectorAll('.short-slide').forEach(slide => observer.observe(slide));
     </script>
 </body>
 </html>
