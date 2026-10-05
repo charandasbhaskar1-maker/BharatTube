@@ -23,7 +23,7 @@
             background: #000000;
         }
 
-        /* Top Bar */
+        /* Top Overlay */
         .shorts-top-bar {
             position: fixed;
             top: 0;
@@ -67,11 +67,11 @@
             height: calc(100vh - 56px);
             scroll-snap-align: start;
             scroll-snap-stop: always;
-            background: #000000;
+            background: #111111;
             overflow: hidden;
         }
 
-        /* Video Stretch */
+        /* Full Coverage Video */
         .short-video-player {
             position: absolute;
             top: 0;
@@ -82,16 +82,16 @@
             z-index: 1;
         }
 
-        /* Gradient Shade on Video */
+        /* Gradient Shade */
         .video-shade {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.8) 100%);
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 30%, transparent 65%, rgba(0,0,0,0.85) 100%);
             z-index: 2;
             pointer-events: none;
         }
 
-        /* Right Floating Action Rail */
+        /* Right Rail */
         .shorts-action-rail {
             position: absolute;
             right: 12px;
@@ -118,7 +118,7 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
@@ -270,7 +270,7 @@
 </head>
 <body>
 
-    <!-- Top Overlay -->
+    <!-- Top Bar -->
     <header class="shorts-top-bar">
         <div class="shorts-brand-title">Shorts</div>
         <a href="upload.html" style="color:#ffffff; text-decoration:none;">
@@ -283,8 +283,8 @@
 
         <!-- Slide 1 -->
         <section class="short-card-item">
-            <video class="short-video-player" playsinline loop muted autoplay onclick="togglePlay(this)">
-                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+            <video class="short-video-player" playsinline loop muted autoplay poster="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" onclick="togglePlay(this)">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4">
             </video>
             <div class="video-shade"></div>
 
