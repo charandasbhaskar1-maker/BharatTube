@@ -1,0 +1,17 @@
+{
+  "name": "BharatTube",
+  "short_name": "BharatTube",
+  "start_url": "pages/profile.html",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#0f0f0f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/icons/bharattube-logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
