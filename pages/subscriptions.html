@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f0f">
+    <title>Subscriptions - BharatTube</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0f0f0f;
+            color: #ffffff;
+            padding-bottom: 70px;
+        }
+
+        /* टॉप हेडर */
+        .sub-header {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            background: #0f0f0f;
+            z-index: 1000;
+            border-bottom: 1px solid #212121;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .logo-box {
+            width: 28px;
+            height: 20px;
+            background: #ff0000;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-box svg {
+            width: 12px;
+            height: 12px;
+            fill: #ffffff;
+            margin-left: 2px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            font-weight: 400;
+            color: #aaaaaa;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .icon-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        /* चैनल अवतार रील (ऊपर हॉरिजॉन्टल स्क्रॉल) */
+        .channels-tray {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            border-bottom: 1px solid #1f1f1f;
+        }
+
+        .channels-tray::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tray-channel-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #ffffff;
+            flex-shrink: 0;
+            width: 58px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            width: 50px;
+            height: 50px;
+        }
+
+        .channel-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .unread-dot {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #3ea6ff;
+            border: 2px solid #0f0f0f;
+        }
+
+        .channel-title-tag {
+            font-size: 11px;
+            color: #aaaaaa;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .all-channels-link {
+            font-size: 12px;
+            color: #3ea6ff;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            padding: 0 8px;
+            flex-shrink: 0;
+        }
+
+        /* फ़िल्टर चिप्स */
+        .filter-chips-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-chips-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            background: #272727;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .filter-chip.active {
+            background: #ffffff;
+            color: #0f0f0f;
+            font-weight: 700;
+        }
+
+        /* वीडियो फ़ीड */
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-top: 8px;
+        }
+
+        .video-card {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .thumb-box {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #202020;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thumb-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .duration-pill {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.85);
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .video-meta-row {
+            display: flex;
+            padding: 12px 14px;
+            gap: 12px;
+        }
+
+        .meta-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .meta-text-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .video-heading {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-subline {
+            font-size: 12px;
+            color: #aaaaaa;
+        }
+
+        /* बॉटम नेविगेशन बार */
+        .bottom-nav-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 56px;
+            background: #0f0f0f;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            border-top: 1px solid #272727;
+            z-index: 1000;
+        }
+
+        .nav-link-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #aaaaaa;
+            text-decoration: none;
+            gap: 3px;
+        }
+
+        .nav-link-btn.active {
+            color: #ffffff;
+        }
+
+        .nav-link-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        .nav-btn-plus {
+            background: #272727;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .nav-btn-plus svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- टॉप हेडर -->
+    <header class="sub-header">
+        <a href="../index.html" class="header-logo">
+            <div class="logo-box">
+                <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <div class="logo-text">Bharat<span>Tube</span></div>
+        </a>
+        <div class="header-icons">
+            <button class="icon-btn" onclick="alert('Search ready!')">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
+            <a href="profile.html" class="icon-btn">
+                <div style="width:26px; height:26px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff;">CB</div>
+            </a>
+        </div>
+    </header>
+
+    <!-- सब्सक्राइब किए गए चैनलों की रील -->
+    <nav class="channels-tray">
+        <a href="channel.html" class="tray-channel-item">
+            <div class="avatar-wrapper">
+                <div class="channel-avatar" style="background:#e50914;">CB</div>
+                <div class="unread-dot"></div>
+            </div>
+            <span class="channel-title-tag">Charandas</span>
+        </a>
+        <a href="channel.html" class="tray-channel-item">
+            <div class="avatar-wrapper">
+                <div class="channel-avatar" style="background:#3ea6ff;">DH</div>
+                <div class="unread-dot"></div>
+            </div>
+            <span class="channel-title-tag">Dhun AI</span>
+        </a>
+        <a href="channel.html" class="tray-channel-item">
+            <div class="avatar-wrapper">
+                <div class="channel-avatar" style="background:#2ecc71;">BV</div>
+                <div class="unread-dot"></div>
+            </div>
+            <span class="channel-title-tag">Bhaskar Vlog</span>
+        </a>
+        <a href="channel.html" class="tray-channel-item">
+            <div class="avatar-wrapper">
+                <div class="channel-avatar" style="background:#ff9800;">EI</div>
+            </div>
+            <span class="channel-title-tag">Education</span>
+        </a>
+        <a href="channel.html" class="tray-channel-item">
+            <div class="avatar-wrapper">
+                <div class="channel-avatar" style="background:#9c27b0;">CG</div>
+            </div>
+            <span class="channel-title-tag">CG Lokgeet</span>
+        </a>
+        <a href="channel.html" class="all-channels-link">All ›</a>
+    </nav>
+
+    <!-- फ़िल्टर चिप्स -->
+    <section class="filter-chips-row">
+        <button class="filter-chip active" onclick="setFilter(this)">All</button>
+        <button class="filter-chip" onclick="setFilter(this)">Today</button>
+        <button class="filter-chip" onclick="setFilter(this)">Videos</button>
+        <button class="filter-chip" onclick="setFilter(this)">Shorts</button>
+        <button class="filter-chip" onclick="setFilter(this)">Live</button>
+        <button class="filter-chip" onclick="setFilter(this)">Unwatched</button>
+    </section>
+
+    <!-- सब्सक्राइब फ़ीड वीडियो लिस्ट -->
+    <main class="feed-container">
+
+        <!-- वीडियो 1 -->
+        <article class="video-card">
+            <a href="watch.html?title=Chhattisgarhi+Panthi+Geet+Live&channel=Charandas+Bhaskar" class="thumb-box">
+                <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" alt="Video">
+                <span class="duration-pill">08:42</span>
+            </a>
+            <div class="video-meta-row">
+                <a href="channel.html" class="meta-avatar" style="background:#e50914; text-decoration:none;">CB</a>
+                <div class="meta-text-box">
+                    <a href="watch.html?title=Chhattisgarhi+Panthi+Geet+Live&channel=Charandas+Bhaskar" class="video-heading" style="text-decoration:none; color:#fff;">
+                        Chhattisgarhi Panthi Geet Special Audio & Live Performance
+                    </a>
+                    <div class="video-subline">Charandas Bhaskar • 12K views • 2 hours ago</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- वीडियो 2 -->
+        <article class="video-card">
+            <a href="watch.html?title=Electronic+Banjo+Pickup+Making&channel=Dhun+AI" class="thumb-box">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800" alt="Video">
+                <span class="duration-pill">14:10</span>
+            </a>
+            <div class="video-meta-row">
+                <a href="channel.html" class="meta-avatar" style="background:#3ea6ff; text-decoration:none;">DH</a>
+                <div class="meta-text-box">
+                    <a href="watch.html?title=Electronic+Banjo+Pickup+Making&channel=Dhun+AI" class="video-heading" style="text-decoration:none; color:#fff;">
+                        Typewriter Banjo with Magnetic Pickups Full Making Guide
+                    </a>
+                    <div class="video-subline">Dhun AI • 45K views • 1 day ago</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- वीडियो 3 -->
+        <article class="video-card">
+            <a href="watch.html?title=Morning+Village+Vlog+Chhattisgarh&channel=The+Bhaskar+Vlog" class="thumb-box">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800" alt="Video">
+                <span class="duration-pill">06:25</span>
+            </a>
+            <div class="video-meta-row">
+                <a href="channel.html" class="meta-avatar" style="background:#2ecc71; text-decoration:none;">BV</a>
+                <div class="meta-text-box">
+                    <a href="watch.html?title=Morning+Village+Vlog+Chhattisgarh&channel=The+Bhaskar+Vlog" class="video-heading" style="text-decoration:none; color:#fff;">
+                        Morning Commute & Village Lifestyle Daily Vlog #42
+                    </a>
+                    <div class="video-subline">The Bhaskar Vlog • 8.4K views • 2 days ago</div>
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <!-- बॉटम नेविगेशन बार (Subscriptions टैब एक्टिव) -->
+    <nav class="bottom-nav-fixed">
+        <a href="../index.html" class="nav-link-btn">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Home</span>
+        </a>
+        <a href="shorts.html" class="nav-link-btn">
+            <svg viewBox="0 0 24 24"><path d="M17.77 10.32l-1.2-.5-1.1-.46 1.05-.53c1.78-.9 2.5-3.08 1.6-4.86-.9-1.78-3.08-2.5-4.86-1.6L6.5 5.67c-1.78.9-2.5 3.08-1.6 4.86.32.64.83 1.13 1.44 1.43l1.2.5 1.1.46-1.05.53c-1.78.9-2.5 3.08-1.6 4.86.63 1.25 1.88 1.99 3.23 1.99.55 0 1.11-.13 1.63-.39l6.76-3.3c1.78-.9 2.5-3.08 1.6-4.86-.32-.64-.83-1.13-1.44-1.43zM10 14.5v-5l4.5 2.5-4.5 2.5z"/></svg>
+            <span>Shorts</span>
+        </a>
+        <a href="upload.html" class="nav-btn-plus">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </a>
+        <a href="subscriptions.html" class="nav-link-btn active">
+            <svg viewBox="0 0 24 24"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4l-6-3.27v6.53L16 16z"/></svg>
+            <span>Subscriptions</span>
+        </a>
+        <a href="profile.html" class="nav-link-btn">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+            <span>You</span>
+        </a>
+    </nav>
+
+    <script>
+        function setFilter(btn) {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>
