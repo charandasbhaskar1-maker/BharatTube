@@ -22,8 +22,8 @@
             padding-bottom: 70px;
         }
 
-        /* टॉप हेडर */
-        .sub-header {
+        /* ================= 1. TOP HEADER ================= */
+        .yt-sub-header {
             height: 52px;
             display: flex;
             align-items: center;
@@ -33,10 +33,9 @@
             top: 0;
             background: #0f0f0f;
             z-index: 1000;
-            border-bottom: 1px solid #212121;
         }
 
-        .header-logo {
+        .header-brand {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -44,7 +43,7 @@
             color: #ffffff;
         }
 
-        .logo-box {
+        .yt-badge-logo {
             width: 28px;
             height: 20px;
             background: #ff0000;
@@ -54,62 +53,70 @@
             justify-content: center;
         }
 
-        .logo-box svg {
+        .yt-badge-logo svg {
             width: 12px;
             height: 12px;
             fill: #ffffff;
             margin-left: 2px;
         }
 
-        .logo-text {
-            font-size: 18px;
+        .brand-title {
+            font-size: 19px;
             font-weight: 800;
             letter-spacing: -0.5px;
         }
 
-        .logo-text span {
-            font-weight: 400;
-            color: #aaaaaa;
-        }
-
-        .header-icons {
+        .header-right-tools {
             display: flex;
             align-items: center;
             gap: 16px;
         }
 
-        .icon-btn {
+        .head-tool-btn {
             background: none;
             border: none;
             color: #ffffff;
             display: flex;
             align-items: center;
+            position: relative;
             cursor: pointer;
             text-decoration: none;
         }
 
-        .icon-btn svg {
+        .head-tool-btn svg {
             width: 22px;
             height: 22px;
             fill: #ffffff;
         }
 
-        /* चैनल अवतार रील (ऊपर हॉरिजॉन्टल स्क्रॉल) */
-        .channels-tray {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            border-bottom: 1px solid #1f1f1f;
+        .notif-badge-pill {
+            position: absolute;
+            top: -4px;
+            right: -6px;
+            background: #cc0000;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 1px 4px;
+            border-radius: 10px;
+            border: 2px solid #0f0f0f;
         }
 
-        .channels-tray::-webkit-scrollbar {
+        /* ================= 2. CHANNELS TRAY ================= */
+        .channels-reel-bar {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 10px 16px 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .channels-reel-bar::-webkit-scrollbar {
             display: none;
         }
 
-        .tray-channel-item {
+        .chan-story-item {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -117,28 +124,35 @@
             text-decoration: none;
             color: #ffffff;
             flex-shrink: 0;
-            width: 58px;
+            width: 62px;
         }
 
-        .avatar-wrapper {
+        .chan-avatar-ring {
             position: relative;
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
         }
 
-        .channel-avatar {
-            width: 50px;
-            height: 50px;
+        .chan-avatar-circle {
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 800;
             color: #ffffff;
         }
 
-        .unread-dot {
+        .chan-avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .blue-unread-dot {
             position: absolute;
             bottom: 2px;
             right: 2px;
@@ -149,7 +163,7 @@
             border: 2px solid #0f0f0f;
         }
 
-        .channel-title-tag {
+        .chan-name-label {
             font-size: 11px;
             color: #aaaaaa;
             text-align: center;
@@ -159,35 +173,38 @@
             width: 100%;
         }
 
-        .all-channels-link {
-            font-size: 12px;
+        .all-link-btn {
+            font-size: 13px;
             color: #3ea6ff;
             font-weight: 700;
             text-decoration: none;
-            white-space: nowrap;
-            padding: 0 8px;
+            padding: 14px 6px 0;
             flex-shrink: 0;
         }
 
-        /* फ़िल्टर चिप्स */
-        .filter-chips-row {
+        /* ================= 3. FILTER PILLS ================= */
+        .filter-scroll-strip {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 16px;
+            padding: 6px 16px 12px;
             overflow-x: auto;
             scrollbar-width: none;
+            position: sticky;
+            top: 52px;
+            background: #0f0f0f;
+            z-index: 900;
         }
 
-        .filter-chips-row::-webkit-scrollbar {
+        .filter-scroll-strip::-webkit-scrollbar {
             display: none;
         }
 
-        .filter-chip {
+        .filter-pill {
             background: #272727;
             color: #ffffff;
             border: none;
-            padding: 6px 12px;
+            padding: 7px 14px;
             border-radius: 8px;
             font-size: 13px;
             font-weight: 500;
@@ -195,42 +212,114 @@
             cursor: pointer;
         }
 
-        .filter-chip.active {
+        .filter-pill.active {
             background: #ffffff;
             color: #0f0f0f;
             font-weight: 700;
         }
 
-        /* वीडियो फ़ीड */
-        .feed-container {
+        /* ================= 4. FEED POSTS / CARDS ================= */
+        .sub-feed-stream {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            padding-top: 8px;
+            gap: 20px;
         }
 
-        .video-card {
+        .feed-post-card {
             display: flex;
             flex-direction: column;
+            border-bottom: 1px solid #1c1c1c;
+            padding-bottom: 16px;
+        }
+
+        /* Top Creator Info */
+        .post-author-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px 10px;
+        }
+
+        .author-meta-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             text-decoration: none;
             color: #ffffff;
         }
 
-        .thumb-box {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #202020;
-            position: relative;
+        .author-avatar-tiny {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
         }
 
-        .thumb-box img {
+        .author-avatar-tiny img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .duration-pill {
+        .author-name-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .author-display-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .author-post-time {
+            font-size: 11px;
+            color: #888888;
+        }
+
+        .btn-more-options {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .btn-more-options svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
+        }
+
+        .post-top-caption {
+            font-size: 14px;
+            line-height: 1.4;
+            padding: 0 16px 10px;
+            color: #ffffff;
+        }
+
+        /* Video Thumbnail Section */
+        .video-box-media {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #1e1e1e;
+            position: relative;
+            overflow: hidden;
+            display: block;
+        }
+
+        .video-box-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-time-badge {
             position: absolute;
             bottom: 8px;
             right: 8px;
@@ -238,29 +327,37 @@
             font-size: 11px;
             padding: 2px 6px;
             border-radius: 4px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        .video-meta-row {
+        /* Bottom Details */
+        .video-caption-bottom {
             display: flex;
-            padding: 12px 14px;
+            padding: 12px 16px 8px;
             gap: 12px;
         }
 
-        .meta-avatar {
+        .caption-avatar-thumb {
             width: 36px;
             height: 36px;
             border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 13px;
             font-weight: 800;
-            color: #ffffff;
-            flex-shrink: 0;
+            color: #fff;
         }
 
-        .meta-text-box {
+        .caption-avatar-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .caption-text-block {
             display: flex;
             flex-direction: column;
             gap: 4px;
@@ -268,22 +365,50 @@
             min-width: 0;
         }
 
-        .video-heading {
+        .caption-heading-link {
             font-size: 14px;
             font-weight: 600;
             line-height: 1.35;
+            color: #ffffff;
+            text-decoration: none;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .video-subline {
+        .caption-sub-views {
             font-size: 12px;
-            color: #aaaaaa;
+            color: #888888;
         }
 
-        /* बॉटम नेविगेशन बार */
+        /* Social Action Rail (Like, Dislike, Share, Comment) */
+        .post-social-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 8px 16px 4px;
+        }
+
+        .social-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .social-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
+        }
+
+        /* ================= 5. BOTTOM NAVIGATION BAR ================= */
         .bottom-nav-fixed {
             position: fixed;
             bottom: 0;
@@ -339,129 +464,198 @@
 </head>
 <body>
 
-    <!-- टॉप हेडर -->
-    <header class="sub-header">
-        <a href="../index.html" class="header-logo">
-            <div class="logo-box">
+    <!-- 1. टॉप हेडर (YouTube लोगो, बेल बैज और सर्च) -->
+    <header class="yt-sub-header">
+        <a href="../index.html" class="header-brand">
+            <div class="yt-badge-logo">
                 <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
             </div>
-            <div class="logo-text">Bharat<span>Tube</span></div>
+            <span class="brand-title">BharatTube</span>
         </a>
-        <div class="header-icons">
-            <button class="icon-btn" onclick="alert('Search ready!')">
+
+        <div class="header-right-tools">
+            <button class="head-tool-btn" onclick="alert('Notifications')">
+                <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                <span class="notif-badge-pill">9+</span>
+            </button>
+            <button class="head-tool-btn" onclick="alert('Search')">
                 <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             </button>
-            <a href="profile.html" class="icon-btn">
-                <div style="width:26px; height:26px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff;">CB</div>
-            </a>
         </div>
     </header>
 
-    <!-- सब्सक्राइब किए गए चैनलों की रील -->
-    <nav class="channels-tray">
-        <a href="channel.html" class="tray-channel-item">
-            <div class="avatar-wrapper">
-                <div class="channel-avatar" style="background:#e50914;">CB</div>
-                <div class="unread-dot"></div>
+    <!-- 2. चैनल्स स्टोरी रील (नीले अनरीड डॉट के साथ) -->
+    <nav class="channels-reel-bar">
+        <a href="channel.html" class="chan-story-item">
+            <div class="chan-avatar-ring">
+                <div class="chan-avatar-circle" style="background:#ff0000;">
+                    <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#fff;"><polygon points="5,3 19,12 5,21"/></svg>
+                </div>
             </div>
-            <span class="channel-title-tag">Charandas</span>
+            <span class="chan-name-label">BharatTube...</span>
         </a>
-        <a href="channel.html" class="tray-channel-item">
-            <div class="avatar-wrapper">
-                <div class="channel-avatar" style="background:#3ea6ff;">DH</div>
-                <div class="unread-dot"></div>
+
+        <a href="channel.html" class="chan-story-item">
+            <div class="chan-avatar-ring">
+                <div class="chan-avatar-circle" style="background:#2c3e50;">
+                    <svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:#3ea6ff;"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+                </div>
+                <div class="blue-unread-dot"></div>
             </div>
-            <span class="channel-title-tag">Dhun AI</span>
+            <span class="chan-name-label">STP Co...</span>
         </a>
-        <a href="channel.html" class="tray-channel-item">
-            <div class="avatar-wrapper">
-                <div class="channel-avatar" style="background:#2ecc71;">BV</div>
-                <div class="unread-dot"></div>
+
+        <a href="channel.html" class="chan-story-item">
+            <div class="chan-avatar-ring">
+                <div class="chan-avatar-circle" style="background:#e50914;">CB</div>
+                <div class="blue-unread-dot"></div>
             </div>
-            <span class="channel-title-tag">Bhaskar Vlog</span>
+            <span class="chan-name-label">Charandas</span>
         </a>
-        <a href="channel.html" class="tray-channel-item">
-            <div class="avatar-wrapper">
-                <div class="channel-avatar" style="background:#ff9800;">EI</div>
+
+        <a href="channel.html" class="chan-story-item">
+            <div class="chan-avatar-ring">
+                <div class="chan-avatar-circle" style="background:#3ea6ff;">DH</div>
             </div>
-            <span class="channel-title-tag">Education</span>
+            <span class="chan-name-label">Dhun AI</span>
         </a>
-        <a href="channel.html" class="tray-channel-item">
-            <div class="avatar-wrapper">
-                <div class="channel-avatar" style="background:#9c27b0;">CG</div>
+
+        <a href="channel.html" class="chan-story-item">
+            <div class="chan-avatar-ring">
+                <div class="chan-avatar-circle" style="background:#2ecc71;">BV</div>
             </div>
-            <span class="channel-title-tag">CG Lokgeet</span>
+            <span class="chan-name-label">Bhaskar...</span>
         </a>
-        <a href="channel.html" class="all-channels-link">All ›</a>
+
+        <a href="channel.html" class="all-link-btn">All</a>
     </nav>
 
-    <!-- फ़िल्टर चिप्स -->
-    <section class="filter-chips-row">
-        <button class="filter-chip active" onclick="setFilter(this)">All</button>
-        <button class="filter-chip" onclick="setFilter(this)">Today</button>
-        <button class="filter-chip" onclick="setFilter(this)">Videos</button>
-        <button class="filter-chip" onclick="setFilter(this)">Shorts</button>
-        <button class="filter-chip" onclick="setFilter(this)">Live</button>
-        <button class="filter-chip" onclick="setFilter(this)">Unwatched</button>
+    <!-- 3. फ़िल्टर चिप्स (All, Today, Videos, Shorts, Live, Posts) -->
+    <section class="filter-scroll-strip">
+        <button class="filter-pill active" onclick="selectFilter(this)">All</button>
+        <button class="filter-pill" onclick="selectFilter(this)">Today</button>
+        <button class="filter-pill" onclick="selectFilter(this)">Videos</button>
+        <button class="filter-pill" onclick="selectFilter(this)">Shorts</button>
+        <button class="filter-pill" onclick="selectFilter(this)">Live</button>
+        <button class="filter-pill" onclick="selectFilter(this)">Posts</button>
     </section>
 
-    <!-- सब्सक्राइब फ़ीड वीडियो लिस्ट -->
-    <main class="feed-container">
+    <!-- 4. फ़ीड वीडियो व कम्युनिटी पोस्ट्स -->
+    <main class="sub-feed-stream">
 
-        <!-- वीडियो 1 -->
-        <article class="video-card">
-            <a href="watch.html?title=Chhattisgarhi+Panthi+Geet+Live&channel=Charandas+Bhaskar" class="thumb-box">
-                <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" alt="Video">
-                <span class="duration-pill">08:42</span>
+        <!-- पोस्ट 1: आपके स्क्रीनशॉट जैसा STP Computer Education कार्ड -->
+        <article class="feed-post-card">
+            <!-- चैनल हेडर -->
+            <div class="post-author-header">
+                <a href="channel.html" class="author-meta-block">
+                    <div class="author-avatar-tiny" style="background:#2c3e50;">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#3ea6ff;"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+                    </div>
+                    <div class="author-name-column">
+                        <span class="author-display-name">STP Computer Education</span>
+                        <span class="author-post-time">5 hours ago</span>
+                    </div>
+                </a>
+                <button class="btn-more-options">
+                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                </button>
+            </div>
+
+            <div class="post-top-caption">
+                ADCA Computer Course with Certificate
+            </div>
+
+            <!-- बड़ा वीडियो थंबनेल -->
+            <a href="watch.html?title=ADCA+Complete+Course+With+Certificate+In+2026&channel=STP+Computer+Education" class="video-box-media">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800" alt="Course Thumbnail">
+                <span class="media-time-badge">2:49</span>
             </a>
-            <div class="video-meta-row">
-                <a href="channel.html" class="meta-avatar" style="background:#e50914; text-decoration:none;">CB</a>
-                <div class="meta-text-box">
-                    <a href="watch.html?title=Chhattisgarhi+Panthi+Geet+Live&channel=Charandas+Bhaskar" class="video-heading" style="text-decoration:none; color:#fff;">
-                        Chhattisgarhi Panthi Geet Special Audio & Live Performance
-                    </a>
-                    <div class="video-subline">Charandas Bhaskar • 12K views • 2 hours ago</div>
+
+            <!-- नीचे टाइटल और क्रिएटर -->
+            <div class="video-caption-bottom">
+                <div class="caption-avatar-thumb" style="background:#2c3e50;">
+                    <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#3ea6ff;"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
                 </div>
+                <div class="caption-text-block">
+                    <a href="watch.html?title=ADCA+Complete+Course+With+Certificate+In+2026&channel=STP+Computer+Education" class="caption-heading-link">
+                        ADCA Complete Course With Certificate In 2026
+                    </a>
+                    <span class="caption-sub-views">Ankitkush Tech • 444 views • 23 hr ago</span>
+                </div>
+            </div>
+
+            <!-- लाइक, डिस्लाइक, शेयर और कमेंट एक्शन रो -->
+            <div class="post-social-bar">
+                <button class="social-btn" onclick="toggleLike(this)">
+                    <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                    <span>9</span>
+                </button>
+                <button class="social-btn" onclick="toggleDislike(this)">
+                    <svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                </button>
+                <button class="social-btn" onclick="sharePost()">
+                    <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+                </button>
+                <button class="social-btn" onclick="alert('Comments opening...')">
+                    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                </button>
             </div>
         </article>
 
-        <!-- वीडियो 2 -->
-        <article class="video-card">
-            <a href="watch.html?title=Electronic+Banjo+Pickup+Making&channel=Dhun+AI" class="thumb-box">
-                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800" alt="Video">
-                <span class="duration-pill">14:10</span>
+        <!-- पोस्ट 2: Charandas Bhaskar स्पेशल कार्ड -->
+        <article class="feed-post-card">
+            <div class="post-author-header">
+                <a href="channel.html" class="author-meta-block">
+                    <div class="author-avatar-tiny" style="background:#e50914;">CB</div>
+                    <div class="author-name-column">
+                        <span class="author-display-name">Charandas Bhaskar</span>
+                        <span class="author-post-time">1 day ago</span>
+                    </div>
+                </a>
+                <button class="btn-more-options">
+                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                </button>
+            </div>
+
+            <div class="post-top-caption">
+                New Panthi folk instrumental tune released! Watch and support.
+            </div>
+
+            <a href="watch.html?title=Chhattisgarhi+Panthi+Geet+Special&channel=Charandas+Bhaskar" class="video-box-media">
+                <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800" alt="Video Thumbnail">
+                <span class="media-time-badge">05:42</span>
             </a>
-            <div class="video-meta-row">
-                <a href="channel.html" class="meta-avatar" style="background:#3ea6ff; text-decoration:none;">DH</a>
-                <div class="meta-text-box">
-                    <a href="watch.html?title=Electronic+Banjo+Pickup+Making&channel=Dhun+AI" class="video-heading" style="text-decoration:none; color:#fff;">
-                        Typewriter Banjo with Magnetic Pickups Full Making Guide
+
+            <div class="video-caption-bottom">
+                <div class="caption-avatar-thumb" style="background:#e50914;">CB</div>
+                <div class="caption-text-block">
+                    <a href="watch.html?title=Chhattisgarhi+Panthi+Geet+Special&channel=Charandas+Bhaskar" class="caption-heading-link">
+                        Chhattisgarhi Panthi Song • Special Cultural Video 2026
                     </a>
-                    <div class="video-subline">Dhun AI • 45K views • 1 day ago</div>
+                    <span class="caption-sub-views">Charandas Bhaskar • 210K views • 2 weeks ago</span>
                 </div>
             </div>
-        </article>
 
-        <!-- वीडियो 3 -->
-        <article class="video-card">
-            <a href="watch.html?title=Morning+Village+Vlog+Chhattisgarh&channel=The+Bhaskar+Vlog" class="thumb-box">
-                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800" alt="Video">
-                <span class="duration-pill">06:25</span>
-            </a>
-            <div class="video-meta-row">
-                <a href="channel.html" class="meta-avatar" style="background:#2ecc71; text-decoration:none;">BV</a>
-                <div class="meta-text-box">
-                    <a href="watch.html?title=Morning+Village+Vlog+Chhattisgarh&channel=The+Bhaskar+Vlog" class="video-heading" style="text-decoration:none; color:#fff;">
-                        Morning Commute & Village Lifestyle Daily Vlog #42
-                    </a>
-                    <div class="video-subline">The Bhaskar Vlog • 8.4K views • 2 days ago</div>
-                </div>
+            <div class="post-social-bar">
+                <button class="social-btn" onclick="toggleLike(this)">
+                    <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                    <span>1.4K</span>
+                </button>
+                <button class="social-btn" onclick="toggleDislike(this)">
+                    <svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                </button>
+                <button class="social-btn" onclick="sharePost()">
+                    <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+                </button>
+                <button class="social-btn" onclick="alert('Comments opening...')">
+                    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                </button>
             </div>
         </article>
 
     </main>
 
-    <!-- बॉटम नेविगेशन बार (Subscriptions टैब एक्टिव) -->
+    <!-- 5. बॉटम नेविगेशन बार (Subscriptions एक्टिव) -->
     <nav class="bottom-nav-fixed">
         <a href="../index.html" class="nav-link-btn">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -475,19 +669,41 @@
             <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
         </a>
         <a href="subscriptions.html" class="nav-link-btn active">
+            <!-- एक्टिव भरा हुआ Subscriptions आइकॉन -->
             <svg viewBox="0 0 24 24"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4l-6-3.27v6.53L16 16z"/></svg>
             <span>Subscriptions</span>
         </a>
         <a href="profile.html" class="nav-link-btn">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+            <div style="width:22px; height:22px; border-radius:50%; background:#e50914; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#fff;">CB</div>
             <span>You</span>
         </a>
     </nav>
 
     <script>
-        function setFilter(btn) {
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        function selectFilter(btn) {
+            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
+        }
+
+        function toggleLike(btn) {
+            const svg = btn.querySelector('svg');
+            const isLiked = svg.style.fill === 'rgb(62, 166, 255)';
+            svg.style.fill = isLiked ? '#ffffff' : '#3ea6ff';
+        }
+
+        function toggleDislike(btn) {
+            const svg = btn.querySelector('svg');
+            const isDisliked = svg.style.fill === 'rgb(255, 0, 0)';
+            svg.style.fill = isDisliked ? '#ffffff' : '#ff0000';
+        }
+
+        function sharePost() {
+            if (navigator.share) {
+                navigator.share({ title: 'BharatTube Video', url: window.location.href }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            }
         }
     </script>
 </body>
